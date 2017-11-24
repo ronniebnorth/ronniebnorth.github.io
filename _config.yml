@@ -4,8 +4,6 @@ theme: jekyll-theme-midnight
 title: Ronnie's Closet
 description: Random stuff..
 github: https://www.github.com/ronniebnorth
-    - repository_name: ronniebnorth
-      owner_name: Ronnie
 about: I shall put something cool here soon.
 urls:
     - text: github
