@@ -1,10 +1,10 @@
-name: gfx-rs
+name: ronniebnorth
 highlighter: rouge
 theme: jekyll-theme-midnight
 title: Ronnie's Closet
-description: Gfx-rs is a low-level graphics abstraction layer in Rust. This blog supposedly hosts the major milestones, concepts, and recaps of the project.
-github: https://www.github.com/gfx-rs
-about: The gfx-rs documentation and blog.
+description:
+github: https://www.github.com/ronniebnorth
+about: 
 urls:
     - text: github
       url: https://github.com/ronniebnorth
