@@ -1,0 +1,35 @@
+<html>
+<head><title>DL Test</title></head>
+<body>
+
+
+<br>
+
+<input type=button value="Simple Javascript GPU Math Matrix Addition" onclick="{
+
+ var myMath = new deeplearn.NDArrayMathGPU()
+
+ var myA = deeplearn.Array1D.new([3.4,5.6,7.8])
+
+ var myB = deeplearn.Scalar.new(1.2)
+
+ myMath.scope(function() {
+
+    var myResult = myMath.add(myA,myB);
+
+    document.getElementById('myDiv01').innerHTML =
+
+    '<br/>Using deeplearnjs version ' + deeplearn.version +
+
+    '<br/>The result of GPU Matrix Math [3.4,5.6,7.8] + 1.2 = ' +
+
+    '<br/>[' + myResult.getValues() + ']'
+
+ })
+
+}">
+
+<br/><div id="myDiv01">...</div><br/>
+  <script src="https://unpkg.com/deeplearn@0.3.2/dist/deeplearn.js"></script> 
+</body>
+</html>
