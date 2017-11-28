@@ -113,11 +113,11 @@ html,
     }
 
 
-    function playRounds(numPlayers, numRounds, ndeck){
+    function playRounds(numPlayers, numRounds, deck){
         var tscores = [0,0,0];
         var roundsPlayed = 0;
         while(roundsPlayed < numRounds){
-            //var ndeck = clone(deck);
+            var ndeck = clone(deck);
             var rscores = scorePlayers(play(deal(shuffle(ndeck), createPlayers(numPlayers))));
 
             tscores = sumArrays(tscores,rscores);
@@ -248,13 +248,9 @@ html,
                     sPlayer.points = splitPoints;
                     player.points = splitPoints;
 
-                    var dp = adjustPlayer(1,giveCard(deck, sPlayer));
-                    deck = dp[0];
-                    sPlayer = dp[1];
+                    sPlayer = adjustPlayer(1, deck, giveCard(deck, sPlayer));
 
-                    dp = adjustPlayer(1,giveCard(deck, player));
-                    deck = dp[0];
-                    player = dp[1];
+                    player = adjustPlayer(1, deck, giveCard(deck, player));
 
                     newPlayers.push(sPlayer);
                 }
@@ -265,17 +261,17 @@ html,
     }
 
 
-    function adjustPlayer(round,dp){
-        var deck = dp[0];
-        var nPlayer = dp[1];
-        var card = dp[2];
-        if(round == 1 && nPlayer.type == 'dealer'){
-            nPlayer.upcard = card;
+    function adjustPlayer(round, deck, player){
+
+        if(round == 1 && player.type == 'dealer'){
+
+            player.upcard = player.lastCard;
+
         }
-        if(round == 1 && nPlayer.type == "player" && card === nPlayer.points / 2){
-            nPlayer.canSplit = true;
+        if(round == 1 && player.type == "player" && player.lastCard === player.points / 2){
+            player.canSplit = true;
         }
-        return [deck,nPlayer];
+        return player;
     }
 
 
@@ -284,9 +280,7 @@ html,
         var deck = clone(ideck);
         while(i < 2){
             players = players.map(function(player){
-                var dp = adjustPlayer(i,giveCard(deck, player));
-                deck = dp[0];
-                return dp[1];
+                return adjustPlayer(i, deck, giveCard(deck, player));
             });
             i++;
         }
@@ -310,7 +304,7 @@ html,
     }
 
     function createPlayer(){
-        return {type:'player',points:0,acesToUse:0,doubledDown:false,canSplit:false};
+        return {type:'player',points:0,acesToUse:0,doubledDown:false,canSplit:false,lastCard:0};
     }
 
 
@@ -329,11 +323,11 @@ html,
 
     function giveCard(deck, player){
         var card = deck.pop();
-
+        player.lastCard = card;
         player.points += card;
         if(card == 11){ player.acesToUse++; }
         player = playAces(player);
-        return [deck,player,card];
+        return player;
     }
 
     function hit(deck, players, player){
@@ -341,15 +335,10 @@ html,
         var dp = [];
         if(player.type == "player" && stratCode == 3){
             player.doubledDown = true;
-            dp = giveCard(deck, player);
-            deck = dp[0];
-            player = dp[1];
-
+            player = giveCard(deck, player);
         }else{
             while(player.points < 21 && shouldHit(players, player)){
-                dp = giveCard(deck, player);
-                deck = dp[0];
-                player = dp[1];
+                player = giveCard(deck, player);
             }
         }
         if(player.points > 21){
@@ -523,3 +512,4 @@ html,
 
   </body>
 </html>
+bj

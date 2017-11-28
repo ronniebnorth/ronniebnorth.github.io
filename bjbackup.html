@@ -113,11 +113,11 @@ html,
     }
 
 
-    function playRounds(numPlayers, numRounds, ndeck){
+    function playRounds(numPlayers, numRounds, deck){
         var tscores = [0,0,0];
         var roundsPlayed = 0;
         while(roundsPlayed < numRounds){
-            //var ndeck = clone(deck);
+            var ndeck = clone(deck);
             var rscores = scorePlayers(play(deal(shuffle(ndeck), createPlayers(numPlayers))));
 
             tscores = sumArrays(tscores,rscores);
