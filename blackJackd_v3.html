@@ -80,12 +80,12 @@ html,
                 console.log('WINS -----', totWins);
                 console.log('LOSS -----', totLoss);
 
-                $("#wins").html('<b>' + totWins + '</b>');
-                $("#loss").html('<b>' + totLoss + '</b>');
+                $("#wins").html('<b style="color:#00FFFF">' + totWins + '</b>');
+                $("#loss").html('<b style="color:#00FFFF">' + totLoss + '</b>');
 
                 //$("#runtime").html('<b>' + runtime + '</b>');
                 var percentage = (totWins/(totWins+totLoss)) * 100;
-                $("#percentage").html('<b>' + percentage + '</b>');
+                $("#percentage").html('<b style="color:#00FFFF">' + percentage + '</b>');
                 $("#btnStart").removeAttr("disabled");
             }else{
                 try{
