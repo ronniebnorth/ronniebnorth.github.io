@@ -73,13 +73,13 @@ html,
 
         worker.addEventListener('message', function(e) {
           //
-            console.log(e.data);
+            //console.log(e.data);
             if(e.data.finished === 1){
                 var totWins = e.data.totWins;
                 var totLoss = e.data.totLoss;
                 var runtime = e.data.runtime;
-                console.log('WINS -----', totWins);
-                console.log('LOSS -----', totLoss);
+                //console.log('WINS -----', totWins);
+                //console.log('LOSS -----', totLoss);
 
                 $("#wins").html('<b style="color:#00FFFF">' + totWins + '</b>');
                 $("#loss").html('<b style="color:#00FFFF">' + totLoss + '</b>');
