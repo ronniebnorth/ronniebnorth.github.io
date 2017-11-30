@@ -9,7 +9,7 @@ self.addEventListener('message', function(e) {
 
     function start(numPlayers, numRounds, numDecks){
         //var t0 = performance.now();
-        
+
         var res = playRounds(numPlayers,numRounds,getShoe([],numDecks));
 
         //var t1 = performance.now();
@@ -244,12 +244,15 @@ self.addEventListener('message', function(e) {
 
 
     const giveCard = (deck, player) => {
-        var card = deck.pop();
+      var card = deck.pop();
 
-        player.points += card;
-        if(card == 11){ player.acesToUse++; }
-        player = playAces(player);
-        return [deck,player,card];
+      card = Math.min(10, card);
+      if(card === 1){ card = 11; }
+
+      player.points += card;
+      if(card == 11){ player.acesToUse++; }
+      player = playAces(player);
+      return [deck,player,card];
     }
 
     const hit = (deck, players, player) => {
@@ -330,10 +333,10 @@ self.addEventListener('message', function(e) {
 
     const getOneDeck = () => {
         return [
-            11,2,3,4,5,6,7,8,9,10,10,10,10,
-            11,2,3,4,5,6,7,8,9,10,10,10,10,
-            11,2,3,4,5,6,7,8,9,10,10,10,10,
-            11,2,3,4,5,6,7,8,9,10,10,10,10
+            1,2,3,4,5,6,7,8,9,10,11,12,13,
+            1,2,3,4,5,6,7,8,9,10,11,12,13,
+            1,2,3,4,5,6,7,8,9,10,11,12,13,
+            1,2,3,4,5,6,7,8,9,10,11,12,13
         ];
     }
 
