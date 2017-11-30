@@ -85,14 +85,14 @@ html,
 
                 $("#runtime").text(runtime);
                 var percentage = (totWins/(totWins+totLoss)) * 100;
-                $("#percentage").text(percentage + ' %');
+                $("#percentage").text(percentage);
             }else{
                 try{
                     //$("#log").prepend(e.data.tscores[0] + " : " + e.data.tscores[1] + " --- " + e.data.percentage);
                     //$("#log").prepend("<br>");
                     $("#wins").text(e.data.tscores[0]);
                     $("#loss").text(e.data.tscores[1]);
-                    $("#percentage").text(e.data.percentage + ' %');
+                    $("#percentage").text(e.data.percentage);
                 }catch(e){
                    console.log("YO",e)
                 }
