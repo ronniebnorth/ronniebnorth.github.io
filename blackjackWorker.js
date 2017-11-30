@@ -39,7 +39,7 @@ self.addEventListener('message', function(e) {
             var rscores = scorePlayers(play(deal(shuffle(ndeck), addPlayers([createDealer()],numPlayers))));
 
             tscores = sumArrays(tscores,rscores);
-            if(roundsPlayed % 10000 === 0){
+            if(roundsPlayed % 1000 === 0){
                 var percentage = (tscores[0]/(tscores[0]+tscores[1])) * 100;
                 var msg = {};
                 msg.tscores = tscores;
