@@ -21,7 +21,7 @@ self.addEventListener('message', function(e) {
         msg.totWins = res[0];
         msg.totLoss = res[1];
 
-        msg.finished = true;
+        msg.finished = 1;
         //msg.runtime = (t1 - t0);
 
         self.postMessage(msg);
@@ -43,6 +43,7 @@ self.addEventListener('message', function(e) {
                 var percentage = (tscores[0]/(tscores[0]+tscores[1])) * 100;
                 var msg = {};
                 msg.tscores = tscores;
+
                 msg.percentage = percentage;
                 var t3 = performance.now();
                 msg.runtime = (t3 - t0) / 1000;

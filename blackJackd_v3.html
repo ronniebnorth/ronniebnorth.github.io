@@ -74,7 +74,7 @@ html,
         worker.addEventListener('message', function(e) {
           //
             console.log(e.data);
-            if(e.data.finished === true){
+            if(e.data.finished === 1){
                 var totWins = e.data.totWins;
                 var totLoss = e.data.totLoss;
                 var runtime = e.data.runtime;
