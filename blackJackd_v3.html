@@ -57,7 +57,6 @@ html,
             <p id="pLiveResults">View live results in console..</p>
             <label for="wins" class="fb-number-label">Wins: <span id="wins"></span><br>
             <label for="loss">Loss: <span id="loss"></span><br>
-            <label for="tie">Tie: <span id="tie"></span><br><br>
             <label for="runtime">Runtime: <span id="runtime"></span><br>
             <label for="percentage">Win Percentage: <span id="percentage"></span>
           </div>
@@ -83,30 +82,27 @@ html,
 
 
     function start(){
-        //const numPlayers = 1;
-        //const numRounds = 100000; //100000000;
-        //const numDecks = 8;
+
         var numPlayers = $("#numPlayers").val();
         var numRounds = $("#numRounds").val();
         var numDecks = $("#numDecks").val();
 
-
         var t0 = performance.now();
-        var res = playRounds(numPlayers,numRounds,getFullDeck(numDecks));
+
+        var res = playRounds(numPlayers,numRounds,getShoe([],numDecks));
+
         var t1 = performance.now();
+
         $("#runtime").text((t1 - t0) + " ms");
 
         var totWins = res[0];
         var totLoss = res[1];
-        var totTie = res[2];
 
         console.log('WINS -----', totWins);
         console.log('LOSS -----', totLoss);
-        console.log('TIES -----', totTie);
 
         $("#wins").text(totWins);
         $("#loss").text(totLoss);
-        $("#tie").text(totTie);
         var percentage = (totWins/(totWins+totLoss)) * 100;
         $("#percentage").text(percentage + ' %');
 
@@ -114,11 +110,11 @@ html,
 
 
     const playRounds = (numPlayers, numRounds, ndeck) => {
-        var tscores = [0,0,0];
+        var tscores = [0,0];
         var roundsPlayed = 0;
         while(roundsPlayed < numRounds){
-            //var ndeck = clone(deck);
-            var rscores = scorePlayers(play(deal(shuffle(ndeck), createPlayers(numPlayers))));
+
+            var rscores = scorePlayers(play(deal(shuffle(ndeck), addPlayers([createDealer()],numPlayers))));
 
             tscores = sumArrays(tscores,rscores);
             if(roundsPlayed % 10000 === 0){
@@ -132,59 +128,55 @@ html,
 
 
     const sumArrays = (a1,a2) => {
-        a1 = a1.map(function (num, ind) {
+        return a1.map(function (num, ind) {
             return num + a2[ind];
         });
-        return a1;
     }
 
-
-    const getFullDeck = (numDecks) => {
-        var fullDeck = [];
-        for(var i = 0; i < numDecks; i++){
-            fullDeck = fullDeck.concat(getOneDeck());
+    const getShoe = (iFullDeck, numDecks) => {
+        fullDeck = clone(iFullDeck);
+        if(numDecks > 0){
+            getShoe(fullDeck.concat(getOneDeck()), numDecks - 1);
         }
         return fullDeck;
     }
 
-
-    const winScore = (player) => {
-        var score = 1;
-        if(player.doubledDown){
-            score++;
-        }
-        if(player.blackjack === true){
-            score += 0.5;
-        }
-        return score;
+    const playerPoints = (player) => {
+        return (1 + getDoubleDownPoint(player) + getBlackjackPoint(player));
     }
 
-
-    const loseScore = (player) => {
-        var lscore = 1;
-        if(player.doubledDown){
-            lscore++;
-        }
-        return lscore;
+    const getDoubleDownPoint = (player) => {
+        return (player.doubledDown === true) ? 1 : 0;
     }
 
+    const getBlackjackPoint = (player) => {
+        return (player.blackjack === true) ? 0.5 : 0;
+    }
 
     const scorePlayer = (player, dealerPoints) => {
-        var points = player.points;
-        var playerScore = [0,0,0];
-        if(points > dealerPoints || player.blackjack === true){
-            playerScore[0] = winScore(player);
-        }else if(points < dealerPoints || points === 0){
-            playerScore[1] = loseScore(player);
-        }else{
-            playerScore[2]++;
+        return [
+            (playerWon(player, dealerPoints) ? playerPoints(player) : 0),
+            (playerLost(player, dealerPoints) ? playerPoints(player) : 0)
+        ]
+    }
+
+    const playerWon = (player, dealerPoints) => {
+        if(player.points > dealerPoints || player.blackjack === true){
+            return true;
         }
-        return playerScore;
+        return false;
+    }
+
+    const playerLost = (player, dealerPoints) => {
+        if(player.points < dealerPoints || player.points === 0){
+            return true;
+        }
+        return false;
     }
 
     const scorePlayers = (players) => {
         var dealerPoints = players[0].points;
-        var scores = [0,0,0];
+        var scores = [0,0];
         for(var i = 1; i < players.length; i++){
             scores = sumArrays(scores,scorePlayer(players[i],dealerPoints));
         }
@@ -293,17 +285,13 @@ html,
         return [deck, players];
     }
 
-
-    const createPlayers = (numPlayers) => {
-        var players = [createDealer()];
-        var i = 0;
-        while(i < numPlayers){
-            players.push(createPlayer());
-            i++;
+    const addPlayers = (players, numPlayers) => {
+        if(numPlayers > 0){
+          players.push(createPlayer());
+          addPlayers(players, numPlayers - 1)
         }
         return players;
     }
-
 
     const createDealer = () => {
         return {type:'dealer',points:0,acesToUse:0,upcard:0};
