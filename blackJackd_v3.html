@@ -80,8 +80,8 @@ html,
                 console.log('WINS -----', totWins);
                 console.log('LOSS -----', totLoss);
 
-                $("#wins").text(totWins);
-                $("#loss").text(totLoss);
+                $("#wins").html('<b>' + totWins + '</b>');
+                $("#loss").html('<b>' + totLoss + '</b>');
 
                 $("#runtime").text(runtime);
                 var percentage = (totWins/(totWins+totLoss)) * 100;
