@@ -84,6 +84,7 @@ html,
                 var percentage = (totWins/(totWins+totLoss)) * 100;
                 $("#percentage").html('<b style="color:#00FFFF">' + percentage + '</b>');
                 $("#btnStart").removeAttr("disabled");
+                $("#btnStart").css({'cursor':"pointer"});
             }else{
                 try{
                     //$("#log").prepend(e.data.tscores[0] + " : " + e.data.tscores[1] + " --- " + e.data.percentage);
@@ -107,6 +108,7 @@ html,
         });
         $( "#btnStart" ).click(function() {
               $(this).attr("disabled", "disabled");
+              $(this).css({'cursor':"default"});
               $("#runtime").text("");
               profit = 0;
               var workerData = {};
