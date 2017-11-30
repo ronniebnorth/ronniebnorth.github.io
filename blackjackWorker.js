@@ -9,7 +9,7 @@ self.addEventListener('message', function(e) {
 
     function start(numPlayers, numRounds, numDecks){
         //var t0 = performance.now();
-
+        
         var res = playRounds(numPlayers,numRounds,getShoe([],numDecks));
 
         //var t1 = performance.now();
