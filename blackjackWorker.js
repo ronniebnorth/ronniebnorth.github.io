@@ -20,7 +20,7 @@ self.addEventListener('message', function(e) {
         var msg = {};
         msg.totWins = res[0];
         msg.totLoss = res[1];
-        msg.runtime = (t1 - t0) + " ms";
+        msg.runtime = (t1 - t0);
 
         self.postMessage(msg);
 
