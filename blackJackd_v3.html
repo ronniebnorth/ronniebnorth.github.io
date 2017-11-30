@@ -56,8 +56,9 @@ html,
             </select>
           </div><br>
           <div class="fb-button form-group field-button-1511625725834">
-            <button style="color:black;width:230px" type="button" class="btn btn-success" name="button-1511625725834" style="success"
-              id="btnStart">Run!</button>
+            <button style="color:black;width:230px;background-color:#CCFFFF" type="button" class="btn btn-success" 
+            name="button-1511625725834" style="success"
+              id="btnStart">START</button>
           </div>
           <div class="fb-button form-group field-button-1511625725834">
             <label for="wins" class="fb-number-label">Wins: <span id="wins"></span>&nbsp;&nbsp;
@@ -92,6 +93,7 @@ html,
                 $("#percentage").html('<b style="color:#00FFFF">' + percentage + '</b>');
                 $("#btnStart").removeAttr("disabled");
                 $("#btnStart").css({'cursor':"pointer"});
+                $("#btnStart").text("START");
             }else{
                 try{
                     //$("#log").prepend(e.data.tscores[0] + " : " + e.data.tscores[1] + " --- " + e.data.percentage);
@@ -116,6 +118,7 @@ html,
         $( "#btnStart" ).click(function() {
               $(this).attr("disabled", "disabled");
               $(this).css({'cursor':"default"});
+              $(this).text("RUNNING..");
               $("#runtime").text("");
               profit = 0;
               var workerData = {};
