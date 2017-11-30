@@ -136,7 +136,8 @@ html,
         Particles.init({
           selector: '.background', color: '#00FFFF'
         });
-        $( "#btnStart" ).click(function() {
+        $( "#btnStart" ).click(function(e) {
+              e.preventDefault();
               $(this).attr("disabled", "disabled");
               $(this).css({'cursor':"default"});
               $(this).text("RUNNING..");
