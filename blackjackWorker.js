@@ -8,11 +8,11 @@ self.addEventListener('message', function(e) {
 
 
     function start(numPlayers, numRounds, numDecks){
-        var t0 = performance.now();
+        //var t0 = performance.now();
 
         var res = playRounds(numPlayers,numRounds,getShoe([],numDecks));
 
-        var t1 = performance.now();
+        //var t1 = performance.now();
 
         var totWins = res[0];
         var totLoss = res[1];
@@ -20,7 +20,7 @@ self.addEventListener('message', function(e) {
         var msg = {};
         msg.totWins = res[0];
         msg.totLoss = res[1];
-        msg.runtime = (t1 - t0);
+        //msg.runtime = (t1 - t0);
 
         self.postMessage(msg);
 
@@ -31,6 +31,7 @@ self.addEventListener('message', function(e) {
     const playRounds = (numPlayers, numRounds, ndeck) => {
         var tscores = [0,0];
         var roundsPlayed = 0;
+        var t0 = performance.now();
         while(roundsPlayed < numRounds){
 
             var rscores = scorePlayers(play(deal(shuffle(ndeck), addPlayers([createDealer()],numPlayers))));
@@ -41,6 +42,8 @@ self.addEventListener('message', function(e) {
                 var msg = {};
                 msg.tscores = tscores;
                 msg.percentage = percentage;
+                var t3 = performance.now();
+                msg.runtime = (t3 - t0) / 1000;
                 self.postMessage(msg);
             }
             roundsPlayed++;
