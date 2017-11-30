@@ -55,7 +55,8 @@ html,
           </div>
           <div class="fb-button form-group field-button-1511625725834">
             <label for="wins" class="fb-number-label">Wins: <span id="wins"></span><br>
-            <label for="loss">Loss: <span id="loss"></span><br><br>
+            <label for="loss">Loss: <span id="loss"></span><br>
+              <label for="profit">Profit: <span id="profit"></span><br><br>
             <label for="runtime">Runtime: <span id="runtime"></span><br>
             <label for="percentage">Win %: <span id="percentage"></span>
           </div>
@@ -66,10 +67,11 @@ html,
     <script src="https://cdnjs.cloudflare.com/ajax/libs/particlesjs/2.1.0/particles.min.js"></script>
     <script>
 
-
+    var profit = 0;
 
     $(function() {
         var worker = new Worker('blackjackWorker.js');
+
 
         worker.addEventListener('message', function(e) {
           //
@@ -83,7 +85,10 @@ html,
 
                 $("#wins").html('<b style="color:#00FFFF">' + totWins + '</b>');
                 $("#loss").html('<b style="color:#00FFFF">' + totLoss + '</b>');
-
+                profit = 0;
+                profit = profit + totWins;
+                profit = profit - totLoss;
+                $("#profit").html('<b style="color:#00FFFF">' + profit + '</b>');
                 //$("#runtime").html('<b>' + runtime + '</b>');
                 var percentage = (totWins/(totWins+totLoss)) * 100;
                 $("#percentage").html('<b style="color:#00FFFF">' + percentage + '</b>');
@@ -96,6 +101,9 @@ html,
                     $("#loss").text(e.data.tscores[1]);
                     $("#percentage").text(e.data.percentage);
                     $("#runtime").text(e.data.runtime);
+                    profit = profit + e.data.tscores[0];
+                    profit = profit - e.data.tscores[1];
+                    $("#profit").text(profit);
                 }catch(e){
                    //console.log("YO",e)
                 }
@@ -111,7 +119,7 @@ html,
         $( "#btnStart" ).click(function() {
               $(this).attr("disabled", "disabled");
               $("#runtime").text("");
-
+              profit = 0;
               var workerData = {};
               workerData.numPlayers = $("#numPlayers").val();
               workerData.numRounds = $("#numRounds").val();
