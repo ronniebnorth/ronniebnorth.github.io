@@ -43,12 +43,13 @@ html,
 <script src="https://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
   integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
-  crossorigin="anonymous"></script>
-<script src="https://formbuilder.online/assets/js/form-render.min.js"></script>
-
-<div id="bj" style="margin: 0 auto;width: 300px; ">
+  crossorigin="anonymous" type="text/javascript"></script>
+<script src="https://formbuilder.online/assets/js/form-render.min.js" type="text/javascript"></script>
+<script src="./Chart.min.js" type="text/javascript"></script>
+<div id="bj" style="background:#252525; margin: 0 auto;width: 100%; min-height:1000px">
 
       <canvas class="background"></canvas>
+
       <form id="rendered-form" style="position:relative; z-index:10">
         <div class="rendered-form">
           <div class="">
@@ -89,15 +90,21 @@ html,
           </div>
         </div>
       </form>
-      <div id="log" style="max-height: 200px; overflow: auto;"></div>
+      <div style="width:100%;height:100px">
+        <canvas style="position:relative; z-index:10" id="chart_bj"
+        class="chartjs" width="" height=""></canvas>
+      </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/particlesjs/2.1.0/particles.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
     <script>
 
-    $(function() {
-        var worker = new Worker('blackjackWorker.js');
 
+    $(function() {
+
+        var worker = new Worker('blackjackWorker.js');
+        var chartLabels = [];
+        var chartData = [];
 
         worker.addEventListener('message', function(e) {
 
@@ -114,6 +121,7 @@ html,
                 $("#btnStart").removeAttr("disabled");
                 $("#btnStart").css({'cursor':"pointer"});
                 $("#btnStart").text("START");
+                doChart(chartLabels, chartData);
             }else{
                 try{
                     //$("#log").prepend(e.data.tscores[0] + " : " + e.data.tscores[1] + " --- " + e.data.percentage);
@@ -122,6 +130,10 @@ html,
                     $("#loss").text(e.data.tscores[1]);
                     $("#percentage").text(e.data.percentage);
                     $("#runtime").text(e.data.runtime);
+
+                    chartLabels.push("");
+                    chartData.push(e.data.percentage);
+
 
                 }catch(e){
                    //console.log("YO",e)
@@ -147,11 +159,70 @@ html,
               workerData.numRounds = $("#numRounds").val();
               workerData.numDecks = $("#numDecks").val();
 
-
               worker.postMessage(workerData); // Send data to our worker.
 
+              chartLabels = [];
+              chartData = [];
+              doChart(chartLabels, chartData);
               //start();
 
         });
+
+        //doChart(["","","",""],[12,56,32,78]);
+        //doChart(chartLabels, chartData);
+
     });
+
+
+    function doChart(chartLabels, chartData){
+
+        g_chart = new Chart(document.getElementById("chart_bj"),{
+          "type":"line",
+          "data":{"labels":chartLabels,
+            "datasets":[
+              {
+                "label":"Win %",
+                "data":chartData,
+                "fill":false,
+                "borderColor":"rgb(233,150,122)",
+                "lineTension":0.1,
+                "pointRadius":0
+              }
+            ]
+          },
+          options: {
+              responsive: true,
+              title:{
+                  display:false,
+                  text:''
+              },
+              tooltips: {
+                  mode: 'index',
+                  intersect: false,
+              },
+              hover: {
+                  mode: 'nearest',
+                  intersect: true
+              },
+              scales: {
+                  xAxes: [{
+                      display: true,
+                      scaleLabel: {
+                          display: false,
+                          labelString: 'Interval'
+                      }
+                  }],
+                  yAxes: [{
+                      display: true,
+                      scaleLabel: {
+                          display: false,
+                          labelString: 'Win Percentage'
+                      }
+                  }]
+              }
+          }
+        });
+
+
+    }
     </script>
