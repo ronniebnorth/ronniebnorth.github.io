@@ -131,8 +131,11 @@ html,
                     $("#percentage").text(e.data.percentage);
                     $("#runtime").text(e.data.runtime);
 
-                    chartLabels.push("");
-                    chartData.push(e.data.percentage);
+                    if(e.data.percentage === 0 || e.data.percentage > 0){
+                      chartLabels.push("");
+                      chartData.push(e.data.percentage);                      
+                    }
+
 
 
                 }catch(e){
