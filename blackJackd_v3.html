@@ -159,6 +159,10 @@ html,
               $(this).css({'cursor':"default"});
               $(this).text("RUNNING..");
               $("#runtime").text("");
+
+              chartLabels = [];
+              chartData = [];
+              
               profit = 0;
               var workerData = {};
               workerData.numPlayers = $("#numPlayers").val();
@@ -167,8 +171,7 @@ html,
 
               worker.postMessage(workerData); // Send data to our worker.
 
-              chartLabels = [];
-              chartData = [];
+
               //doChart(chartLabels, chartData);
               //start();
 
@@ -192,7 +195,7 @@ html,
                 "data":chartData,
                 "fill":false,
                 "borderColor":"rgb(233,150,122)",
-                "lineTension":0.1,
+                "lineTension":0.0,
                 "pointRadius":0
               }
             ]
