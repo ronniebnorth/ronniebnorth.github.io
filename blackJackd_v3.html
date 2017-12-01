@@ -180,8 +180,8 @@ html,
 
 
     function doChart(chartLabels, chartData){
-
-        g_chart = new Chart(document.getElementById("chart_bj"),{
+        $("#chart_bj").empty();
+        new Chart(document.getElementById("chart_bj"),{
           "type":"line",
           "data":{"labels":chartLabels,
             "datasets":[
