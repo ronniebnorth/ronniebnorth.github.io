@@ -105,6 +105,8 @@ html,
 
     var chart1 = {};
     var bank = 1;
+    var lastTotalWins = 1;
+    var lastTotalLoss = 1;
 
     $(function() {
 
@@ -138,8 +140,10 @@ html,
                     $("#loss").text(e.data.tscores[1]);
                     $("#percentage").text(e.data.percentage);
                     $("#runtime").text(e.data.runtime);
-                    bank = bank + e.data.tscores[0];
-                    bank = bank - e.data.tscores[1];
+                    bank = bank + (e.data.tscores[0] - lastTotalWins);
+                    bank = bank - (e.data.tscores[1] - lastTotalLoss);
+                    lastTotalWins = e.data.tscores[0];
+                    lastTotalLoss = e.data.tscores[1];
                     console.log(bank);
                     if(e.data.percentage === 0 || e.data.percentage > 0){
                       chartLabels.push("");
@@ -175,6 +179,9 @@ html,
               chartLabels2 = [];
               chartData2 = [];
 
+              lastTotalLoss = 1;
+              lastTotalWins = 1;
+              
               profit = 0;
               var workerData = {};
               workerData.numPlayers = $("#numPlayers").val();
