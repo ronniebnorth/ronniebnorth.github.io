@@ -15,21 +15,34 @@
 audio.play();</script><tw-passagedata pid="1" name="ok" tags="" position="700,310">you&#x27;re walking in the woods. There&#x27;s no one around and your phone is dead,
 when suddenly you spot him
 Shia lebouf
-&lt;audio src=&quot;http://ronniebnorth.github.io/walking_in_leaves.wav&quot; autoplay&gt;&lt;/audio&gt;
+&lt;audio id=&quot;lowaudio&quot; src=&quot;http://ronniebnorth.github.io/walking_in_leaves.wav&quot; autoplay&gt;&lt;/audio&gt;
 [[run away]] 
-[[fight]]</tw-passagedata><tw-passagedata pid="2" name="run away" tags="" position="625,460">You run as far as you can, Shia lebouf chases you on all fours, Hes gaining on you.
-&lt;audio 
+[[fight]]
+
+&lt;script&gt;
+  var audio = document.getElementById(&quot;lowaudio&quot;);
+  audio.volume = 0.2;
+&lt;/script&gt;</tw-passagedata><tw-passagedata pid="2" name="run away" tags="" position="625,460">You run as far as you can, Shia lebouf chases you on all fours, Hes gaining on you.
+&lt;audio id=&quot;lowaudio&quot; 
 src=&quot;http://ronniebnorth.github.io/running_in_snow.wav&quot; autoplay&gt;&lt;/audio&gt;
 [[Hide]] 
-[[Run in zig zags]]</tw-passagedata><tw-passagedata pid="3" name="fight" tags="" position="775,460">Shia lebouf 360 no scopes you.
+[[Run in zig zags]]
+&lt;script&gt;
+  var audio = document.getElementById(&quot;lowaudio&quot;);
+  audio.volume = 0.2;
+&lt;/script&gt;</tw-passagedata><tw-passagedata pid="3" name="fight" tags="" position="775,460">Shia lebouf 360 no scopes you.
 You die that day, no one ever find&#x27;s out and shia lebouf continues murdering strange kids in the forest.</tw-passagedata><tw-passagedata pid="4" name="Hide" tags="" position="550,610">You duck behind a tree, Shia lebouf continues forward, unaware of your master plan. You loose sight of him.
 &lt;audio src=&quot;http://ronniebnorth.github.io/creepy_hiding.wav&quot; autoplay&gt;&lt;/audio&gt;
 [[Keep hiding]] 
 [[Run]]</tw-passagedata><tw-passagedata pid="5" name="Run in zig zags" tags="" position="700,610">You run in zig zags, Shia lebouf barks angrily unable to keep up with your sharp turns.
-&lt;audio 
+&lt;audio id=&quot;lowaudio&quot;
 src=&quot;http://ronniebnorth.github.io/running_in_snow.wav&quot; autoplay&gt;&lt;/audio&gt;
 [[Prepare for battle]] 
-[[Keep running like a little girl]]</tw-passagedata><tw-passagedata pid="6" name="Keep hiding" tags="" position="405,760">You stay in your hiding place, fearful of Shia leboufs ultimate power.
+[[Keep running like a little girl]]
+&lt;script&gt;
+  var audio = document.getElementById(&quot;lowaudio&quot;);
+  audio.volume = 0.2;
+&lt;/script&gt;</tw-passagedata><tw-passagedata pid="6" name="Keep hiding" tags="" position="405,760">You stay in your hiding place, fearful of Shia leboufs ultimate power.
 You end up never leaving, you find some woodland creatures and started a village. The creatures make you king, and you live in the village to the end of your days and you make a young lark the new king.</tw-passagedata><tw-passagedata pid="7" name="Run" tags="" position="625,760">You run. Eventualy you build up so much speed that you fly into outerspace and become a space burrito.</tw-passagedata><tw-passagedata pid="8" name="Prepare for battle" tags="" position="515,760">You turn on your heel and face Shia lebouf.
 
 [[Smack him]] 
