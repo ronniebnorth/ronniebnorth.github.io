@@ -1,8 +1,8 @@
 self.addEventListener('message', function(e) {
   self.postMessage(e.data);
-  var numPlayers = e.data.numPlayers;
-  var numRounds = e.data.numRounds;
-  var numDecks = e.data.numDecks;
+  let numPlayers = e.data.numPlayers;
+  let numRounds = e.data.numRounds;
+  let numDecks = e.data.numDecks;
   start(numPlayers, numRounds, numDecks);
 
 }, false);
@@ -13,16 +13,16 @@ self.addEventListener('message', function(e) {
 
 
 function start(numPlayers, numRounds, numDecks){
-    //var t0 = performance.now();
+    //let t0 = performance.now();
 
-    var res = playRounds(numPlayers,numRounds,getShoe([],numDecks));
+    let res = playRounds(numPlayers,numRounds,getShoe([],numDecks));
 
-    //var t1 = performance.now();
+    //let t1 = performance.now();
 
-    var totWins = res[0];
-    var totLoss = res[1];
+    let totWins = res[0];
+    let totLoss = res[1];
 
-    var msg = {};
+    let msg = {};
     msg.totWins = res[0];
     msg.totLoss = res[1];
 
@@ -36,21 +36,21 @@ function start(numPlayers, numRounds, numDecks){
 
 
 const playRounds = (numPlayers, numRounds, ndeck) => {
-    var tscores = [0,0];
-    var roundsPlayed = 0;
-    var t0 = performance.now();
+    let tscores = [0,0];
+    let roundsPlayed = 0;
+    let t0 = performance.now();
     while(roundsPlayed < numRounds){
 
-        var rscores = scorePlayers(play(deal(shuffle(ndeck), addPlayers([createDealer()],numPlayers))));
+        let rscores = scorePlayers(play(deal(shuffle(ndeck), addPlayers([createDealer()],numPlayers))));
 
         tscores = sumArrays(tscores,rscores);
         if(roundsPlayed > 1 && Math.round(roundsPlayed % (numRounds / 100)) === 0){
-            var percentage = (tscores[0]/(tscores[0]+tscores[1])) * 100;
-            var msg = {};
+            let percentage = (tscores[0]/(tscores[0]+tscores[1])) * 100;
+            let msg = {};
             msg.tscores = tscores;
 
             msg.percentage = percentage;
-            var t3 = performance.now();
+            let t3 = performance.now();
             msg.runtime = (t3 - t0) / 1000;
             self.postMessage(msg);
         }
@@ -108,9 +108,9 @@ const playerLost = (player, dealerPoints) => {
 }
 
 const scorePlayers = (players) => {
-    var dealerPoints = players[0].points;
-    var scores = [0,0];
-    for(var i = 1; i < players.length; i++){
+    let dealerPoints = players[0].points;
+    let scores = [0,0];
+    for(let i = 1; i < players.length; i++){
         scores = sumArrays(scores,scorePlayer(players[i],dealerPoints));
     }
     return scores;
@@ -128,15 +128,15 @@ const dealerBlackjack = (players) => {
 }
 
 const play = (game) => {
-    var deck = game[0];
-    var players = game[1];
-    var dealer = players[0];
-    var nPlayers = [];
+    let deck = game[0];
+    let players = game[1];
+    let dealer = players[0];
+    let nPlayers = [];
 
     if(dealer.points == 21){
         nPlayers = dealerBlackjack(players);
     }else{
-        var spDeckPly = splitPlayers([deck, players]);
+        let spDeckPly = splitPlayers([deck, players]);
         deck = spDeckPly[0];
         nPlayers = spDeckPly[1];
 
@@ -149,9 +149,9 @@ const play = (game) => {
                 player.acesToUse--;
                 player.points = 12;
             }
-            var hitResults = hit(deck, players, player);
+            let hitResults = hit(deck, players, player);
             deck = hitResults[0];
-            var newPlayer = hitResults[1];
+            let newPlayer = hitResults[1];
             return newPlayer;
         });
     }
@@ -160,20 +160,20 @@ const play = (game) => {
 
 
 const splitPlayers = (deckPlayers) => {
-    var deck = deckPlayers[0];
-    var players = deckPlayers[1];
-    var newPlayers = [];
+    let deck = deckPlayers[0];
+    let players = deckPlayers[1];
+    let newPlayers = [];
     players.map(function(player){
         if(player.canSplit){
-            var stratCode = strategize(player, players[0].upcard);
+            let stratCode = strategize(player, players[0].upcard);
             if(stratCode == 2){
                 player.canSplit = false;
-                var sPlayer = createPlayer();
-                var splitPoints = player.points / 2;
+                let sPlayer = createPlayer();
+                let splitPoints = player.points / 2;
                 sPlayer.points = splitPoints;
                 player.points = splitPoints;
 
-                var dp = adjustPlayer(1,giveCard(deck, sPlayer));
+                let dp = adjustPlayer(1,giveCard(deck, sPlayer));
                 deck = dp[0];
                 sPlayer = dp[1];
 
@@ -191,9 +191,9 @@ const splitPlayers = (deckPlayers) => {
 
 
 const adjustPlayer = (round,dp) => {
-    var deck = dp[0];
-    var nPlayer = dp[1];
-    var card = dp[2];
+    let deck = dp[0];
+    let nPlayer = dp[1];
+    let card = dp[2];
     if(round == 1 && nPlayer.type == 'dealer'){
         nPlayer.upcard = card;
     }
@@ -205,11 +205,11 @@ const adjustPlayer = (round,dp) => {
 
 
 const deal = (ideck, players) => {
-    var i = 0;
-    var deck = clone(ideck);
+    let i = 0;
+    let deck = clone(ideck);
     while(i < 2){
         players = players.map(function(player){
-            var dp = adjustPlayer(i,giveCard(deck, player));
+            let dp = adjustPlayer(i,giveCard(deck, player));
             deck = dp[0];
             return dp[1];
         });
@@ -236,7 +236,7 @@ const createPlayer = () => {
 
 
 const shuffle = (arr) => {
-    var curInd = arr.length, tempVal, randInd;
+    let curInd = arr.length, tempVal, randInd;
     while (0 !== curInd) {
         randInd = Math.floor(Math.random() * curInd);
         curInd -= 1;
@@ -249,7 +249,7 @@ const shuffle = (arr) => {
 
 
 const giveCard = (deck, player) => {
-  var card = deck.pop();
+  let card = deck.pop();
 
   card = Math.min(10, card);
   if(card === 1){ card = 11; }
@@ -261,8 +261,8 @@ const giveCard = (deck, player) => {
 }
 
 const hit = (deck, players, player) => {
-    var stratCode = strategize(player, players[0].upcard);
-    var dp = [];
+    let stratCode = strategize(player, players[0].upcard);
+    let dp = [];
     if(player.type == "player" && stratCode == 3){
         player.doubledDown = true;
         dp = giveCard(deck, player);
@@ -287,7 +287,7 @@ const shouldHit = (players, player) => {
     if(player.type === 'dealer'){
         return player.points < 17 ? true : false;
     }
-    var stratCode = strategize(player, players[0].upcard);
+    let stratCode = strategize(player, players[0].upcard);
     if(stratCode === 0 || stratCode === 3){
         return true;
     }
@@ -296,7 +296,7 @@ const shouldHit = (players, player) => {
 
 
 const strategize = (player, upcard) => {
-    var points = player.points - 1;
+    let points = player.points - 1;
     if(player.acesToUse > 0){
         points = points - 10;
     }
@@ -324,7 +324,7 @@ const playAces = (player) => {
 
 
 const clargs = (args) => {
-    for(var i = 0; i < args.length; i++){
+    for(let i = 0; i < args.length; i++){
         args[i] = clone(args[i]);
     }
     return args;
@@ -346,7 +346,7 @@ const getOneDeck = () => {
 }
 
 const getSoftStrat = (points, upcard) => {
-    var softStrat = [
+    let softStrat = [
         [9,9,9,9,9,9,9,9,9,9],
         [0,0,0,0,0,3,0,0,0,0],
         [0,0,0,0,3,3,0,0,0,0],
@@ -374,7 +374,7 @@ const getSoftStrat = (points, upcard) => {
 
 
 const getHardStrat = (points, upcard) => {
-    var hardStrat = [
+    let hardStrat = [
         [9,9,9,9,9,9,9,9,9,9],
         [9,9,9,9,9,9,9,9,9,9],
         [0,0,0,0,0,0,0,0,0,0],
@@ -402,7 +402,7 @@ const getHardStrat = (points, upcard) => {
 
 
 const getPairStrat = (points, upcard) => {
-    var pairStrat = [
+    let pairStrat = [
         [9,9,9,9,9,9,9,9,9,9],
         [2,2,2,2,2,2,2,2,2,2],
         [9,9,9,9,9,9,9,9,9,9],

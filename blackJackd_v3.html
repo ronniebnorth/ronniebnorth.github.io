@@ -103,29 +103,29 @@ html,
     <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
     <script>
 
-    var chart1 = {};
-    var bank = 1;
-    var lastTotalWins = 1;
-    var lastTotalLoss = 1;
+    let chart1 = {};
+    let bank = 1;
+    let lastTotalWins = 1;
+    let lastTotalLoss = 1;
 
     $(function() {
 
-        var worker = new Worker('blackjackWorker.js');
-        var chartLabels = [];
-        var chartData = [];
-        var chartLabels2 = [];
-        var chartData2 = [];
+        let worker = new Worker('blackjackWorker.js');
+        let chartLabels = [];
+        let chartData = [];
+        let chartLabels2 = [];
+        let chartData2 = [];
         worker.addEventListener('message', function(e) {
 
             if(e.data.finished === 1){
-                var totWins = e.data.totWins;
-                var totLoss = e.data.totLoss;
-                var runtime = e.data.runtime;
+                let totWins = e.data.totWins;
+                let totLoss = e.data.totLoss;
+                let runtime = e.data.runtime;
 
                 $("#wins").html('<b style="color:#00FFFF">' + totWins + '</b>');
                 $("#loss").html('<b style="color:#00FFFF">' + totLoss + '</b>');
 
-                var percentage = (totWins/(totWins+totLoss)) * 100;
+                let percentage = (totWins/(totWins+totLoss)) * 100;
                 $("#percentage").html('<b style="color:#00FFFF">' + percentage + '</b>');
                 $("#btnStart").removeAttr("disabled");
                 $("#btnStart").css({'cursor':"pointer"});
@@ -183,7 +183,7 @@ html,
               lastTotalWins = 1;
               
               profit = 0;
-              var workerData = {};
+              let workerData = {};
               workerData.numPlayers = $("#numPlayers").val();
               workerData.numRounds = $("#numRounds").val();
               workerData.numDecks = $("#numDecks").val();
