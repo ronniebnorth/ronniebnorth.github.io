@@ -14,7 +14,7 @@ const g_phrygdom   =      [1,1,0,0,1,1,0,1,1,0,1,0,1,1,0,0,1,1,0,1,1,0,1,0];
 window.onload = function () {
 
 };
-var lastVelocity = 100;
+let lastVelocity = 100;
 
 $(".btn_key").click(function(){
     let rootNote = $(this).text();
@@ -45,9 +45,9 @@ function randomlyReshuffle(notesArr){
 
 function randomlyShortenPhrase(notesArr){
     notesArr = clone(notesArr);
-    var doStrip =  Math.floor(Math.random() * 3);
+    let doStrip =  Math.floor(Math.random() * 3);
     if(doStrip === 1){
-        var stripEnd = Math.floor(Math.random() * (notesArr.length - 1));
+        let stripEnd = Math.floor(Math.random() * (notesArr.length - 1));
         while(stripEnd > 0){
             notesArr.pop();
             stripEnd--;
@@ -72,8 +72,8 @@ function randomlyPutHoles(notesArr){
 }
 
 function randomlyGoHalfTime(){      
-    var mydelayT = Math.floor(Math.random() * 2);
-    var delayt = .3;
+    let mydelayT = Math.floor(Math.random() * 2);
+    let delayt = .3;
     if(mydelayT === 1){
         delayt = .15;
     }
@@ -88,6 +88,22 @@ function getRandomRootOctave(note){
         return note + '1';
     }
 }
+
+function randomlyDoubleNotes(notes){
+    let connotes = clone(notes);
+    if(Math.floor(Math.random() * 3) === 1){
+        connotes.reverse();
+    }else if(Math.floor(Math.random() * 3) === 2){
+        connotes = shuffle(connotes);
+    }
+
+    let bs = Math.floor(Math.random() * 3);
+    if(bs === 0){
+        notes = notes.concat(connotes);
+    }
+    return notes;
+}
+
 
 function playMode(rootNote, mode){    
 
@@ -113,17 +129,17 @@ function playMode(rootNote, mode){
         },
         onsuccess: function() {
             MIDI.programChange(0, MIDI.GM.byName[instrumentName].number);
-            var notes = notesArr;
+            let notes = notesArr;
             let delayt = randomlyGoHalfTime();
             if($('input[name=play_style]:checked').val() == 'chord'){
                 delayt = 0;
             }
-            var delay = Array(notes.length).fill(delayt);
-            var tmpdelay= 0;
-            var ctxtime = MIDI.getContext().currentTime;
-            var channel = 0;
+            let delay = Array(notes.length).fill(delayt);
+            let tmpdelay= 0;
+            let ctxtime = MIDI.getContext().currentTime;
+            let channel = 0;
 
-            var velocity = lastVelocity;
+            let velocity = lastVelocity;
 
             if(Math.floor(Math.random() * 3) === 1){
                 velocity = Math.floor(Math.random() * 60 + 40);
@@ -137,30 +153,20 @@ function playMode(rootNote, mode){
             MIDI.noteOn(channel, rootNoteStr, velocity + 150,0);
 
             if(delayt === .15){
-                var connotes = clone(notes);
-                if(Math.floor(Math.random() * 3) === 1){
-                    connotes.reverse();
-                }else if(Math.floor(Math.random() * 3) === 2){
-                    connotes = shuffle(connotes);
-                }
-
-                let bs = Math.floor(Math.random() * 3);
-                if(bs === 0){
-                    notes = notes.concat(connotes);
-                }
+                notes = randomlyDoubleNotes(notes);
             }
             
             if($('input[name=play_style]:checked').val() != 'root'){
-                for(var i=0; i < notes.length; i++){
-                    var chordIt = Math.floor(Math.random() * 3);
+                for(let i=0; i < notes.length; i++){
+                    let chordIt = Math.floor(Math.random() * 3);
                     if(chordIt === 1){
-                        var chordIt2 = Math.floor(Math.random() * 2);
+                        let chordIt2 = Math.floor(Math.random() * 2);
                         if(chordIt2 === 1){
-                            var harm2 = Math.floor(Math.random() * (notes.length - 1));
-                            var harm3 = Math.floor(Math.random() * (notes.length - 1));
+                            let harm2 = Math.floor(Math.random() * (notes.length - 1));
+                            let harm3 = Math.floor(Math.random() * (notes.length - 1));
                             MIDI.chordOn(channel, [notes[i],notes[harm2],notes[harm3]], velocity, ctxtime+tmpdelay);
                         }else{
-                            var harm = Math.floor(Math.random() * (notes.length - 1));
+                            let harm = Math.floor(Math.random() * (notes.length - 1));
                             MIDI.chordOn(channel, [notes[i],notes[harm]], velocity, ctxtime+tmpdelay);
                         }
                     }else{
@@ -186,7 +192,7 @@ function getPattern(mode){
 }
 
 function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+    let currentIndex = array.length, temporaryValue, randomIndex;
   
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {
@@ -248,8 +254,8 @@ function getModes(inputPattern){
 
 function getNotes(rootNote, mode){
     let notes = [];
-    var kOct = 3;
-    var oct = Math.floor(Math.random() * 9);
+    let kOct = 3;
+    let oct = Math.floor(Math.random() * 9);
     if(oct === 3 || oct === 4 || oct === 5){
         kOct = 4;
     }else if(oct === 6 || oct === 7){
@@ -257,154 +263,49 @@ function getNotes(rootNote, mode){
     }else if(oct === 8){
         kOct = 6;
     }
+
+    let matchArr = [];
     if(mode === "DORIAN"){
-        let start = diatonic.indexOf(rootNote);
-        for(var i = 0; i < 13; i++){
-            if(g_dorian[i] === 1){
-                let thisOct = kOct;
-                let bump = Math.floor(Math.random() * 3);
-                if(bump === 1){
-                    thisOct += 1;          
-                }
-                let key = diatonic[start + i] + thisOct;
-                let note = MIDI.keyToNote[key]
-                notes.push(note);
-            }
-        }
+        matchArr = g_dorian;
     }
     if(mode === "PHRYGIAN"){
-        let start = diatonic.indexOf(rootNote);
-        for(var i = 0; i < 13; i++){
-            if(g_phrygian[i] === 1){
-                let thisOct = kOct;
-                let bump = Math.floor(Math.random() * 3);
-                if(bump === 1){
-                    thisOct += 1;          
-                }
-                let key = diatonic[start + i] + thisOct;
-                let note = MIDI.keyToNote[key]
-                notes.push(note);
-            }
-        }
+        matchArr = g_phrygian;
     }
     if(mode === "LYDIAN"){
-        let start = diatonic.indexOf(rootNote);
-        for(var i = 0; i < 13; i++){
-            if(g_lydian[i] === 1){
-                let thisOct = kOct;
-                let bump = Math.floor(Math.random() * 3);
-                if(bump === 1){
-                    thisOct += 1;          
-                }
-                let key = diatonic[start + i] + thisOct;
-                let note = MIDI.keyToNote[key]
-                notes.push(note);
-            }
-        }
+        matchArr = g_lydian;
     }
     if(mode === "MYXOLYDIAN"){
-        let start = diatonic.indexOf(rootNote);
-        for(var i = 0; i < 13; i++){
-            if(g_myxolydian[i] === 1){
-                let thisOct = kOct;
-                let bump = Math.floor(Math.random() * 3);
-                if(bump === 1){
-                    thisOct += 1;          
-                }
-                let key = diatonic[start + i] + thisOct;
-                let note = MIDI.keyToNote[key]
-                notes.push(note);
-            }
-        }
+        matchArr = g_myxolydian;
     }
     if(mode === "AEOLIAN"){
-        let start = diatonic.indexOf(rootNote);
-        for(var i = 0; i < 13; i++){
-            if(g_aeolian[i] === 1){
-                let thisOct = kOct;
-                let bump = Math.floor(Math.random() * 3);
-                if(bump === 1){
-                    thisOct += 1;          
-                }
-                let key = diatonic[start + i] + thisOct;
-                let note = MIDI.keyToNote[key]
-                notes.push(note);
-            }
-        }
+        matchArr = g_aeolian;
     }
     if(mode === "LOCRIAN"){
-        let start = diatonic.indexOf(rootNote);
-        for(var i = 0; i < 13; i++){
-            if(g_locrian[i] === 1){
-                let thisOct = kOct;
-                let bump = Math.floor(Math.random() * 3);
-                if(bump === 1){
-                    thisOct += 1;          
-                }
-                let key = diatonic[start + i] + thisOct;
-                let note = MIDI.keyToNote[key]
-                notes.push(note);
-            }
-        }
+        matchArr = g_locrian;
     }
     if(mode === "IONIAN"){
-        let start = diatonic.indexOf(rootNote);
-        for(var i = 0; i < 13; i++){
-            if(g_ionian[i] === 1){
-                let thisOct = kOct;
-                let bump = Math.floor(Math.random() * 3);
-                if(bump === 1){
-                    thisOct += 1;          
-                }
-                let key = diatonic[start + i] + thisOct;
-                let note = MIDI.keyToNote[key]
-                notes.push(note);
-            }
-        }
+        matchArr = g_ionian;
     }
     if(mode === "MAJORPENT"){
-        let start = diatonic.indexOf(rootNote);
-        for(var i = 0; i < 13; i++){
-            if(g_majorpent[i] === 1){
-                let thisOct = kOct;
-                let bump = Math.floor(Math.random() * 3);
-                if(bump === 1){
-                    thisOct += 1;          
-                }
-                let key = diatonic[start + i] + thisOct;
-                let note = MIDI.keyToNote[key]
-                notes.push(note);
-            }
-        }
+        matchArr = g_majorpent;
     }
     if(mode === "MINORPENT"){
-        let start = diatonic.indexOf(rootNote);
-        for(var i = 0; i < 13; i++){
-            if(g_minorpent[i] === 1){
-                let thisOct = kOct;
-                let bump = Math.floor(Math.random() * 3);
-                if(bump === 1){
-                    thisOct += 1;          
-                }
-                let key = diatonic[start + i] + thisOct;
-                let note = MIDI.keyToNote[key]
-                notes.push(note);
-            }
-        }
+        matchArr = g_minorpent;
     }
     if(mode === "PHRYGDOM"){
-        let start = diatonic.indexOf(rootNote);
-        for(var i = 0; i < 13; i++){
-            if(g_phrygdom[i] === 1){
-                let thisOct = kOct;
-                let bump = Math.floor(Math.random() * 3);
-                if(bump === 1){
-                    thisOct += 1;          
-                }
-                let key = diatonic[start + i] + thisOct;
-                let note = MIDI.keyToNote[key]
-                notes.push(note);
+        matchArr = g_phrygdom;
+    }
+    let start = diatonic.indexOf(rootNote);
+    for(let i = 0; i < 13; i++){
+        if(matchArr[i] === 1){
+            let thisOct = kOct;
+            let bump = Math.floor(Math.random() * 3);
+            if(bump === 1){
+                thisOct += 1;          
             }
+            let key = diatonic[start + i] + thisOct;
+            let note = MIDI.keyToNote[key]
+            notes.push(note);
         }
     }
     return notes;

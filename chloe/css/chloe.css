@@ -2,6 +2,7 @@
 body {
   background: #332f35;
   font-family: roboto;
+
 }
 
 input[type=radio] {
@@ -46,6 +47,7 @@ a:hover {
   text-decoration: none;
  }
 .btn_key {
+  font-family: roboto;
   /* display: block; */
   height:25px;
   display: inline-block; 
