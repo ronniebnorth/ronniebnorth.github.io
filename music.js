@@ -17,147 +17,138 @@ window.onload = function () {
 var lastVelocity = 100;
 
 $(".btn_key").click(function(){
-    let rootNote = $(this).text();
-    let mode = $(this).closest("div").attr('name');
-    playMode(rootNote, mode);
+    doEverything($(this).text(), $(this).closest("div").attr('name'));
 });
 
-
-function randomlyRepeatNotes(notesArr){
-    notesArr = clone(notesArr);
-    let loopTimes = Math.floor(Math.random() * (notesArr.length));
-    for(let lp = 0; lp < loopTimes; lp++){
-        let randomNote = Math.floor(Math.random() * (notesArr.length - 1));
-        notesArr[randomNote + 1] = notesArr[randomNote];
-    }
-    return notesArr;
-}
-
-function randomlyReshuffle(notesArr){
-    notesArr = clone(notesArr);
-    let reshuf = Math.floor(Math.random() * 2);
+//$("#btnGetModes").click(function(){
+function doEverything(inputRootNote, inputMode){    
+    //let inputRootNote = $("#inputRootNote").val();
+    console.log("input mode", inputMode);
+    let inputNotes = $("#inputNotes").val().split(',').sort();
     
-    if(reshuf === 1){
+    
+    MidiConvert.load("./js/C_MAJOR.mid", function(midi) {
+        console.log(midi);
+        console.log(midi.tracks[0].notes[0].name);
+        let notes = [];
+        midi.tracks[0].notes.forEach(function(element) {
+            notes.push(element.name.replace(/[0-9]/g, ''));
+        }, this);
+        console.log('notes',notes);
+        inputNotes.unshift(inputRootNote);
+        
+        let scales = getModes(getInputPattern(R.uniq(inputNotes)));
+        console.log('scales', scales);
+
+        var selMode = inputMode; //$("#selMode").val();
+        var notesArr = getNotes(inputRootNote, selMode);
+
+
+        //notesArr.concat(notesArr);
+        var rootNoteStr = notesArr[0];
+
+        //notesArr = notesArr.concat(notesArr);
         notesArr = shuffle(notesArr);
-    }
-    return notesArr;
-}
 
-function randomlyShortenPhrase(notesArr){
-    notesArr = clone(notesArr);
-    var doStrip =  Math.floor(Math.random() * 3);
-    if(doStrip === 1){
-        var stripEnd = Math.floor(Math.random() * (notesArr.length - 1));
-        while(stripEnd > 0){
-            notesArr.pop();
-            stripEnd--;
+        var loopTimes = Math.floor(Math.random() * (notesArr.length));
+        console.log("loop times", loopTimes);
+        for(var lp = 0; lp < loopTimes; lp++){
+            var randomNote = Math.floor(Math.random() * (notesArr.length - 1));
+            notesArr[randomNote + 1] = notesArr[randomNote];
         }
-    }
-    return notesArr;
-}
+        var reshuf = Math.floor(Math.random() * 2);
+        console.log("reshuf", reshuf);
+        if(reshuf === 1){
+            notesArr = shuffle(notesArr);
+            console.log("reshuffled");
+        }
 
-function randomlyPutHoles(notesArr){
-    notesArr = clone(notesArr);
-    let putHoles = Math.floor(Math.random() * 4);
-    if(putHoles === 1 || putHoles === 2 || putHoles === 3){
-        let numHoles = Math.floor(Math.random() * (notesArr.length - 3));
-        numHoles = numHoles + 2;
-        while(numHoles > 0){
-            let pHole = Math.floor(Math.random() * (notesArr.length - 1));
-            notesArr[pHole] = 0;
-            numHoles--;
-        }           
-    }
-    return notesArr;
-}
-
-function randomlyGoHalfTime(){      
-    var mydelayT = Math.floor(Math.random() * 2);
-    var delayt = .3;
-    if(mydelayT === 1){
-        delayt = .15;
-    }
-    return delayt;
-}
-
-function getRandomRootOctave(note){
-    let rootOctR = Math.floor(Math.random() * 3);
-    if(rootOctR === 1){
-        return note + '2';
-    }else{
-        return note + '1';
-    }
-}
-
-function playMode(rootNote, mode){    
-
-    let notesArr = getNotes(rootNote, mode);
-
-    notesArr = shuffle(notesArr);
-
-    notesArr = randomlyRepeatNotes(notesArr);
-
-    notesArr = randomlyReshuffle(notesArr);
-
-    notesArr = randomlyShortenPhrase(notesArr);
-
-    notesArr = randomlyPutHoles(notesArr);
-
-    let instrumentName = "acoustic_guitar_nylon";
-
-    MIDI.loadPlugin({
-        soundfontUrl: "./soundfont/",
-        instrument: instrumentName,
-        onprogress: function(state, progress) {
-            console.log(state, progress);
-        },
-        onsuccess: function() {
-            MIDI.programChange(0, MIDI.GM.byName[instrumentName].number);
-            var notes = notesArr;
-            let delayt = randomlyGoHalfTime();
-            if($('input[name=play_style]:checked').val() == 'chords'){
-                delayt = 0;
+        var doStrip =  Math.floor(Math.random() * 3);
+        if(doStrip === 1){
+            var stripEnd = Math.floor(Math.random() * (notesArr.length - 1));
+            while(stripEnd > 0){
+                notesArr.pop();
+                stripEnd--;
             }
-            var delay = Array(notes.length).fill(delayt);
-            var tmpdelay= 0;
-            var ctxtime = MIDI.getContext().currentTime;
-            var channel = 0;
+        }
 
-            var velocity = lastVelocity;
+        var putHoles = Math.floor(Math.random() * 4);
+        if(putHoles === 1 || putHoles === 2 || putHoles === 3){
+            var numHoles = Math.floor(Math.random() * (notesArr.length - 3));
+            numHoles = numHoles + 2;
+            while(numHoles > 0){
+                var pHole = Math.floor(Math.random() * (notesArr.length - 1));
+                notesArr[pHole] = 0;
+                numHoles--;
+            }           
+        }
+        console.log('notesArr', notesArr);
 
-            if(Math.floor(Math.random() * 3) === 1){
-                velocity = Math.floor(Math.random() * 60 + 40);
-                lastVelocity = velocity;
-            }
+        var instrumentName = "acoustic_guitar_nylon";
+        //var instrumentName = "acoustic_grand_piano";
+        //var instrumentName = "synth_drum";
+        //var instrumentName = "glockenspiel";
+        //var instrumentName = "orchestral_harp";
+        //var instrumentName = "xylophone";
+        //var instrumentName = "timpani";
+        MIDI.loadPlugin({
+            soundfontUrl: "./soundfont/",
+            instrument: instrumentName,
+            onprogress: function(state, progress) {
+                console.log(state, progress);
+            },
+            onsuccess: function() {
+                MIDI.programChange(0, MIDI.GM.byName[instrumentName].number);
+                var notes = notesArr;
+                var mydelayT = Math.floor(Math.random() * 2);
+                var delayt = .3;
+                if(mydelayT === 1){
+                    delayt = .15;
+                }
+                var delay = [delayt, delayt, delayt, delayt, delayt, delayt, delayt,delayt, delayt, delayt, delayt, delayt, delayt, delayt];
+                var tmpdelay= 0;
+                var ctxtime = MIDI.getContext().currentTime;
+                var channel = 0;
 
-            rootNote = getRandomRootOctave(rootNote);
-            
-            rootNoteStr = MIDI.keyToNote[rootNote];
-
-            MIDI.noteOn(channel, rootNoteStr, velocity + 150,0);
-
-            if(delayt === .15){
-                var connotes = clone(notes);
-                console.log("connotes",connotes);
+                var velocity = lastVelocity;
                 if(Math.floor(Math.random() * 3) === 1){
-                    connotes.reverse();
-                    console.log("connotes rev",connotes);
-                }else if(Math.floor(Math.random() * 3) === 2){
-                    connotes = shuffle(connotes);
-                    console.log("connotes shuffled",connotes);
-                }
-                console.log("connotes done", connotes);
-
-                let bs = Math.floor(Math.random() * 3);
-                if(bs === 0){
-                    notes = notes.concat(connotes);
+                    velocity = Math.floor(Math.random() * 60 + 40);
+                    lastVelocity = velocity;
                 }
 
-                console.log('notes in', notes);
-            }
-            
-            if($('input[name=play_style]:checked').val() != 'root'){
-                for(var i=0; i < notes.length; i++){
+                var rootOctR = Math.floor(Math.random() * 3);
+                if(rootOctR === 1){
+                    rootNoteStr = inputRootNote + '2';
+                }else{
+                    rootNoteStr = inputRootNote + '1';
+                }
+                
+                rootNoteStr = MIDI.keyToNote[rootNoteStr];
+                console.log('root note string', rootNoteStr);
+                MIDI.noteOn(channel, rootNoteStr, velocity + 150,0);
+                console.log('notes ready', notes);
+                if(delayt === .15){
+                    var connotes = clone(notes);
+                    console.log("connotes",connotes);
+                    if(Math.floor(Math.random() * 3) === 1){
+                        connotes.reverse();
+                        console.log("connotes rev",connotes);
+                    }else if(Math.floor(Math.random() * 3) === 2){
+                        connotes = shuffle(connotes);
+                        console.log("connotes shuffled",connotes);
+                    }
+                    console.log("connotes done", connotes);
+
+                    let bs = Math.floor(Math.random() * 3);
+                    if(bs === 0){
+                        notes = notes.concat(connotes);
+                    }
+
+                    console.log('notes in', notes);
+                }
+                
+                for(var i=0; i < notes.length; i++)
+                {
                     var chordIt = Math.floor(Math.random() * 3);
                     if(chordIt === 1){
                         var chordIt2 = Math.floor(Math.random() * 2);
@@ -175,13 +166,16 @@ function playMode(rootNote, mode){
                     
                     tmpdelay = tmpdelay + delay[i]
                 }
+
+
             }
+        });
 
+        
 
-        }
     });
+//});
 }
-
 
 function clone(obj){
     return JSON.parse(JSON.stringify(obj));

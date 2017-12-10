@@ -1,0 +1,50 @@
+            <!--table>
+                <tr>
+                    <td>
+                        <p>
+                            The name comes from the Greek χλόη (khlóē), of the many names of the Greek goddess Demeter, and refers to the young, green foliage or shoots of plants.
+                        </p>
+                        <p>
+                            Though Demeter is often described simply as the goddess of the harvest, she presided also over the sacred law, and the cycle of life and death.
+                        </p>
+                        <p>
+    <b>accompany (v.)</b>
+    early 15c., "to be in company with," from Old French acompaignier "take as a companion" (12c., Modern French accompagner), from à "to" (see ad-) + compaignier, from compaign (see companion). Musical meaning "play or sing along with" is from 1570s. Related: Accompanied; accompanying.
+    <br>
+    <b>companion (n.)</b>
+    c. 1300, from Old French compagnon "fellow, mate, friend, partner" (12c.), from Late Latin companionem (nominative companio), literally "bread fellow, messmate," from Latin com "with, together" (see com-) + panis "bread," from PIE root *pa- "to feed."
+    
+    Found first in 6c. Frankish Lex Salica, and probably a translation of a Germanic word (compare Gothic gahlaiba "messmate," from hlaib "loaf of bread"). Replaced Old English gefera "traveling companion," from faran "go, fare."
+
+                        </p>
+                    </td>
+                    <td>
+                        <img style="width:200px" src="./img/petting_chloe.jpg"/>
+                    </td>
+                </tr>
+            </table-->
+
+
+
+
+
+
+                        <div style="display:none">
+
+                ROOT:<input type="text" id="inputRootNote" style="width:85px"/>
+                NOTES:<input type="text" id="inputNotes" placeholder="comma separated" style="width:400px"/><br><br>
+                MODE:
+                <select id="ionian">
+                    <option value="DORIAN">DORIAN</option>
+                    <option value="PHRYGIAN">PHRYGIAN</option>
+                    <option value="LYDIAN">LYDIAN</option>
+                    <option value="MYXOLYDIAN">MYXOLYDIAN</option>
+                    <option value="AEOLIAN">AEOLIAN</option>
+                    <option value="LOCRIAN">LOCRIAN</option>
+                    <option value="IONIAN">IONIAN</option>
+                    <option value="MAJORPENT">MAJOR PENT</option>
+                    <option value="MINORPENT">MINOR PENT</option>
+                    <option value="PHRYGDOM">PHRYG DOM</option>
+                </select><br><br>
+                <button id="btnGetModes">pet Chloe</a>
+            </div>

@@ -13,7 +13,7 @@ xmlns:fb="http://ogp.me/ns/fb#">
 
 <!-- Optional theme -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
+<link rel="stylesheet" href="./css/chloe.css"/>
 
 	<!-- polyfill -->
 	<script src="./inc/shim/Base64.js" type="text/javascript"></script>
@@ -41,256 +41,169 @@ xmlns:fb="http://ogp.me/ns/fb#">
 
     <style>
 
-        .spn_key {
-            display: inline-block; width: 90px;
-        }
-.btn_key {
-  /* display: block; */
-  display: inline-block; 
-  width: 6%;
-  box-sizing: border-box;
-  margin: 0 auto;
-  padding: 0px; 
-  /* width: 80%; */
-  /* max-width: 200px; */
-  background: #fff; /* fallback color for old browsers */
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 6px;
-  color: rgb(102, 1, 116);
-  text-align: center;
-  text-decoration: none;
-  letter-spacing: 1px;
-  transition: all 0.3s ease-out;
-}
-.semi-transparent-button:hover,
-.semi-transparent-button:focus,
-.semi-transparent-button:active {
-  background: #fff;
-  color: #000;
-  transition: all 0.5s ease-in;
-}
-.semi-transparent:focus {
-  outline: none;
-}
-
-.is-blue {
-  background: #1e348e; /* fallback color for old browsers */
-  background: rgba(30, 52, 142, 0.5);
-}
-.is-blue:hover,
-.is-blue:focus,
-.is-blue:active {
-  background: #1e348e; /* fallback color for old browsers */
-  background: rgb(30, 52, 142);
-  color: #fff;
-}
-
-.with-border {
-  border: 1px solid #fff;
-}
     </style>
   </head>
-  <body style="width: 100%;">
-      <div id="container" style="width:100%; margin:0 auto;">
+  <body>
+      <div id="container">
             <h1>Chloe</h1>
-            <!--table>
-                <tr>
-                    <td>
-                        <p>
-                            The name comes from the Greek χλόη (khlóē), of the many names of the Greek goddess Demeter, and refers to the young, green foliage or shoots of plants.
-                        </p>
-                        <p>
-                            Though Demeter is often described simply as the goddess of the harvest, she presided also over the sacred law, and the cycle of life and death.
-                        </p>
-                        <p>
-    <b>accompany (v.)</b>
-    early 15c., "to be in company with," from Old French acompaignier "take as a companion" (12c., Modern French accompagner), from à "to" (see ad-) + compaignier, from compaign (see companion). Musical meaning "play or sing along with" is from 1570s. Related: Accompanied; accompanying.
-    <br>
-    <b>companion (n.)</b>
-    c. 1300, from Old French compagnon "fellow, mate, friend, partner" (12c.), from Late Latin companionem (nominative companio), literally "bread fellow, messmate," from Latin com "with, together" (see com-) + panis "bread," from PIE root *pa- "to feed."
-    
-    Found first in 6c. Frankish Lex Salica, and probably a translation of a Germanic word (compare Gothic gahlaiba "messmate," from hlaib "loaf of bread"). Replaced Old English gefera "traveling companion," from faran "go, fare."
-
-                        </p>
-                    </td>
-                    <td>
-                        <img style="width:200px" src="./img/petting_chloe.jpg"/>
-                    </td>
-                </tr>
-            </table-->
+            <input type="radio" name="play_style" value="root">Root
+            <input type="radio" name="play_style" value="chords">Chords
+            <input type="radio" name="play_style" value="fills" checked>Fills<br><br>
             <div name="LYDIAN" style="background-color:#ffffff">
                 <span class="spn_key">LYDIAN</span>
-                <button class="btn_key">A</button>
-                <button class="btn_key">Bb</button>
-                <button class="btn_key">B</button>
-                <button class="btn_key">C</button>
-                <button class="btn_key">Db</button>
-                <button class="btn_key">D</button>
-                <button class="btn_key">Eb</button>
-                <button class="btn_key">E</button>
-                <button class="btn_key">F</button>
-                <button class="btn_key">Gb</button>
-                <button class="btn_key">G</button>
-                <button class="btn_key">Ab</button>
+                <a class="btn_key">A</a>
+                <a class="btn_key">Bb</a>
+                <a class="btn_key">B</a>
+                <a class="btn_key">C</a>
+                <a class="btn_key">Db</a>
+                <a class="btn_key">D</a>
+                <a class="btn_key">Eb</a>
+                <a class="btn_key">E</a>
+                <a class="btn_key">F</a>
+                <a class="btn_key">Gb</a>
+                <a class="btn_key">G</a>
+                <a class="btn_key">Ab</a>
             </div>
             <div name="MAJORPENT" style="background-color:#fff9a7f5">
                 <span class="spn_key">MAJORPENT</span>
-                <button class="btn_key">A</button>
-                <button class="btn_key">Bb</button>
-                <button class="btn_key">B</button>
-                <button class="btn_key">C</button>
-                <button class="btn_key">Db</button>
-                <button class="btn_key">D</button>
-                <button class="btn_key">Eb</button>
-                <button class="btn_key">E</button>
-                <button class="btn_key">F</button>
-                <button class="btn_key">Gb</button>
-                <button class="btn_key">G</button>
-                <button class="btn_key">Ab</button>
+                <a class="btn_key">A</a>
+                <a class="btn_key">Bb</a>
+                <a class="btn_key">B</a>
+                <a class="btn_key">C</a>
+                <a class="btn_key">Db</a>
+                <a class="btn_key">D</a>
+                <a class="btn_key">Eb</a>
+                <a class="btn_key">E</a>
+                <a class="btn_key">F</a>
+                <a class="btn_key">Gb</a>
+                <a class="btn_key">G</a>
+                <a class="btn_key">Ab</a>
             </div>
             <div name="IONIAN" style="background-color:#ffe76ee5">
                 <span class="spn_key">IONIAN</span>
-                <button class="btn_key">A</button>
-                <button class="btn_key">Bb</button>
-                <button class="btn_key">B</button>
-                <button class="btn_key">C</button>
-                <button class="btn_key">Db</button>
-                <button class="btn_key">D</button>
-                <button class="btn_key">Eb</button>
-                <button class="btn_key">E</button>
-                <button class="btn_key">F</button>
-                <button class="btn_key">Gb</button>
-                <button class="btn_key">G</button>
-                <button class="btn_key">Ab</button>
+                <a class="btn_key">A</a>
+                <a class="btn_key">Bb</a>
+                <a class="btn_key">B</a>
+                <a class="btn_key">C</a>
+                <a class="btn_key">Db</a>
+                <a class="btn_key">D</a>
+                <a class="btn_key">Eb</a>
+                <a class="btn_key">E</a>
+                <a class="btn_key">F</a>
+                <a class="btn_key">Gb</a>
+                <a class="btn_key">G</a>
+                <a class="btn_key">Ab</a>
             </div>
             <div name="MYXOLYDIAN" style="background-color:#b1ff83c5">
                 <span class="spn_key">MYXOLYDIAN</span>
-                <button class="btn_key">A</button>
-                <button class="btn_key">Bb</button>
-                <button class="btn_key">B</button>
-                <button class="btn_key">C</button>
-                <button class="btn_key">Db</button>
-                <button class="btn_key">D</button>
-                <button class="btn_key">Eb</button>
-                <button class="btn_key">E</button>
-                <button class="btn_key">F</button>
-                <button class="btn_key">Gb</button>
-                <button class="btn_key">G</button>
-                <button class="btn_key">Ab</button>
+                <a class="btn_key">A</a>
+                <a class="btn_key">Bb</a>
+                <a class="btn_key">B</a>
+                <a class="btn_key">C</a>
+                <a class="btn_key">Db</a>
+                <a class="btn_key">D</a>
+                <a class="btn_key">Eb</a>
+                <a class="btn_key">E</a>
+                <a class="btn_key">F</a>
+                <a class="btn_key">Gb</a>
+                <a class="btn_key">G</a>
+                <a class="btn_key">Ab</a>
             </div>
             <div name="MINORPENT" style="background-color:#a4eaf7e0">
                 <span class="spn_key">MINORPENT</span>
-                <button class="btn_key">A</button>
-                <button class="btn_key">Bb</button>
-                <button class="btn_key">B</button>
-                <button class="btn_key">C</button>
-                <button class="btn_key">Db</button>
-                <button class="btn_key">D</button>
-                <button class="btn_key">Eb</button>
-                <button class="btn_key">E</button>
-                <button class="btn_key">F</button>
-                <button class="btn_key">Gb</button>
-                <button class="btn_key">G</button>
-                <button class="btn_key">Ab</button>
+                <a class="btn_key">A</a>
+                <a class="btn_key">Bb</a>
+                <a class="btn_key">B</a>
+                <a class="btn_key">C</a>
+                <a class="btn_key">Db</a>
+                <a class="btn_key">D</a>
+                <a class="btn_key">Eb</a>
+                <a class="btn_key">E</a>
+                <a class="btn_key">F</a>
+                <a class="btn_key">Gb</a>
+                <a class="btn_key">G</a>
+                <a class="btn_key">Ab</a>
             </div>
             <div name="DORIAN" style="background-color:#9dc7ffc7">
                 <span class="spn_key">DORIAN</span>
-                <button class="btn_key">A</button>
-                <button class="btn_key">Bb</button>
-                <button class="btn_key">B</button>
-                <button class="btn_key">C</button>
-                <button class="btn_key">Db</button>
-                <button class="btn_key">D</button>
-                <button class="btn_key">Eb</button>
-                <button class="btn_key">E</button>
-                <button class="btn_key">F</button>
-                <button class="btn_key">Gb</button>
-                <button class="btn_key">G</button>
-                <button class="btn_key">Ab</button>
+                <a class="btn_key">A</a>
+                <a class="btn_key">Bb</a>
+                <a class="btn_key">B</a>
+                <a class="btn_key">C</a>
+                <a class="btn_key">Db</a>
+                <a class="btn_key">D</a>
+                <a class="btn_key">Eb</a>
+                <a class="btn_key">E</a>
+                <a class="btn_key">F</a>
+                <a class="btn_key">Gb</a>
+                <a class="btn_key">G</a>
+                <a class="btn_key">Ab</a>
             </div>
             <div name="AEOLIAN" style="background-color:#9e6af1c7">
                 <span class="spn_key">AEOLIAN</span>
-                <button class="btn_key">A</button>
-                <button class="btn_key">Bb</button>
-                <button class="btn_key">B</button>
-                <button class="btn_key">C</button>
-                <button class="btn_key">Db</button>
-                <button class="btn_key">D</button>
-                <button class="btn_key">Eb</button>
-                <button class="btn_key">E</button>
-                <button class="btn_key">F</button>
-                <button class="btn_key">Gb</button>
-                <button class="btn_key">G</button>
-                <button class="btn_key">Ab</button>
+                <a class="btn_key">A</a>
+                <a class="btn_key">Bb</a>
+                <a class="btn_key">B</a>
+                <a class="btn_key">C</a>
+                <a class="btn_key">Db</a>
+                <a class="btn_key">D</a>
+                <a class="btn_key">Eb</a>
+                <a class="btn_key">E</a>
+                <a class="btn_key">F</a>
+                <a class="btn_key">Gb</a>
+                <a class="btn_key">G</a>
+                <a class="btn_key">Ab</a>
             </div>
             <div name="PHRYGIAN" style="background-color:#a353ffe1">
                 <span class="spn_key">PHRYGIAN</span>
-                <button class="btn_key">A</button>
-                <button class="btn_key">Bb</button>
-                <button class="btn_key">B</button>
-                <button class="btn_key">C</button>
-                <button class="btn_key">Db</button>
-                <button class="btn_key">D</button>
-                <button class="btn_key">Eb</button>
-                <button class="btn_key">E</button>
-                <button class="btn_key">F</button>
-                <button class="btn_key">Gb</button>
-                <button class="btn_key">G</button>
-                <button class="btn_key">Ab</button>
+                <a class="btn_key">A</a>
+                <a class="btn_key">Bb</a>
+                <a class="btn_key">B</a>
+                <a class="btn_key">C</a>
+                <a class="btn_key">Db</a>
+                <a class="btn_key">D</a>
+                <a class="btn_key">Eb</a>
+                <a class="btn_key">E</a>
+                <a class="btn_key">F</a>
+                <a class="btn_key">Gb</a>
+                <a class="btn_key">G</a>
+                <a class="btn_key">Ab</a>
             </div>
 
             <div name="PHRYGDOM" style="background-color:#ca0be4c7">
                 <span class="spn_key">PHRYGDOM</span>
-                <button class="btn_key">A</button>
-                <button class="btn_key">Bb</button>
-                <button class="btn_key">B</button>
-                <button class="btn_key">C</button>
-                <button class="btn_key">Db</button>
-                <button class="btn_key">D</button>
-                <button class="btn_key">Eb</button>
-                <button class="btn_key">E</button>
-                <button class="btn_key">F</button>
-                <button class="btn_key">Gb</button>
-                <button class="btn_key">G</button>
-                <button class="btn_key">Ab</button>
+                <a class="btn_key">A</a>
+                <a class="btn_key">Bb</a>
+                <a class="btn_key">B</a>
+                <a class="btn_key">C</a>
+                <a class="btn_key">Db</a>
+                <a class="btn_key">D</a>
+                <a class="btn_key">Eb</a>
+                <a class="btn_key">E</a>
+                <a class="btn_key">F</a>
+                <a class="btn_key">Gb</a>
+                <a class="btn_key">G</a>
+                <a class="btn_key">Ab</a>
             </div>
 
 
             <div name="LOCRIAN" style="background-color:#85006e">
                 <span class="spn_key">LOCRIAN</span>
-                <button class="btn_key">A</button>
-                <button class="btn_key">Bb</button>
-                <button class="btn_key">B</button>
-                <button class="btn_key">C</button>
-                <button class="btn_key">Db</button>
-                <button class="btn_key">D</button>
-                <button class="btn_key">Eb</button>
-                <button class="btn_key">E</button>
-                <button class="btn_key">F</button>
-                <button class="btn_key">Gb</button>
-                <button class="btn_key">G</button>
-                <button class="btn_key">Ab</button>
+                <a class="btn_key">A</a>
+                <a class="btn_key">Bb</a>
+                <a class="btn_key">B</a>
+                <a class="btn_key">C</a>
+                <a class="btn_key">Db</a>
+                <a class="btn_key">D</a>
+                <a class="btn_key">Eb</a>
+                <a class="btn_key">E</a>
+                <a class="btn_key">F</a>
+                <a class="btn_key">Gb</a>
+                <a class="btn_key">G</a>
+                <a class="btn_key">Ab</a>
             </div>
 
-            <div style="display:none">
 
-                ROOT:<input type="text" id="inputRootNote" style="width:85px"/>
-                NOTES:<input type="text" id="inputNotes" placeholder="comma separated" style="width:400px"/><br><br>
-                MODE:
-                <select id="ionian">
-                    <option value="DORIAN">DORIAN</option>
-                    <option value="PHRYGIAN">PHRYGIAN</option>
-                    <option value="LYDIAN">LYDIAN</option>
-                    <option value="MYXOLYDIAN">MYXOLYDIAN</option>
-                    <option value="AEOLIAN">AEOLIAN</option>
-                    <option value="LOCRIAN">LOCRIAN</option>
-                    <option value="IONIAN">IONIAN</option>
-                    <option value="MAJORPENT">MAJOR PENT</option>
-                    <option value="MINORPENT">MINOR PENT</option>
-                    <option value="PHRYGDOM">PHRYG DOM</option>
-                </select><br><br>
-                <button id="btnGetModes">pet Chloe</button>
-            </div>
       </div>
       <br><br><br>
     <script src="/reload/reload.js"></script> 
