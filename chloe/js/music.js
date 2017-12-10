@@ -3,13 +3,15 @@ const diatonic = ['A','Bb','B','C','Db','D','Eb','E','F','Gb','G','Ab','A','Bb',
 const g_dorian     =  [1,0,1,1,0,1,0,1,0,1,1,0,1,0,1,1,0,1,0,1,0,1,1,0];
 const g_phrygian   =      [1,1,0,1,0,1,0,1,1,0,1,0,1,1,0,1,0,1,0,1,1,0,1,0];
 const g_lydian     =        [1,0,1,0,1,0,1,1,0,1,0,1,1,0,1,0,1,0,1,1,0,1,0,1];
-const g_MIXOLYDIAN =            [1,0,1,0,1,1,0,1,0,1,1,0,1,0,1,0,1,1,0,1,0,1,1,0];
+const g_mixolydian =            [1,0,1,0,1,1,0,1,0,1,1,0,1,0,1,0,1,1,0,1,0,1,1,0];
 const g_aeolian    =                [1,0,1,1,0,1,0,1,1,0,1,0,1,0,1,1,0,1,0,1,1,0,1,0];
 const g_locrian    =                    [1,1,0,1,0,1,1,0,1,0,1,0,1,1,0,1,0,1,1,0,1,0,1,0];
 const g_ionian     =                      [1,0,1,0,1,1,0,1,0,1,0,1,1,0,1,0,1,1,0,1,0,1,0,1];
 const g_minorpent  =                [1,0,0,1,0,1,0,1,0,0,1,0,1,0,0,1,0,1,0,1,0,0,1,0];
 const g_majorpent  =                      [1,0,1,0,1,0,0,1,0,1,0,0,1,0,1,0,1,0,0,1,0,1,0,0];
 const g_phrygdom   =      [1,1,0,0,1,1,0,1,1,0,1,0,1,1,0,0,1,1,0,1,1,0,1,0];
+const g_majortriad =                      [1,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,1,0,0,1,0,0,0,0];
+const g_minortriad =                [1,0,0,1,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0,1,0,0,0,0];
 
 window.onload = function () {
 
@@ -216,7 +218,7 @@ function shuffle(array) {
 
 
 function getModes(inputPattern){
-    let modes  = ['DORIAN','PHRYGIAN','LYDIAN','MIXOLYDIAN','AEOLIAN','LOCRIAN','IONIAN','MAJORPENT','MINORPENT','PHRYGDOM'];
+    let modes  = ['DORIAN','PHRYGIAN','LYDIAN','MIXOLYDIAN','AEOLIAN','LOCRIAN','IONIAN','MAJORPENT','MINORPENT','PHRYGDOM','MAJORTRIAD','MINORTRIAD'];
     
     for(let i = 0; i < inputPattern.length; i++){
         if(inputPattern[i] == 1){
@@ -229,7 +231,7 @@ function getModes(inputPattern){
             if(g_lydian[i] !== 1 && modes.includes("LYDIAN")){
                 modes.splice(modes.indexOf("LYDIAN"), 1);
             }
-            if(g_MIXOLYDIAN[i] !== 1 && modes.includes("MIXOLYDIAN")){
+            if(g_mixolydian[i] !== 1 && modes.includes("MIXOLYDIAN")){
                 modes.splice(modes.indexOf("MIXOLYDIAN"), 1);
             }
             if(g_aeolian[i] !== 1 && modes.includes("AEOLIAN")){
@@ -240,6 +242,12 @@ function getModes(inputPattern){
             }
             if(g_ionian[i] !== 1 && modes.includes("IONIAN")){
                 modes.splice(modes.indexOf("IONIAN"), 1);
+            }
+            if(g_majortriad[i] !== 1 && modes.includes("MAJORTRIAD")){
+                modes.splice(modes.indexOf("MAJORTRIAD"), 1);
+            }
+            if(g_minortriad[i] !== 1 && modes.includes("MINORTRIAD")){
+                modes.splice(modes.indexOf("MINORTRIAD"), 1);
             }
             if(g_majorpent[i] !== 1 && modes.includes("MAJORPENT")){
                 modes.splice(modes.indexOf("MAJORPENT"), 1);
@@ -279,7 +287,7 @@ function getNotes(rootNote, mode){
         matchArr = g_lydian;
     }
     if(mode === "MIXOLYDIAN"){
-        matchArr = g_MIXOLYDIAN;
+        matchArr = g_mixolydian;
     }
     if(mode === "AEOLIAN"){
         matchArr = g_aeolian;
@@ -292,6 +300,12 @@ function getNotes(rootNote, mode){
     }
     if(mode === "MAJORPENT"){
         matchArr = g_majorpent;
+    }
+    if(mode === "MAJORTRIAD"){
+        matchArr = g_majortriad;
+    }
+    if(mode === "MINORTRIAD"){
+        matchArr = g_minortriad;
     }
     if(mode === "MINORPENT"){
         matchArr = g_minorpent;
