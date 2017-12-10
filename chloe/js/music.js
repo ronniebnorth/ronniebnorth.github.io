@@ -3,7 +3,7 @@ const diatonic = ['A','Bb','B','C','Db','D','Eb','E','F','Gb','G','Ab','A','Bb',
 const g_dorian     =  [1,0,1,1,0,1,0,1,0,1,1,0,1,0,1,1,0,1,0,1,0,1,1,0];
 const g_phrygian   =      [1,1,0,1,0,1,0,1,1,0,1,0,1,1,0,1,0,1,0,1,1,0,1,0];
 const g_lydian     =        [1,0,1,0,1,0,1,1,0,1,0,1,1,0,1,0,1,0,1,1,0,1,0,1];
-const g_myxolydian =            [1,0,1,0,1,1,0,1,0,1,1,0,1,0,1,0,1,1,0,1,0,1,1,0];
+const g_MIXOLYDIAN =            [1,0,1,0,1,1,0,1,0,1,1,0,1,0,1,0,1,1,0,1,0,1,1,0];
 const g_aeolian    =                [1,0,1,1,0,1,0,1,1,0,1,0,1,0,1,1,0,1,0,1,1,0,1,0];
 const g_locrian    =                    [1,1,0,1,0,1,1,0,1,0,1,0,1,1,0,1,0,1,1,0,1,0,1,0];
 const g_ionian     =                      [1,0,1,0,1,1,0,1,0,1,0,1,1,0,1,0,1,1,0,1,0,1,0,1];
@@ -216,7 +216,7 @@ function shuffle(array) {
 
 
 function getModes(inputPattern){
-    let modes  = ['DORIAN','PHRYGIAN','LYDIAN','MYXOLYDIAN','AEOLIAN','LOCRIAN','IONIAN','MAJORPENT','MINORPENT','PHRYGDOM'];
+    let modes  = ['DORIAN','PHRYGIAN','LYDIAN','MIXOLYDIAN','AEOLIAN','LOCRIAN','IONIAN','MAJORPENT','MINORPENT','PHRYGDOM'];
     
     for(let i = 0; i < inputPattern.length; i++){
         if(inputPattern[i] == 1){
@@ -229,8 +229,8 @@ function getModes(inputPattern){
             if(g_lydian[i] !== 1 && modes.includes("LYDIAN")){
                 modes.splice(modes.indexOf("LYDIAN"), 1);
             }
-            if(g_myxolydian[i] !== 1 && modes.includes("MYXOLYDIAN")){
-                modes.splice(modes.indexOf("MYXOLYDIAN"), 1);
+            if(g_MIXOLYDIAN[i] !== 1 && modes.includes("MIXOLYDIAN")){
+                modes.splice(modes.indexOf("MIXOLYDIAN"), 1);
             }
             if(g_aeolian[i] !== 1 && modes.includes("AEOLIAN")){
                 modes.splice(modes.indexOf("AEOLIAN"), 1);
@@ -278,8 +278,8 @@ function getNotes(rootNote, mode){
     if(mode === "LYDIAN"){
         matchArr = g_lydian;
     }
-    if(mode === "MYXOLYDIAN"){
-        matchArr = g_myxolydian;
+    if(mode === "MIXOLYDIAN"){
+        matchArr = g_MIXOLYDIAN;
     }
     if(mode === "AEOLIAN"){
         matchArr = g_aeolian;
