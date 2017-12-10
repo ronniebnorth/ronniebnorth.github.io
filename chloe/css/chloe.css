@@ -41,6 +41,8 @@ label + input[type=radio] + label {
 }
 .spn_key {
     display: inline-block; width: 90px;
+    font-weight:bold;
+    color:white;
 }
 a:hover {
   cursor:pointer;
