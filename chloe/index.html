@@ -44,11 +44,21 @@ xmlns:fb="http://ogp.me/ns/fb#">
     </style>
   </head>
   <body>
-      <div id="container">
-            <h1>Chloe</h1>
-            <input type="radio" name="play_style" value="root">Root
-            <input type="radio" name="play_style" value="chords">Chords
-            <input type="radio" name="play_style" value="fills" checked>Fills<br><br>
+      <div id="container" style="margin:0 auto;width:100%">
+            <form>
+                <div style="margin:0 auto;width:100%;text-align:center">
+                <div class="radio-group">
+                    <input type="radio" id="option-one" value="root" name="play_style" checked>
+                    <label for="option-one">Root Note</label>
+                    
+                    <input type="radio" id="option-two" value="chord" name="play_style">
+                    <label for="option-two">Full Chord</label>
+
+                    <input type="radio" id="option-three" value="fills" name="play_style">
+                    <label for="option-three">Root + Fills</label>
+                </div>
+                </div>
+            </form>
             <div name="LYDIAN" style="background-color:#ffffff">
                 <span class="spn_key">LYDIAN</span>
                 <a class="btn_key">A</a>

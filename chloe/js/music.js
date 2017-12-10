@@ -115,7 +115,7 @@ function playMode(rootNote, mode){
             MIDI.programChange(0, MIDI.GM.byName[instrumentName].number);
             var notes = notesArr;
             let delayt = randomlyGoHalfTime();
-            if($('input[name=play_style]:checked').val() == 'chords'){
+            if($('input[name=play_style]:checked').val() == 'chord'){
                 delayt = 0;
             }
             var delay = Array(notes.length).fill(delayt);
