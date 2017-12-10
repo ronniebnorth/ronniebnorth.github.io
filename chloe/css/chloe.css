@@ -35,7 +35,9 @@ label + input[type=radio] + label {
   overflow: hidden;
 }
 
-
+#container {
+  margin:0 auto;width:100%;text-align:center;
+}
 .spn_key {
     display: inline-block; width: 90px;
 }
