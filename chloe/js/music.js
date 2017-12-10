@@ -151,7 +151,10 @@ function playMode(rootNote, mode){
             
             rootNoteStr = MIDI.keyToNote[rootNote];
 
-            MIDI.noteOn(channel, rootNoteStr, velocity + 150,0);
+            if($('input[name=play_style]:checked').val() !== 'just_fills'){
+                MIDI.noteOn(channel, rootNoteStr, velocity + 150,0);
+            }
+            
 
             if(delayt === .15){
                 notes = randomlyDoubleNotes(notes);
