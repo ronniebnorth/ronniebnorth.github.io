@@ -109,7 +109,7 @@ function playMode(rootNote, mode){
         soundfontUrl: "./soundfont/",
         instrument: instrumentName,
         onprogress: function(state, progress) {
-            console.log(state, progress);
+            //console.log(state, progress);
         },
         onsuccess: function() {
             MIDI.programChange(0, MIDI.GM.byName[instrumentName].number);
@@ -138,22 +138,16 @@ function playMode(rootNote, mode){
 
             if(delayt === .15){
                 var connotes = clone(notes);
-                console.log("connotes",connotes);
                 if(Math.floor(Math.random() * 3) === 1){
                     connotes.reverse();
-                    console.log("connotes rev",connotes);
                 }else if(Math.floor(Math.random() * 3) === 2){
                     connotes = shuffle(connotes);
-                    console.log("connotes shuffled",connotes);
                 }
-                console.log("connotes done", connotes);
 
                 let bs = Math.floor(Math.random() * 3);
                 if(bs === 0){
                     notes = notes.concat(connotes);
                 }
-
-                console.log('notes in', notes);
             }
             
             if($('input[name=play_style]:checked').val() != 'root'){
@@ -273,7 +267,6 @@ function getNotes(rootNote, mode){
                     thisOct += 1;          
                 }
                 let key = diatonic[start + i] + thisOct;
-                console.log(key);
                 let note = MIDI.keyToNote[key]
                 notes.push(note);
             }
@@ -289,7 +282,6 @@ function getNotes(rootNote, mode){
                     thisOct += 1;          
                 }
                 let key = diatonic[start + i] + thisOct;
-                console.log(key);
                 let note = MIDI.keyToNote[key]
                 notes.push(note);
             }
@@ -305,7 +297,6 @@ function getNotes(rootNote, mode){
                     thisOct += 1;          
                 }
                 let key = diatonic[start + i] + thisOct;
-                console.log(key);
                 let note = MIDI.keyToNote[key]
                 notes.push(note);
             }
@@ -321,7 +312,6 @@ function getNotes(rootNote, mode){
                     thisOct += 1;          
                 }
                 let key = diatonic[start + i] + thisOct;
-                console.log(key);
                 let note = MIDI.keyToNote[key]
                 notes.push(note);
             }
@@ -337,7 +327,6 @@ function getNotes(rootNote, mode){
                     thisOct += 1;          
                 }
                 let key = diatonic[start + i] + thisOct;
-                console.log(key);
                 let note = MIDI.keyToNote[key]
                 notes.push(note);
             }
@@ -353,7 +342,6 @@ function getNotes(rootNote, mode){
                     thisOct += 1;          
                 }
                 let key = diatonic[start + i] + thisOct;
-                console.log(key);
                 let note = MIDI.keyToNote[key]
                 notes.push(note);
             }
@@ -369,7 +357,6 @@ function getNotes(rootNote, mode){
                     thisOct += 1;          
                 }
                 let key = diatonic[start + i] + thisOct;
-                console.log(key);
                 let note = MIDI.keyToNote[key]
                 notes.push(note);
             }
@@ -385,7 +372,6 @@ function getNotes(rootNote, mode){
                     thisOct += 1;          
                 }
                 let key = diatonic[start + i] + thisOct;
-                console.log(key);
                 let note = MIDI.keyToNote[key]
                 notes.push(note);
             }
@@ -401,7 +387,6 @@ function getNotes(rootNote, mode){
                     thisOct += 1;          
                 }
                 let key = diatonic[start + i] + thisOct;
-                console.log(key);
                 let note = MIDI.keyToNote[key]
                 notes.push(note);
             }
@@ -417,7 +402,6 @@ function getNotes(rootNote, mode){
                     thisOct += 1;          
                 }
                 let key = diatonic[start + i] + thisOct;
-                console.log(key);
                 let note = MIDI.keyToNote[key]
                 notes.push(note);
             }
