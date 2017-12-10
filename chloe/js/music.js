@@ -18,6 +18,7 @@ let lastVelocity = 100;
 
 $(".btn_key").click(function(){
     let rootNote = $(this).text();
+    rootNote = rootNote.replace('♭','b');
     let mode = $(this).closest("div").attr('name');
     playMode(rootNote, mode);
 });
