@@ -39,6 +39,10 @@ label + input[type=radio] + label {
 .spn_key {
     display: inline-block; width: 90px;
 }
+a:hover {
+  cursor:pointer;
+  text-decoration: none;
+ }
 .btn_key {
   /* display: block; */
   height:25px;
