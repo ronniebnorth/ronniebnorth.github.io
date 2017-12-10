@@ -138,7 +138,11 @@ function doEverything(inputRootNote, inputMode){
                         console.log("connotes shuffled",connotes);
                     }
                     console.log("connotes done", connotes);
-                    notes = notes.concat(connotes);
+
+                    let bs = Math.floor(Math.random() * 3);
+                    if(bs === 0){
+                        notes = notes.concat(connotes);
+                    }
 
                     console.log('notes in', notes);
                 }
