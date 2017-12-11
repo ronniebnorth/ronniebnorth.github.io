@@ -13,6 +13,10 @@ body {
  
 }
 
+.controlPanel td{
+    padding: 0px;
+}
+
 input[type=radio] {
   position: absolute;
   visibility: hidden;
