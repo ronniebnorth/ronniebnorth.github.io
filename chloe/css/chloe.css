@@ -55,6 +55,7 @@ label + input[type=radio] + label {
     display: inline-block; width: 90px;
     font-weight:bold;
     color:white;
+    
 }
 a:hover {
   cursor:pointer;
