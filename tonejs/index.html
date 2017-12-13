@@ -1,0 +1,62 @@
+<html>
+    <head>
+        <script src="jquery-3.2.1.min.js"></script>
+        <script src="ramda.js"></script>
+        <script src="tone.js"></script>
+    </head>
+    <body>
+    <button onclick="doit()">doit</button>
+    <script>
+
+
+function arrPow(arr, pow=2){
+    if(pow > 2){
+        arr = arrPow(arr, pow-1);
+    }
+    return R.concat(arr, arr);
+}
+
+
+function getGreekMode(rootNote, modeName){
+    const diatonic = arrPow(['A','Bb','B','C','Db','D','Eb','E','F','Gb','G','Ab']);
+    const intervals = arrPow(["dorian",".","phrygian","lydian",".","mixolydian",".","aeolian",".","locrian","ionian","."]);
+    let mode = [];
+    for(let i = 0; i < diatonic.length/2; i++){
+        if(intervals[i + R.indexOf(modeName), intervals] !== "."){
+            let note = diatonic[R.indexOf(rootNote, diatonic) + i];
+            mode.push(note);
+        }
+    }
+    return mode;
+}
+
+
+function setOctave(notes, octave){
+    return R.map(function(note){ return note + octave; }, notes);
+}
+
+
+function playArpeggio(notes){
+    let synth = new Tone.Synth();
+    synth.toMaster();
+    let pattern = new Tone.Pattern(function(time, note){
+        synth.triggerAttackRelease(note, 0.05);
+    }, notes, "random");
+    pattern.start(0);
+    Tone.Transport.start();
+}
+
+
+function doit(){
+    let root = 'A';
+    let mode = 'phrygian';
+    let octave = 4;
+    let notes = setOctave(getGreekMode(root,mode), octave);
+    playArpeggio(notes);
+}
+
+
+
+    </script>
+    </body>
+</html>
