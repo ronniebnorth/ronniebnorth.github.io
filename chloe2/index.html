@@ -55,7 +55,13 @@
                 <div>
                     <table align="center" class="controlPanel">
                         <tr>
-                           
+                            <td>
+                                <div class="txt-group">
+                                    <label for="mode_filter">Search</label>
+                                    <input type="text" id="mode_filter"/>
+                                    
+                                </div>
+                            </td>
                             <td>
                                 <div class="radio-group">
                                     <input type="radio" id="option-one" value="root" name="play_style">
@@ -137,7 +143,22 @@ $('body').on('mousedown', '.btn_key', function() {
     let notes = getNotes(rootNote, mode.split(","));
     playMode(rootNote, notes);
 });
+$('body').on('keyup', '#mode_filter', function() {
 
+    let input = $("#mode_filter").val();
+
+    if(input !== ""){
+
+        $(".spn_key").each(function(index){
+            if($(this).text().indexOf(input) == -1){
+                $(this).closest("div").hide();
+            }else{
+                $(this).closest("div").show();
+            }
+        });
+    }
+
+});
 
 function playMode(rootNote, notesArr){    
 
@@ -293,8 +314,11 @@ function makeUI(){
 }
 
 
+
 function getModes(scales){
     let modes = [];
+    scales.sort();
+    console.log('he', scales);
     for(var i = 0; i < scales.length; i++){
         let scale = scales[i];
         scale = R.concat(scale, scale);
@@ -311,10 +335,12 @@ function getModes(scales){
                 newmodes.push(mode);
             }
         }
-        newmodes.sort();
+        newmodes.sort()
+
         modes = R.concat(modes, newmodes);
     }
     //modes.sort();
+
     return modes;
 }
 
@@ -322,7 +348,7 @@ function getModes(scales){
 
 function tryScales(scalesArr, scalesTemplate){
     
-    for(var i = 0; i < 1000; i++){
+    for(var i = 0; i < 5000; i++){
         
         let attempt = shuffle(scalesTemplate);
         attempt = R.concat([1], attempt);
@@ -335,8 +361,7 @@ function tryScales(scalesArr, scalesTemplate){
                 strScale += strScale;
                 let strAttempt = attempt.join("");
                 if(strScale.indexOf(strAttempt) !== -1){
-                    let origStr = strScale.substring(0,strScale.length-1);
-                    if(origStr > strAttempt){
+                    if(scalesArr[j] > attempt){
                         scalesArr[j] = attempt;
                     }
                     worked = false;
@@ -347,7 +372,7 @@ function tryScales(scalesArr, scalesTemplate){
             }
         }
     }
-    scalesArr.sort();
+
     return scalesArr;
 }
 
