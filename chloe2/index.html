@@ -111,7 +111,7 @@ xmlns:fb="http://ogp.me/ns/fb#">
                 </div>
  
             </div> 
-        <div id="scales_div"></div>   
+        <div id="scales_div" style="padding:3px;border-radius: 5px;border: 4px solid #675f6b;"></div>   
     </div>
     <script>
 
@@ -145,6 +145,7 @@ pentatonicScales = tryScales(pentatonicScales, pentatonic);
 tetratonicScales = tryScales(tetratonicScales, tetratonic);
 tritonicScales = tryScales(tritonicScales, tritonic);
 
+let lastGroup = "";
 
 makeUI();
 
@@ -299,13 +300,17 @@ function perc2color(perc) {
 function makeModeUI(modes, div){
     let colorPercent = 100;
     modes = multiDimensionalUnique(modes);
+    div.append('<div style="height:8px"></div>');
     for(var i = 0; i < modes.length; i++){
         let mode = modes[i];
         let num  = parseInt(mode.join(""),2);
         num2 = num - 2050;
         num2 = num2 / 15;
         let bgcolor = perc2color(num2);
-
+        if(lastGroup !== mode.group){
+            lastGroup = mode.group;
+            div.append('<div style="height:5px"></div>');
+        }
         let newdiv = $('<div data="' + mode + '" style="background-color:' + bgcolor + '"></div>');
         div.append(newdiv);
         
