@@ -49,7 +49,7 @@ label + input[type=radio] + label {
 }
 
 #container {
-  margin:0 auto;width:100%;text-align:center;
+  margin:0 auto;max-width:600px;text-align:center;
 }
 .spn_key {
     display: inline-block; width: 120px;
