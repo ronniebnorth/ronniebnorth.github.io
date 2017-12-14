@@ -55,6 +55,7 @@ label + input[type=radio] + label {
 .spn_key {
     display: inline-block; width: 190px;
     font-weight:normal;
+    font-size:9pt;
     color:rgb(41, 45, 68);
     
 }
@@ -68,7 +69,7 @@ a:hover {
   /* display: block; */
   height:25px;
   display: inline-block; 
-  width: 5%;
+  width: 4.5%;
   box-sizing: border-box;
   margin: 1px;
   padding: 1px; 
