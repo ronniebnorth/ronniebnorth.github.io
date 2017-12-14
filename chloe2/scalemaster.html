@@ -242,11 +242,13 @@ function perc2color(perc) {
 	var r, g, b = 0;
 	if(perc < 50) {
 		r = Math.round(5.1 * perc);
-		g = 255;
+        g = 255;
+        b = 128;
 	}
 	else {
 		g = Math.round(510 - 5.10 * perc);
-		r = 255;
+        r = 255;
+        b = 128;
 	}
 	var h = r * 0x10000 + g * 0x100 + b * 0x1;
 	return '#' + ('000000' + h.toString(16)).slice(-6);
