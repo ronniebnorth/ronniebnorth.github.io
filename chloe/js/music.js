@@ -207,7 +207,7 @@ function playMode(rootNote, mode){
                 for(let i=0; i < notes.length; i++){
                     let chordIt = Math.floor(Math.random() * 3);
                     if(chordIt === 1){
-                        let chordIt2 = Math.floor(Math.random() * 2);
+                        let chordIt2 = Math.floor(Math.random() * 3);
                         if(chordIt2 === 1){
                             let harm2 = Math.floor(Math.random() * (notes.length - 1));
                             let harm3 = Math.floor(Math.random() * (notes.length - 1));
