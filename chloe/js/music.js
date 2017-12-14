@@ -1,5 +1,6 @@
 const diatonic = ['A','Bb','B','C','Db','D','Eb','E','F','Gb','G','Ab','A','Bb','B','C','Db','D','Eb','E','F','Gb','G'];
 
+//greek
 const g_dorian     =  [1,0,1,1,0,1,0,1,0,1,1,0,1,0,1,1,0,1,0,1,0,1,1,0];
 const g_phrygian   =      [1,1,0,1,0,1,0,1,1,0,1,0,1,1,0,1,0,1,0,1,1,0,1,0];
 const g_lydian     =        [1,0,1,0,1,0,1,1,0,1,0,1,1,0,1,0,1,0,1,1,0,1,0,1];
@@ -7,9 +8,49 @@ const g_mixolydian =            [1,0,1,0,1,1,0,1,0,1,1,0,1,0,1,0,1,1,0,1,0,1,1,0
 const g_aeolian    =                [1,0,1,1,0,1,0,1,1,0,1,0,1,0,1,1,0,1,0,1,1,0,1,0];
 const g_locrian    =                    [1,1,0,1,0,1,1,0,1,0,1,0,1,1,0,1,0,1,1,0,1,0,1,0];
 const g_ionian     =                      [1,0,1,0,1,1,0,1,0,1,0,1,1,0,1,0,1,1,0,1,0,1,0,1];
+
+//pentatonic
 const g_minorpent  =                [1,0,0,1,0,1,0,1,0,0,1,0,1,0,0,1,0,1,0,1,0,0,1,0];
 const g_majorpent  =                      [1,0,1,0,1,0,0,1,0,1,0,0,1,0,1,0,1,0,0,1,0,1,0,0];
-const g_phrygdom   =      [1,1,0,0,1,1,0,1,1,0,1,0,1,1,0,0,1,1,0,1,1,0,1,0];
+
+//harmonic
+const g_harmonic_phrygian = [1,1,0,0,1,1,0,1,1,0,1,0,1,1,0,0,1,1,0,1,1,0,1,0];
+const g_harmonic_lydian =     [1,0,0,1,1,0,1,1,0,1,0,1,1,0,0,1,1,0,1,1,0,1,0,1];
+const g_harmonic_mixolydian=          [1,1,0,1,1,0,1,0,1,1,0,0,1,1,0,1,1,0,1,0,1,1,0,0];
+const g_harmonic_aeolian =            [1,0,1,1,0,1,0,1,1,0,0,1,1,0,1,1,0,1,0,1,1,0,0,1];
+const g_harmonic_locrian =                [1,1,0,1,0,1,1,0,0,1,1,0,1,1,0,1,0,1,1,0,0,1,1,0];
+const g_harmonic_ionian =                   [1,0,1,0,1,1,0,0,1,1,0,1,1,0,1,0,1,1,0,0,1,1,0,1];
+const g_harmonic_dorian =                       [1,0,1,1,0,0,1,1,0,1,1,0,1,0,1,1,0,0,1,1,0,1,1,0];
+
+
+//gypsy
+const g_gypsy_phrygian =    [1,1,0,0,1,1,0,1,1,0,0,1,1,1,0,0,1,1,0,1,1,0,0,1];
+const g_gypsy_lydian =        [1,0,0,1,1,0,1,1,0,0,1,1,1,0,0,1,1,0,1,1,0,0,1,1];
+const g_gypsy_mixolydian =          [1,1,0,1,1,0,0,1,1,1,0,0,1,1,0,1,1,0,0,1,1,1,0,0];
+const g_gypsy_aeolian =               [1,0,1,1,0,0,1,1,1,0,0,1,1,0,1,1,0,0,1,1,1,0,0,1];
+const g_gypsy_locrian =                   [1,1,0,0,1,1,1,0,0,1,1,0,1,1,0,0,1,1,1,0,0,1,1,0];
+const g_gypsy_ionian  =                     [1,0,0,1,1,1,0,0,1,1,0,1,1,0,0,1,1,1,0,0,1,1,0,1];
+const g_gypsy_dorian  =                           [1,1,1,0,0,1,1,0,1,1,0,0,1,1,1,0,0,1,1,0,1,1,0,0];
+
+
+//asian
+const g_asian_aeolian = [1,0,1,1,0,0,0,1,1,0,0,0,1,0,1,1,0,0,0,1,1,0,0,0];
+const g_asian_locrian =     [1,1,0,0,0,1,1,0,0,0,1,0,1,1,0,0,0,1,1,0,0,0,1,0];
+const g_asian_ionian  =      [1,0,0,0,1,1,0,0,0,1,0,1,1,0,0,0,1,1,0,0,0,1,0,1];
+const g_asian_phrygian =             [1,1,0,0,0,1,0,1,1,0,0,0,1,1,0,0,0,1,0,1,1,0,0,0];
+const g_asian_lydian =                 [1,0,0,0,1,0,1,1,0,0,0,1,1,0,0,0,1,0,1,1,0,0,0,1];
+
+
+
+//augmented
+const g_augmented_min = [1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0];
+const g_augmented_maj =   [1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1];
+
+//diminished
+const g_diminished_min = [1,1,0,1,1,0,1,1,0,1,1,0,1,1,0,1,1,0,1,1,0,1,1,0];
+const g_diminished_maj =   [1,0,1,1,0,1,1,0,1,1,0,1,1,0,1,1,0,1,1,0,1,1,0,1];
+
+//triads
 const g_majortriad =                      [1,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,1,0,0,1,0,0,0,0];
 const g_minortriad =                [1,0,0,1,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0,1,0,0,0,0];
 
@@ -218,10 +259,92 @@ function shuffle(array) {
 
 
 function getModes(inputPattern){
-    let modes  = ['DORIAN','PHRYGIAN','LYDIAN','MIXOLYDIAN','AEOLIAN','LOCRIAN','IONIAN','MAJORPENT','MINORPENT','PHRYGDOM','MAJORTRIAD','MINORTRIAD'];
+    let modes  = [
+        'DIM-MAJ','DIM-MIN','AUG-MAJ','AUG-MIN',
+        'G-PHRYGIAN','G-LYDIAN','G-AEOLIAN','G-LOCRIAN','G-IONIAN',
+        'G-DORIAN','G-PHRYGIAN','G-LYDIAN','G-MIXOLYDIAN','G-AEOLIAN','G-LOCRIAN','G-IONIAN',
+        'H-DORIAN','H-PHRYGIAN','H-LYDIAN','H-MIXOLYDIAN','H-AEOLIAN','H-LOCRIAN','H-IONIAN',
+    'DORIAN','PHRYGIAN','LYDIAN','MIXOLYDIAN','AEOLIAN','LOCRIAN','IONIAN','MAJORPENT',
+    'MINORPENT','PHRYGDOM','MAJORTRIAD','MINORTRIAD'];
     
     for(let i = 0; i < inputPattern.length; i++){
         if(inputPattern[i] == 1){
+            if(g_augmented_maj[i] !== 1 && modes.includes("AUG-MAJ")){
+                modes.splice(modes.indexOf("AUG-MAJ"), 1);
+            }
+            if(g_augmented_min[i] !== 1 && modes.includes("AUG-MIN")){
+                modes.splice(modes.indexOf("AUG-MIN"), 1);
+            }
+            if(g_diminished_maj[i] !== 1 && modes.includes("DIM-MAJ")){
+                modes.splice(modes.indexOf("DIM-MAJ"), 1);
+            }
+            if(g_diminished_min[i] !== 1 && modes.includes("DIM-MIN")){
+                modes.splice(modes.indexOf("DIM-MIN"), 1);
+            }
+
+            if(g_harmonic_dorian[i] !== 1 && modes.includes("H-DORIAN")){
+                modes.splice(modes.indexOf("H-DORIAN"), 1);
+            }
+            if(g_harmonic_phrygian[i] !== 1 && modes.includes("H-PHRYGIAN")){
+                modes.splice(modes.indexOf("H-PHRYGIAN"), 1);
+            }
+            if(g_harmonic_lydian[i] !== 1 && modes.includes("H-LYDIAN")){
+                modes.splice(modes.indexOf("H-LYDIAN"), 1);
+            }
+            if(g_harmonic_mixolydian[i] !== 1 && modes.includes("H-MIXOLYDIAN")){
+                modes.splice(modes.indexOf("H-MIXOLYDIAN"), 1);
+            }
+            if(g_harmonic_aeolian[i] !== 1 && modes.includes("H-AEOLIAN")){
+                modes.splice(modes.indexOf("H-AEOLIAN"), 1);
+            }
+            if(g_harmonic_locrian[i] !== 1 && modes.includes("H-LOCRIAN")){
+                modes.splice(modes.indexOf("H-LOCRIAN"), 1);
+            }
+            if(g_harmonic_ionian[i] !== 1 && modes.includes("H-IONIAN")){
+                modes.splice(modes.indexOf("H-IONIAN"), 1);
+            }
+
+
+            if(g_gypsy_dorian[i] !== 1 && modes.includes("G-DORIAN")){
+                modes.splice(modes.indexOf("G-DORIAN"), 1);
+            }
+            if(g_gypsy_phrygian[i] !== 1 && modes.includes("G-PHRYGIAN")){
+                modes.splice(modes.indexOf("G-PHRYGIAN"), 1);
+            }
+            if(g_gypsy_lydian[i] !== 1 && modes.includes("G-LYDIAN")){
+                modes.splice(modes.indexOf("G-LYDIAN"), 1);
+            }
+            if(g_gypsy_mixolydian[i] !== 1 && modes.includes("G-MIXOLYDIAN")){
+                modes.splice(modes.indexOf("G-MIXOLYDIAN"), 1);
+            }
+            if(g_gypsy_aeolian[i] !== 1 && modes.includes("G-AEOLIAN")){
+                modes.splice(modes.indexOf("G-AEOLIAN"), 1);
+            }
+            if(g_gypsy_locrian[i] !== 1 && modes.includes("G-LOCRIAN")){
+                modes.splice(modes.indexOf("G-LOCRIAN"), 1);
+            }
+            if(g_gypsy_ionian[i] !== 1 && modes.includes("G-IONIAN")){
+                modes.splice(modes.indexOf("G-IONIAN"), 1);
+            }
+
+
+            if(g_asian_phrygian[i] !== 1 && modes.includes("A-PHRYGIAN")){
+                modes.splice(modes.indexOf("A-PHRYGIAN"), 1);
+            }
+            if(g_asian_lydian[i] !== 1 && modes.includes("A-LYDIAN")){
+                modes.splice(modes.indexOf("A-LYDIAN"), 1);
+            }
+            if(g_asian_aeolian[i] !== 1 && modes.includes("A-AEOLIAN")){
+                modes.splice(modes.indexOf("A-AEOLIAN"), 1);
+            }
+            if(g_asian_locrian[i] !== 1 && modes.includes("A-LOCRIAN")){
+                modes.splice(modes.indexOf("A-LOCRIAN"), 1);
+            }
+            if(g_asian_ionian[i] !== 1 && modes.includes("A-IONIAN")){
+                modes.splice(modes.indexOf("A-IONIAN"), 1);
+            }
+
+
             if(g_dorian[i] !== 1 && modes.includes("DORIAN")){
                 modes.splice(modes.indexOf("DORIAN"), 1);
             }
@@ -243,6 +366,9 @@ function getModes(inputPattern){
             if(g_ionian[i] !== 1 && modes.includes("IONIAN")){
                 modes.splice(modes.indexOf("IONIAN"), 1);
             }
+
+
+
             if(g_majortriad[i] !== 1 && modes.includes("MAJORTRIAD")){
                 modes.splice(modes.indexOf("MAJORTRIAD"), 1);
             }
@@ -255,9 +381,7 @@ function getModes(inputPattern){
             if(g_minorpent[i] !== 1 && modes.includes("MINORPENT")){
                 modes.splice(modes.indexOf("MINORPENT"), 1);
             }
-            if(g_phrygdom[i] !== 1 && modes.includes("PHRYGDOM")){
-                modes.splice(modes.indexOf("PHRYGDOM"), 1);
-            }
+
         }
     }
     return modes;
@@ -277,6 +401,88 @@ function getNotes(rootNote, mode){
     }
 
     let matchArr = [];
+    if(mode === "AUG-MAJ"){
+        matchArr = g_augmented_maj;
+    }
+    if(mode === "AUG-MIN"){
+        matchArr = g_augmented_min;
+    }
+
+    if(mode === "DIM-MAJ"){
+        matchArr = g_diminished_maj;
+    }
+    if(mode === "DIM-MIN"){
+        matchArr = g_diminished_min;
+    }
+
+    if(mode === "H-DORIAN"){
+        matchArr = g_harmonic_dorian;
+    }
+    if(mode === "H-PHRYGIAN"){
+        matchArr = g_harmonic_phrygian;
+    }
+    if(mode === "H-LYDIAN"){
+        matchArr = g_harmonic_lydian;
+    }
+    if(mode === "H-MIXOLYDIAN"){
+        matchArr = g_harmonic_mixolydian;
+    }
+    if(mode === "H-AEOLIAN"){
+        matchArr = g_harmonic_aeolian;
+    }
+    if(mode === "H-LOCRIAN"){
+        matchArr = g_harmonic_locrian;
+    }
+    if(mode === "H-IONIAN"){
+        matchArr = g_harmonic_ionian;
+    }
+
+
+    if(mode === "G-DORIAN"){
+        matchArr = g_gypsy_dorian;
+    }
+    if(mode === "G-PHRYGIAN"){
+        matchArr = g_gypsy_phrygian;
+    }
+    if(mode === "G-LYDIAN"){
+        matchArr = g_gypsy_lydian;
+    }
+    if(mode === "G-MIXOLYDIAN"){
+        matchArr = g_gypsy_mixolydian;
+    }
+    if(mode === "G-AEOLIAN"){
+        matchArr = g_gypsy_aeolian;
+    }
+    if(mode === "G-LOCRIAN"){
+        matchArr = g_gypsy_locrian;
+    }
+    if(mode === "G-IONIAN"){
+        matchArr = g_gypsy_ionian;
+    }
+
+
+    if(mode === "A-DORIAN"){
+        matchArr = g_asian_dorian;
+    }
+    if(mode === "A-PHRYGIAN"){
+        matchArr = g_asian_phrygian;
+    }
+    if(mode === "A-LYDIAN"){
+        matchArr = g_asian_lydian;
+    }
+    if(mode === "A-MIXOLYDIAN"){
+        matchArr = g_asian_mixolydian;
+    }
+    if(mode === "A-AEOLIAN"){
+        matchArr = g_asian_aeolian;
+    }
+    if(mode === "A-LOCRIAN"){
+        matchArr = g_asian_locrian;
+    }
+    if(mode === "A-IONIAN"){
+        matchArr = g_asian_ionian;
+    }
+
     if(mode === "DORIAN"){
         matchArr = g_dorian;
     }

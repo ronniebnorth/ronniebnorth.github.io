@@ -3,11 +3,80 @@
         <script src="jquery-3.2.1.min.js"></script>
         <script src="ramda.js"></script>
         <script src="tone.js"></script>
+        <script src="phaser.min.js"></script>
     </head>
     <body>
+
+    <select id="controlPattern">
+        <option value="up">up</option>
+        <option value="down">down</option>
+        <option value="upDown">upDown</option>
+        <option value="downUp">downUp</option>
+        <option value="alternateUp">alternateUp</option>
+        <option value="alternateDown">alternateDown</option>
+        <option value="random">random</option>
+        <option value="randomWalk">randomWalk</option>
+        <option value="randomOnce">randomOnce</option>
+    </select>
     <button onclick="doit()">doit</button>
     <script>
+var game = new Phaser.Game(600, 600, Phaser.CANVAS, 'phaser-example', { create: create, update: update, render: render });
 
+var poly;
+var graphics;
+
+function create() {
+
+    poly = new Phaser.Polygon([ 
+        new Phaser.Point(0, -300),
+        //new Phaser.Point(150, -260),
+        new Phaser.Point(260, -150),
+        new Phaser.Point(300, 0),
+       // new Phaser.Point(260, 150),
+        new Phaser.Point(150, 260), 
+       // new Phaser.Point(0, 300),
+        new Phaser.Point(-150, 260),
+      //  new Phaser.Point(-260, 150),
+        new Phaser.Point(-300, 0), 
+        new Phaser.Point(-260, -150)//,
+      //  new Phaser.Point(-150, -260)
+
+    ]);
+
+    graphics = game.add.graphics(game.world.centerX, game.world.centerY); 
+    graphics.beginFill(0xFF33ff);
+    
+    graphics.drawPolygon(poly.points);
+    graphics.drawCircle(50, 50, 100);
+    graphics.endFill();
+    
+}
+
+function update() {
+    graphics.angle++;
+    graphics.clear();
+
+    if (poly.contains(game.input.x-game.world.width/2, game.input.y-game.world.height/2))
+    {
+        graphics.beginFill(0xFF3300);
+
+    }
+    else
+    {
+        graphics.beginFill(0xFF33ff);
+    }
+
+    graphics.drawPolygon(poly.points);
+    graphics.drawCircle(50, 50, 100);
+    graphics.endFill();
+
+}
+
+function render() {
+
+    game.debug.text(game.input.x + ' x ' + game.input.y, 32, 32);
+
+}
 
 function arrPow(arr, pow=2){
     if(pow > 2){
@@ -22,7 +91,7 @@ function getGreekMode(rootNote, modeName){
     const intervals = arrPow(["dorian",".","phrygian","lydian",".","mixolydian",".","aeolian",".","locrian","ionian","."]);
     let mode = [];
     for(let i = 0; i < diatonic.length/2; i++){
-        if(intervals[i + R.indexOf(modeName), intervals] !== "."){
+        if(intervals[i + R.indexOf(modeName, intervals)] !== "."){
             let note = diatonic[R.indexOf(rootNote, diatonic) + i];
             mode.push(note);
         }
@@ -37,22 +106,28 @@ function setOctave(notes, octave){
 
 
 function playArpeggio(notes){
+    console.log('notes',notes);
+
     let synth = new Tone.Synth();
     synth.toMaster();
     let pattern = new Tone.Pattern(function(time, note){
-        synth.triggerAttackRelease(note, 0.05);
-    }, notes, "random");
+        synth.triggerAttackRelease(note, 0.25);
+        console.log(note);
+    }, notes, $("#controlPattern").val());
     pattern.start(0);
+    Tone.Transport.bpm.value = 200;
     Tone.Transport.start();
 }
 
 
 function doit(){
-    let root = 'A';
-    let mode = 'phrygian';
+
+    let root = 'C';
+    let mode = 'ionian';
     let octave = 4;
     let notes = setOctave(getGreekMode(root,mode), octave);
     playArpeggio(notes);
+    
 }
 
 
