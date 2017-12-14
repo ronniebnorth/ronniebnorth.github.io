@@ -1,0 +1,258 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:fb="http://ogp.me/ns/fb#">
+  <head>
+    <title>Chloe - Dorian - Phrygian - Lydian - Mixolydian - Aeolian - Locrian - Ionian - Pentatonic</title>
+    <link rel="icon" href="./img/petting_chloe.jpg">
+    <meta property="og:image" content="https://ronniebnorth.github.io/chloe/img/petting_chloe.jpg" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<link rel="stylesheet" href="./css/chloe.css?version=523"/>
+
+	<!-- polyfill -->
+	<script src="./inc/shim/Base64.js" type="text/javascript"></script>
+	<script src="./inc/shim/Base64binary.js" type="text/javascript"></script>
+	<script src="./inc/shim/WebAudioAPI.js" type="text/javascript"></script>
+	<!-- midi.js package -->
+	<script src="./js/midi/audioDetect.js" type="text/javascript"></script>
+	<script src="./js/midi/gm.js" type="text/javascript"></script>
+	<script src="./js/midi/loader.js" type="text/javascript"></script>
+	<script src="./js/midi/plugin.audiotag.js" type="text/javascript"></script>
+	<script src="./js/midi/plugin.webaudio.js" type="text/javascript"></script>
+	<script src="./js/midi/plugin.webmidi.js" type="text/javascript"></script>
+	<!-- utils -->
+	<script src="./js/util/dom_request_xhr.js" type="text/javascript"></script>
+    <script src="./js/util/dom_request_script.js" type="text/javascript"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-110149473-1"></script>
+<link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+<script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-110149473-1');
+</script>
+
+    <style>
+
+    </style>
+  </head>
+  <body>
+      <div id="container">
+            <div>
+                <form>
+                    <div>
+                        <table align="center" class="controlPanel">
+                            <tr>
+                               
+                                <td>
+                                    <div class="radio-group">
+                                        <input type="radio" id="option-one" value="root" name="play_style" checked>
+                                        <label for="option-one">Root</label>
+                                        
+                                        <input type="radio" id="option-two" value="chord" name="play_style">
+                                        <label for="option-two">Chord</label>
+                
+                                        <input type="radio" id="option-three" value="fills" name="play_style">
+                                        <label for="option-three">Root + Fills</label>
+                
+                                        <input type="radio" id="option-four" value="just_fills" name="play_style">
+                                        <label for="option-four">Fills</label>
+                                    </div>        
+                                </td>
+                                <!--td>
+                                    <label for="points">Volume</label>
+                                    <input style="width:80px" type="range" name="points" id="points" value="50" min="0" max="100">
+                                </td>
+                                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                <td>
+                                    <label for="points">Risk</label>
+                                    <input style="width:80px" type="range" name="points" id="points" value="50" min="0" max="100">
+                                </td>
+                                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                <td>
+                                    <label for="points">Verbosity</label>
+                                    <input style="width:80px" type="range" name="points" id="points" value="50" min="0" max="100">
+                                </td-->
+                            </tr>
+                        </table>
+
+                        
+                    </div>
+                </form>
+            </div> 
+            <div id="notes_template_container" style="display:none">
+                <a class="btn_key">A</a>
+                <a class="btn_key">B♭</a>
+                <a class="btn_key">B</a>
+                <a class="btn_key">C</a>
+                <a class="btn_key">D♭</a>
+                <a class="btn_key">D</a>
+                <a class="btn_key">E♭</a>
+                <a class="btn_key">E</a>
+                <a class="btn_key">F</a>
+                <a class="btn_key">G♭</a>
+                <a class="btn_key">G</a>
+                <a class="btn_key">A♭</a>
+            </div>
+
+            <div style="color:#ccc8ce">TRIADS</div>
+            <div class="scale" name="MAJORTRIAD" style="background-color:#fcf288f5">
+                <span class="spn_key">MAJORTRIAD</span>&nbsp;&nbsp;&nbsp;
+            </div>
+            <div class="scale" name="MINORTRIAD" style="background-color:#80f3c3e0">
+                <span class="spn_key">MINORTRIAD</span>&nbsp;&nbsp;&nbsp;
+            </div>
+
+            <div style="color:#ccc8ce">PENTATONIC</div>
+            <div class="scale" name="MAJORPENT" style="background-color:#f4fc88f5">
+                <span class="spn_key">MAJORPENT</span>&nbsp;&nbsp;&nbsp;
+            </div>
+            <div class="scale" name="MINORPENT" style="background-color:#a4eaf7e0">
+                <span class="spn_key">MINORPENT</span>&nbsp;&nbsp;&nbsp;
+            </div>
+
+            <div style="color:#ccc8ce">GREEK</div>
+            <div class="scale" name="LYDIAN" style="background-color:#f8f1a8f5">
+                <span class="spn_key">LYDIAN</span>&nbsp;&nbsp;&nbsp;
+            </div>
+            <div class="scale" name="IONIAN" style="background-color:#f5ff6ee5">
+                <span class="spn_key">IONIAN</span>&nbsp;&nbsp;&nbsp;
+            </div>
+            <div class="scale" name="MIXOLYDIAN" style="background-color:#c2fd9ec5">
+                <span class="spn_key">MIXOLYDIAN</span>&nbsp;&nbsp;&nbsp;
+            </div>
+            <div class="scale" name="DORIAN" style="background-color:#9dc7ffc7">
+                <span class="spn_key">DORIAN</span>&nbsp;&nbsp;&nbsp;
+            </div>
+            <div class="scale" name="AEOLIAN" style="background-color:#9e6af1c7">
+                <span class="spn_key">AEOLIAN</span>&nbsp;&nbsp;&nbsp;
+            </div>
+            <div class="scale" name="PHRYGIAN" style="background-color:#a137cae1">
+                <span class="spn_key">PHRYGIAN</span>&nbsp;&nbsp;&nbsp;
+            </div>
+            <div class="scale" name="LOCRIAN" style="background-color:#85006e">
+                <span class="spn_key">LOCRIAN</span>&nbsp;&nbsp;&nbsp;
+            </div>
+
+
+            <div style="color:#ccc8ce">HARMONIC</div>
+            <div class="scale" name="H-LYDIAN" style="background-color:#f8f1a8f5">
+                <span class="spn_key">H-LYDIAN</span>&nbsp;&nbsp;&nbsp;
+            </div>
+            <div class="scale" name="H-IONIAN" style="background-color:#f5ff6ee5">
+                <span class="spn_key">H-IONIAN</span>&nbsp;&nbsp;&nbsp;
+            </div>
+            <div class="scale" name="H-MIXOLYDIAN" style="background-color:#c2fd9ec5">
+                <span class="spn_key">H-MIXOLYDIAN</span>&nbsp;&nbsp;&nbsp;
+            </div>
+            <div class="scale" name="H-DORIAN" style="background-color:#9dc7ffc7">
+                <span class="spn_key">H-DORIAN</span>&nbsp;&nbsp;&nbsp;
+            </div>
+            <div class="scale" name="H-AEOLIAN" style="background-color:#9e6af1c7">
+                <span class="spn_key">H-AEOLIAN</span>&nbsp;&nbsp;&nbsp;
+            </div>
+            <div class="scale" name="H-PHRYGIAN" style="background-color:#a137cae1">
+                <span class="spn_key">H-PHRYGIAN</span>&nbsp;&nbsp;&nbsp;
+            </div>
+            <div class="scale" name="H-LOCRIAN" style="background-color:#85006e">
+                <span class="spn_key">H-LOCRIAN</span>&nbsp;&nbsp;&nbsp;
+            </div>
+
+
+            <div style="color:#ccc8ce">GYPSY</div>
+            <div class="scale" name="G-LYDIAN" style="background-color:#f8f1a8f5">
+                <span class="spn_key">G-LYDIAN</span>&nbsp;&nbsp;&nbsp;
+            </div>
+            <div class="scale" name="G-IONIAN" style="background-color:#f5ff6ee5">
+                <span class="spn_key">G-IONIAN</span>&nbsp;&nbsp;&nbsp;
+            </div>
+            <div class="scale" name="G-MIXOLYDIAN" style="background-color:#c2fd9ec5">
+                <span class="spn_key">G-MIXOLYDIAN</span>&nbsp;&nbsp;&nbsp;
+            </div>
+            <div class="scale" name="G-DORIAN" style="background-color:#9dc7ffc7">
+                <span class="spn_key">G-DORIAN</span>&nbsp;&nbsp;&nbsp;
+            </div>
+            <div class="scale" name="G-AEOLIAN" style="background-color:#9e6af1c7">
+                <span class="spn_key">G-AEOLIAN</span>&nbsp;&nbsp;&nbsp;
+            </div>
+            <div class="scale" name="G-PHRYGIAN" style="background-color:#a137cae1">
+                <span class="spn_key">G-PHRYGIAN</span>&nbsp;&nbsp;&nbsp;
+            </div>
+            <div class="scale" name="G-LOCRIAN" style="background-color:#85006e">
+                <span class="spn_key">G-LOCRIAN</span>&nbsp;&nbsp;&nbsp;
+            </div>
+
+
+            <div style="color:#ccc8ce">ASIAN</div>
+            <div class="scale" name="A-LYDIAN" style="background-color:#f8f1a8f5">
+                <span class="spn_key">A-LYDIAN</span>&nbsp;&nbsp;&nbsp;
+            </div>
+            <div class="scale" name="A-IONIAN" style="background-color:#f5ff6ee5">
+                <span class="spn_key">A-IONIAN</span>&nbsp;&nbsp;&nbsp;
+            </div>
+            <div class="scale" name="A-AEOLIAN" style="background-color:#9e6af1c7">
+                <span class="spn_key">A-AEOLIAN</span>&nbsp;&nbsp;&nbsp;
+            </div>
+            <div class="scale" name="A-PHRYGIAN" style="background-color:#a137cae1">
+                <span class="spn_key">A-PHRYGIAN</span>&nbsp;&nbsp;&nbsp;
+            </div>
+            <div class="scale" name="A-LOCRIAN" style="background-color:#85006e">
+                <span class="spn_key">A-LOCRIAN</span>&nbsp;&nbsp;&nbsp;
+            </div>
+
+
+            <div style="color:#ccc8ce">DIMINISHED</div>
+            <div class="scale" name="DIM-MAJ" style="background-color:#a137cae1">
+                <span class="spn_key">DIM-MAJ</span>&nbsp;&nbsp;&nbsp;
+            </div>
+            <div class="scale" name="DIM-MIN" style="background-color:#85006e">
+                <span class="spn_key">DIM-MIN</span>&nbsp;&nbsp;&nbsp;
+            </div>
+
+            <div style="color:#ccc8ce">AUGMENTED</div>
+            <div class="scale" name="AUG-MAJ" style="background-color:#a137cae1">
+                <span class="spn_key">AUG-MAJ</span>&nbsp;&nbsp;&nbsp;
+            </div>
+            <div class="scale" name="AUG-MIN" style="background-color:#85006e">
+                <span class="spn_key">AUG-MIN</span>&nbsp;&nbsp;&nbsp;
+            </div>
+
+            <div style="color:#ccc8ce">WHOLE-TONE</div>
+            <div class="scale" name="WHOLE-TONE" style="background-color:#85006e">
+                <span class="spn_key">WHOLE-TONE</span>&nbsp;&nbsp;&nbsp;
+            </div>
+      </div>
+      <br><br><br>
+    <script src="/reload/reload.js"></script> 
+    <script src="./js/ramda.js"></script>
+    <script src="./js/jquery-3.2.1.min.js"></script>
+    <script src="./js/MidiConvert.js"></script>
+    <script src="./js/music.js?v=1"></script>
+    <!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script>
+$(function() {
+
+    $('body').on('mousedown', '.btn_key', function() {
+        let rootNote = $(this).text();
+        rootNote = rootNote.replace('♭','b');
+        let mode = $(this).closest("div").attr('name');
+        playMode(rootNote, mode);
+    });
+    
+    $(".scale").append($("#notes_template_container").html());
+});
+</script>
+
+  </body>
+</html>
