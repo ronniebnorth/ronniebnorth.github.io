@@ -100,7 +100,8 @@ const chromatic = ['A','Bb','B','C','Db','D','Eb','E','F','Gb','G','Ab'];
 
 let lastVelocity = 100;
 
-
+const octatonic = [1,1,1,1,1,1,1,0,0,0,0];
+var octatonicScales = [];
 const diatonic = [1,1,1,1,1,1,0,0,0,0,0];
 var diatonicScales = [];
 const hexatonic = [1,1,1,1,1,0,0,0,0,0,0];
@@ -112,6 +113,7 @@ var tetratonicScales = [];
 const tritonic = [1,1,0,0,0,0,0,0,0,0,0];
 var tritonicScales = [];
 
+tryOctatonicScales();
 tryDiatonicScales();
 tryHexatonicScales();
 tryPentatonicScales();
@@ -123,7 +125,7 @@ makeUI();
 
 $('body').on('mousedown', '.btn_key', function() {
     let rootNote = $(this).text();
-    //rootNote = rootNote.replace('♭','b');
+    rootNote = rootNote.replace('♭','b');
     let mode = $(this).closest("div").attr('data');
     let notes = getNotes(rootNote, mode.split(","));
     playMode(rootNote, notes);
@@ -240,7 +242,20 @@ function perc2color(perc) {
 
 function makeUI(){
     let div = $("#scales_div");
+
     let colorPercent = 100;
+    let octatonicModes = getOctatonicModes();
+    for(var i = 0; i < octatonicModes.length; i++){
+        let mode = octatonicModes[i];
+        let bgcolor = perc2color(colorPercent);
+        colorPercent -= 100/octatonicModes.length;
+        let newdiv = $('<div data="' + mode + '" style="background-color:' + bgcolor + '"></div>');
+        div.append(newdiv);
+        newdiv.append('<span>' + mode + '</span data=' + mode + '>')
+        .append($('#notes_template_container').html());
+    }
+
+    colorPercent = 100;
     let diatonicModes = getDiatonicModes();
     for(var i = 0; i < diatonicModes.length; i++){
         let mode = diatonicModes[i];
@@ -300,6 +315,32 @@ function makeUI(){
         .append($('#notes_template_container').html());
     }
 }
+
+
+function getOctatonicModes(){
+    let modes = [];
+    for(var i = 0; i < octatonicScales.length; i++){
+        let scale = octatonicScales[i];
+        scale = R.concat(scale, scale);
+        let newmodes = [];
+        for(var j = 0; j < scale.length/2; j++){
+            
+            if(scale[j] === 1){
+                let mode = [];
+                for(var n = j; n < j + 12; n++){
+                    mode.push(scale[n]);
+                }
+                newmodes.push(mode);
+            }
+        }
+        newmodes.sort();
+        modes = R.concat(modes, newmodes);
+    }
+    modes.sort();
+    console.log('octatonic modes',modes);
+    return modes;
+}
+
 
 function getDiatonicModes(){
     let modes = [];
@@ -414,6 +455,40 @@ function getTritonicModes(){
     }
     modes.sort();
     return modes;
+}
+
+
+
+
+function tryOctatonicScales(){
+    
+    for(var i = 0; i < 10000; i++){
+        
+        let attempt = shuffle(octatonic);
+        attempt = R.concat([1], attempt);
+        attemptDoubled = R.concat(attempt,attempt);
+
+        if(checkScale(attemptDoubled)){
+            let worked = true;
+            for(var j = 0; j < octatonicScales.length; j++){
+                let strScale = octatonicScales[j].join("");
+                strScale += strScale;
+                let strAttempt = attempt.join("");
+                if(strScale.indexOf(strAttempt) !== -1){
+                    let origStr = strScale.substring(0,strScale.length-1);
+                    if(origStr > strAttempt){
+                        octatonicScales[j] = attempt;
+                    }
+                    worked = false;
+                }
+            }
+            if(worked){
+                octatonicScales.push(attempt);
+            }
+        }
+    }
+    octatonicScales.sort();
+    console.log("working scales", octatonicScales);
 }
 
 function tryDiatonicScales(){
