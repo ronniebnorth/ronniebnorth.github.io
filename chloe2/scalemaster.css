@@ -52,9 +52,9 @@ label + input[type=radio] + label {
   margin:0 auto;max-width:800px;text-align:center;
 }
 .spn_key {
-    display: inline-block; width: 120px;
-    font-weight:bold;
-    color:white;
+    display: inline-block; width: 200px;
+    font-weight:normal;
+    color:rgb(41, 45, 68);
     
 }
 a:hover {
