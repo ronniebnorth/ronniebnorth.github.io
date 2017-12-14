@@ -211,6 +211,18 @@ function playMode(rootNote, notesArr){
 }
 
 
+function multiDimensionalUnique(arr) {
+    var uniques = [];
+    var itemsFound = {};
+    for(var i = 0, l = arr.length; i < l; i++) {
+        var stringified = JSON.stringify(arr[i]);
+        if(itemsFound[stringified]) { continue; }
+        uniques.push(arr[i]);
+        itemsFound[stringified] = true;
+    }
+    return uniques;
+}
+
 function getNotes(rootNote, mode){
     let chrome = R.concat(chromatic, chromatic);
     let start = chrome.indexOf(rootNote);
@@ -245,73 +257,98 @@ function makeUI(){
 
     let colorPercent = 100;
     let octatonicModes = getOctatonicModes();
+    octatonicModes = multiDimensionalUnique(octatonicModes);
     for(var i = 0; i < octatonicModes.length; i++){
         let mode = octatonicModes[i];
-        let bgcolor = perc2color(colorPercent);
-        colorPercent -= 100/octatonicModes.length;
+        let num  = parseInt(mode.join(""),2);
+        num2 = num - 2050;
+        num2 = num2 / 15;
+        let bgcolor = perc2color(num2);
+
         let newdiv = $('<div data="' + mode + '" style="background-color:' + bgcolor + '"></div>');
         div.append(newdiv);
-        newdiv.append('<span>' + mode + '</span data=' + mode + '>')
+        
+        newdiv.append('<span>' + mode.join("") + ' (' + num + ') ' + mode.group + '</span data=' + mode + '>')
         .append($('#notes_template_container').html());
     }
 
     colorPercent = 100;
     let diatonicModes = getDiatonicModes();
+    diatonicModes = multiDimensionalUnique(diatonicModes);
     for(var i = 0; i < diatonicModes.length; i++){
         let mode = diatonicModes[i];
-        let bgcolor = perc2color(colorPercent);
-        colorPercent -= 100/diatonicModes.length;
+        let num  = parseInt(mode.join(""),2);
+        num2 = num - 2050;
+        num2 = num2 / 15;
+        let bgcolor = perc2color(num2);
         let newdiv = $('<div data="' + mode + '" style="background-color:' + bgcolor + '"></div>');
         div.append(newdiv);
-        newdiv.append('<span>' + mode + '</span data=' + mode + '>')
+
+        newdiv.append('<span>' + mode.join("") + ' (' + num + ') ' + mode.group + '</span data=' + mode + '>')
         .append($('#notes_template_container').html());
     }
 
     colorPercent = 100;
     let hexatonicModes = getHexatonicModes();
+    hexatonicModes = multiDimensionalUnique(hexatonicModes);
     for(var i = 0; i < hexatonicModes.length; i++){
         let mode = hexatonicModes[i];
-        let bgcolor = perc2color(colorPercent);
-        colorPercent -= 100/hexatonicModes.length;
+        let num  = parseInt(mode.join(""),2);
+        num2 = num - 2050;
+        num2 = num2 / 15;
+        let bgcolor = perc2color(num2);
         let newdiv = $('<div data="' + mode + '" style="background-color:' + bgcolor + '"></div>');
         div.append(newdiv);
-        newdiv.append('<span>' + mode + '</span data=' + mode + '>')
+
+        newdiv.append('<span>' + mode.join("") + ' (' + num + ') ' + mode.group + '</span data=' + mode + '>')
         .append($('#notes_template_container').html());
     }
 
     colorPercent = 100;
     let pentatonicModes = getPentatonicModes();
+    pentatonicModes = multiDimensionalUnique(pentatonicModes);
     for(var i = 0; i < pentatonicModes.length; i++){
         let mode = pentatonicModes[i];
-        let bgcolor = perc2color(colorPercent);
-        colorPercent -= 100/pentatonicModes.length;
+        let num  = parseInt(mode.join(""),2);
+        num2 = num - 2050;
+        num2 = num2 / 15;
+        let bgcolor = perc2color(num2);
         let newdiv = $('<div data="' + mode + '" style="background-color:' + bgcolor + '"></div>');
         div.append(newdiv);
-        newdiv.append('<span>' + mode + '</span data=' + mode + '>')
+
+        newdiv.append('<span>' + mode.join("") + ' (' + num + ') ' + mode.group + '</span data=' + mode + '>')
         .append($('#notes_template_container').html());
     }
 
     colorPercent = 100;
     let tetratonicModes = getTetratonicModes();
+    tetratonicModes = multiDimensionalUnique(tetratonicModes);
     for(var i = 0; i < tetratonicModes.length; i++){
         let mode = tetratonicModes[i];
-        let bgcolor = perc2color(colorPercent);
-        colorPercent -= 100/tetratonicModes.length;
+        let num  = parseInt(mode.join(""),2);
+        num2 = num - 2050;
+        num2 = num2 / 15;
+        let bgcolor = perc2color(num2);
         let newdiv = $('<div data="' + mode + '" style="background-color:' + bgcolor + '"></div>');
         div.append(newdiv);
-        newdiv.append('<span>' + mode + '</span data=' + mode + '>')
+
+        newdiv.append('<span>' + mode.join("") + ' (' + num + ') ' + mode.group + '</span data=' + mode + '>')
         .append($('#notes_template_container').html());
     }
 
     colorPercent = 100;
     let tritonicModes = getTritonicModes();
+    tritonicModes = multiDimensionalUnique(tritonicModes);
     for(var i = 0; i < tritonicModes.length; i++){
         let mode = tritonicModes[i];
-        let bgcolor = perc2color(colorPercent);
-        colorPercent -= 100/tritonicModes.length;
+        let num  = parseInt(mode.join(""),2);
+        num2 = num - 2050;
+        num2 = num2 / 15;
+        let bgcolor = perc2color(num2);
         let newdiv = $('<div data="' + mode + '" style="background-color:' + bgcolor + '"></div>');
         div.append(newdiv);
-        newdiv.append('<span>' + mode + '</span data=' + mode + '>')
+
+        newdiv.append('<span>' + mode.join("") + ' (' + num + ') ' + mode.group + '</span data=' + mode + '>')
         .append($('#notes_template_container').html());
     }
 }
@@ -323,10 +360,12 @@ function getOctatonicModes(){
         let scale = octatonicScales[i];
         scale = R.concat(scale, scale);
         let newmodes = [];
+       
         for(var j = 0; j < scale.length/2; j++){
             
             if(scale[j] === 1){
                 let mode = [];
+                mode.group = 'oct-' + i;
                 for(var n = j; n < j + 12; n++){
                     mode.push(scale[n]);
                 }
@@ -336,7 +375,7 @@ function getOctatonicModes(){
         newmodes.sort();
         modes = R.concat(modes, newmodes);
     }
-    modes.sort();
+    //modes.sort();
     console.log('octatonic modes',modes);
     return modes;
 }
@@ -348,10 +387,12 @@ function getDiatonicModes(){
         let scale = diatonicScales[i];
         scale = R.concat(scale, scale);
         let newmodes = [];
+        
         for(var j = 0; j < scale.length/2; j++){
             
             if(scale[j] === 1){
                 let mode = [];
+                mode.group = 'dia-' + i;
                 for(var n = j; n < j + 12; n++){
                     mode.push(scale[n]);
                 }
@@ -361,7 +402,7 @@ function getDiatonicModes(){
         newmodes.sort();
         modes = R.concat(modes, newmodes);
     }
-    modes.sort();
+  //  modes.sort();
     return modes;
 }
 
@@ -371,10 +412,12 @@ function getHexatonicModes(){
         let scale = hexatonicScales[i];
         scale = R.concat(scale, scale);
         let newmodes = [];
+        
         for(var j = 0; j < scale.length/2; j++){
             
             if(scale[j] === 1){
                 let mode = [];
+                mode.group = 'hex-' + i;
                 for(var n = j; n < j + 12; n++){
                     mode.push(scale[n]);
                 }
@@ -384,7 +427,7 @@ function getHexatonicModes(){
         newmodes.sort();
         modes = R.concat(modes, newmodes);
     }
-    modes.sort();
+   // modes.sort();
     return modes;
 }
 
@@ -394,10 +437,12 @@ function getPentatonicModes(){
         let scale = pentatonicScales[i];
         scale = R.concat(scale, scale);
         let newmodes = [];
+        
         for(var j = 0; j < scale.length/2; j++){
             
             if(scale[j] === 1){
                 let mode = [];
+                mode.group = 'pent-' + i;
                 for(var n = j; n < j + 12; n++){
                     mode.push(scale[n]);
                 }
@@ -407,7 +452,7 @@ function getPentatonicModes(){
         newmodes.sort();
         modes = R.concat(modes, newmodes);
     }
-    modes.sort();
+    //modes.sort();
     return modes;
 }
 
@@ -417,10 +462,12 @@ function getTetratonicModes(){
         let scale = tetratonicScales[i];
         scale = R.concat(scale, scale);
         let newmodes = [];
+        
         for(var j = 0; j < scale.length/2; j++){
             
             if(scale[j] === 1){
                 let mode = [];
+                mode.group = 'tetr-' + i;
                 for(var n = j; n < j + 12; n++){
                     mode.push(scale[n]);
                 }
@@ -430,7 +477,7 @@ function getTetratonicModes(){
         newmodes.sort();
         modes = R.concat(modes, newmodes);
     }
-    modes.sort();
+   // modes.sort();
     return modes;
 }
 
@@ -440,10 +487,12 @@ function getTritonicModes(){
         let scale = tritonicScales[i];
         scale = R.concat(scale, scale);
         let newmodes = [];
+        
         for(var j = 0; j < scale.length/2; j++){
             
             if(scale[j] === 1){
                 let mode = [];
+                mode.group = 'tri-' + i;
                 for(var n = j; n < j + 12; n++){
                     mode.push(scale[n]);
                 }
@@ -453,7 +502,7 @@ function getTritonicModes(){
         newmodes.sort();
         modes = R.concat(modes, newmodes);
     }
-    modes.sort();
+   // modes.sort();
     return modes;
 }
 
@@ -462,7 +511,7 @@ function getTritonicModes(){
 
 function tryOctatonicScales(){
     
-    for(var i = 0; i < 10000; i++){
+    for(var i = 0; i < 1000; i++){
         
         let attempt = shuffle(octatonic);
         attempt = R.concat([1], attempt);
