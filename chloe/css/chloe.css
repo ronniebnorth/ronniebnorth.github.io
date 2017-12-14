@@ -52,7 +52,7 @@ label + input[type=radio] + label {
   margin:0 auto;width:100%;text-align:center;
 }
 .spn_key {
-    display: inline-block; width: 115px;
+    display: inline-block; width: 120px;
     font-weight:bold;
     color:white;
     
