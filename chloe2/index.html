@@ -1,137 +1,836 @@
 <html>
     <head>
+            <title>Chloe - Dorian - Phrygian - Lydian - Mixolydian - Aeolian - Locrian - Ionian - Pentatonic</title>
+            <link rel="icon" href="./img/petting_chloe.jpg">
+            <meta property="og:image" content="https://ronniebnorth.github.io/chloe/img/petting_chloe.jpg" />
+            <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+        
+            <link rel="stylesheet" href="scalemaster.css?version=523"/>
         <script src="jquery-3.2.1.min.js"></script>
         <script src="ramda.js"></script>
         <script src="tone.js"></script>
-        <script src="phaser.min.js"></script>
+	<!-- polyfill -->
+	<script src="./inc/shim/Base64.js" type="text/javascript"></script>
+	<script src="./inc/shim/Base64binary.js" type="text/javascript"></script>
+	<script src="./inc/shim/WebAudioAPI.js" type="text/javascript"></script>
+	<!-- midi.js package -->
+	<script src="./js/midi/audioDetect.js" type="text/javascript"></script>
+	<script src="./js/midi/gm.js" type="text/javascript"></script>
+	<script src="./js/midi/loader.js" type="text/javascript"></script>
+	<script src="./js/midi/plugin.audiotag.js" type="text/javascript"></script>
+	<script src="./js/midi/plugin.webaudio.js" type="text/javascript"></script>
+	<script src="./js/midi/plugin.webmidi.js" type="text/javascript"></script>
+	<!-- utils -->
+	<script src="./js/util/dom_request_xhr.js" type="text/javascript"></script>
+    <script src="./js/util/dom_request_script.js" type="text/javascript"></script>
     </head>
     <body>
+    
+    <div id="notes_template_container" style="display:none">
+        <a class="btn_key">A</a>
+        <a class="btn_key">B♭</a>
+        <a class="btn_key">B</a>
+        <a class="btn_key">C</a>
+        <a class="btn_key">D♭</a>
+        <a class="btn_key">D</a>
+        <a class="btn_key">E♭</a>
+        <a class="btn_key">E</a>
+        <a class="btn_key">F</a>
+        <a class="btn_key">G♭</a>
+        <a class="btn_key">G</a>
+        <a class="btn_key">A♭</a>
 
-    <select id="controlPattern">
-        <option value="up">up</option>
-        <option value="down">down</option>
-        <option value="upDown">upDown</option>
-        <option value="downUp">downUp</option>
-        <option value="alternateUp">alternateUp</option>
-        <option value="alternateDown">alternateDown</option>
-        <option value="random">random</option>
-        <option value="randomWalk">randomWalk</option>
-        <option value="randomOnce">randomOnce</option>
-    </select>
-    <button onclick="doit()">doit</button>
+    </div>
+    <div id="container">
+        <div>
+            <form>
+                <div>
+                    <table align="center" class="controlPanel">
+                        <tr>
+                           
+                            <td>
+                                <div class="radio-group">
+                                    <input type="radio" id="option-one" value="root" name="play_style">
+                                    <label for="option-one">Root</label>
+                                    
+                                    <input type="radio" id="option-two" value="chord" name="play_style">
+                                    <label for="option-two">Chord</label>
+            
+                                    <input type="radio" id="option-three" value="fills" name="play_style" checked>
+                                    <label for="option-three">Root + Fills</label>
+            
+                                    <input type="radio" id="option-four" value="just_fills" name="play_style">
+                                    <label for="option-four">Fills</label>
+                                </div>        
+                            </td>
+                            <!--td>
+                                <label for="points">Volume</label>
+                                <input style="width:80px" type="range" name="points" id="points" value="50" min="0" max="100">
+                            </td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                            <td>
+                                <label for="points">Risk</label>
+                                <input style="width:80px" type="range" name="points" id="points" value="50" min="0" max="100">
+                            </td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                            <td>
+                                <label for="points">Verbosity</label>
+                                <input style="width:80px" type="range" name="points" id="points" value="50" min="0" max="100">
+                            </td-->
+                        </tr>
+                    </table>
+
+                    
+                </div>
+            </form>
+            </div> 
+        <div id="scales_div"></div>   
+    </div>
     <script>
-var game = new Phaser.Game(600, 600, Phaser.CANVAS, 'phaser-example', { create: create, update: update, render: render });
 
-var poly;
-var graphics;
+const chromatic = ['A','Bb','B','C','Db','D','Eb','E','F','Gb','G','Ab'];
 
-function create() {
+let lastVelocity = 100;
 
-    poly = new Phaser.Polygon([ 
-        new Phaser.Point(0, -300),
-        //new Phaser.Point(150, -260),
-        new Phaser.Point(260, -150),
-        new Phaser.Point(300, 0),
-       // new Phaser.Point(260, 150),
-        new Phaser.Point(150, 260), 
-       // new Phaser.Point(0, 300),
-        new Phaser.Point(-150, 260),
-      //  new Phaser.Point(-260, 150),
-        new Phaser.Point(-300, 0), 
-        new Phaser.Point(-260, -150)//,
-      //  new Phaser.Point(-150, -260)
+const octatonic = [1,1,1,1,1,1,1,0,0,0,0];
+var octatonicScales = [];
+const diatonic = [1,1,1,1,1,1,0,0,0,0,0];
+var diatonicScales = [];
+const hexatonic = [1,1,1,1,1,0,0,0,0,0,0];
+var hexatonicScales = [];
+const pentatonic = [1,1,1,1,0,0,0,0,0,0,0];
+var pentatonicScales = [];
+const tetratonic = [1,1,1,0,0,0,0,0,0,0,0];
+var tetratonicScales = [];
+const tritonic = [1,1,0,0,0,0,0,0,0,0,0];
+var tritonicScales = [];
 
-    ]);
+tryOctatonicScales();
+tryDiatonicScales();
+tryHexatonicScales();
+tryPentatonicScales();
+tryTetratonicScales();
+tryTritonicScales();
 
-    graphics = game.add.graphics(game.world.centerX, game.world.centerY); 
-    graphics.beginFill(0xFF33ff);
-    
-    graphics.drawPolygon(poly.points);
-    graphics.drawCircle(50, 50, 100);
-    graphics.endFill();
-    
+
+makeUI();
+
+$('body').on('mousedown', '.btn_key', function() {
+    let rootNote = $(this).text();
+    rootNote = rootNote.replace('♭','b');
+    let mode = $(this).closest("div").attr('data');
+    let notes = getNotes(rootNote, mode.split(","));
+    playMode(rootNote, notes);
+});
+
+
+function playMode(rootNote, notesArr){    
+
+    notesArr = shuffle(notesArr);
+
+    notesArr = randomlyRepeatNotes(notesArr);
+
+    notesArr = randomlyReshuffle(notesArr);
+
+    notesArr = randomlyShortenPhrase(notesArr);
+
+    notesArr = randomlyPutHoles(notesArr);
+
+    let instrumentName = "acoustic_guitar_nylon";
+
+    MIDI.loadPlugin({
+        soundfontUrl: "./soundfont/",
+        instrument: instrumentName,
+        onprogress: function(state, progress) {
+            //console.log(state, progress);
+        },
+        onsuccess: function() {
+            MIDI.programChange(0, MIDI.GM.byName[instrumentName].number);
+            let notes = notesArr;
+            let delayt = randomlyGoHalfTime();
+            if($('input[name=play_style]:checked').val() == 'chord'){
+                delayt = 0;
+            }
+            let delay = Array(notes.length).fill(delayt);
+            let tmpdelay= 0;
+            let ctxtime = MIDI.getContext().currentTime;
+            let channel = 0;
+
+            let velocity = lastVelocity;
+
+            if(Math.floor(Math.random() * 3) === 1){
+                velocity = Math.floor(Math.random() * 20 + 80);
+                lastVelocity = velocity;
+            }
+
+            rootNote = getRandomRootOctave(rootNote);
+            
+            rootNoteStr = MIDI.keyToNote[rootNote];
+
+            if($('input[name=play_style]:checked').val() !== 'just_fills'){
+                MIDI.noteOn(channel, rootNoteStr, velocity + 150,0);
+            }
+            
+
+            if(delayt === .15){
+                notes = randomlyDoubleNotes(notes);
+            }
+            
+            if($('input[name=play_style]:checked').val() != 'root'){
+                for(let i=0; i < notes.length; i++){
+                    let chordIt = Math.floor(Math.random() * 3);
+                    if(chordIt === 1){
+                        //let chordIt2 = Math.floor(Math.random() * 3);
+                        //if(chordIt2 === 1){
+                        //    let harm2 = Math.floor(Math.random() * (notes.length - 1));
+                        //    let harm3 = Math.floor(Math.random() * (notes.length - 1));
+                        //    MIDI.chordOn(channel, [notes[i],notes[harm2],notes[harm3]], velocity, ctxtime+tmpdelay);
+                        //}else{
+                            let harm = Math.floor(Math.random() * (notes.length - 1));
+                            MIDI.chordOn(channel, [notes[i],notes[harm]], velocity, ctxtime+tmpdelay);
+                        //}
+                    }else{
+                        MIDI.noteOn(channel, notes[i], velocity, ctxtime+tmpdelay);
+                    }
+                    
+                    tmpdelay = tmpdelay + delay[i]
+                }
+            }
+
+
+        }
+    });
 }
 
-function update() {
-    graphics.angle++;
-    graphics.clear();
 
-    if (poly.contains(game.input.x-game.world.width/2, game.input.y-game.world.height/2))
-    {
-        graphics.beginFill(0xFF3300);
-
+function multiDimensionalUnique(arr) {
+    var uniques = [];
+    var itemsFound = {};
+    for(var i = 0, l = arr.length; i < l; i++) {
+        var stringified = JSON.stringify(arr[i]);
+        if(itemsFound[stringified]) { continue; }
+        uniques.push(arr[i]);
+        itemsFound[stringified] = true;
     }
-    else
-    {
-        graphics.beginFill(0xFF33ff);
-    }
-
-    graphics.drawPolygon(poly.points);
-    graphics.drawCircle(50, 50, 100);
-    graphics.endFill();
-
+    return uniques;
 }
 
-function render() {
+function getNotes(rootNote, mode){
+    let chrome = R.concat(chromatic, chromatic);
+    let start = chrome.indexOf(rootNote);
+    let notes = [];
+    for(let i = 0; i < 13; i++){
+        if(mode[i] === '1'){
 
-    game.debug.text(game.input.x + ' x ' + game.input.y, 32, 32);
-
-}
-
-function arrPow(arr, pow=2){
-    if(pow > 2){
-        arr = arrPow(arr, pow-1);
-    }
-    return R.concat(arr, arr);
-}
-
-
-function getGreekMode(rootNote, modeName){
-    const diatonic = arrPow(['A','Bb','B','C','Db','D','Eb','E','F','Gb','G','Ab']);
-    const intervals = arrPow(["dorian",".","phrygian","lydian",".","mixolydian",".","aeolian",".","locrian","ionian","."]);
-    let mode = [];
-    for(let i = 0; i < diatonic.length/2; i++){
-        if(intervals[i + R.indexOf(modeName, intervals)] !== "."){
-            let note = diatonic[R.indexOf(rootNote, diatonic) + i];
-            mode.push(note);
+            let key = chrome[start + i] + '4';
+            let note = MIDI.keyToNote[key]
+            notes.push(note);
         }
     }
-    return mode;
+    return notes;
+}
+
+function perc2color(perc) {
+	var r, g, b = 0;
+	if(perc < 50) {
+		r = Math.round(5.1 * perc);
+        g = 255;
+        b = 128;
+	}
+	else {
+		g = Math.round(510 - 5.10 * perc);
+        r = 150;
+        b = 255;
+	}
+	var h = r * 0x10000 + g * 0x100 + b * 0x1;
+	return '#' + ('000000' + h.toString(16)).slice(-6);
+}
+
+function makeUI(){
+    let div = $("#scales_div");
+
+    let colorPercent = 100;
+    let octatonicModes = getOctatonicModes();
+    octatonicModes = multiDimensionalUnique(octatonicModes);
+    for(var i = 0; i < octatonicModes.length; i++){
+        let mode = octatonicModes[i];
+        let num  = parseInt(mode.join(""),2);
+        num2 = num - 2050;
+        num2 = num2 / 15;
+        let bgcolor = perc2color(num2);
+
+        let newdiv = $('<div data="' + mode + '" style="background-color:' + bgcolor + '"></div>');
+        div.append(newdiv);
+        
+        newdiv.append('<span>' + mode.join("") + ' (' + num + ') ' + mode.group + '</span data=' + mode + '>')
+        .append($('#notes_template_container').html());
+    }
+
+    colorPercent = 100;
+    let diatonicModes = getDiatonicModes();
+    diatonicModes = multiDimensionalUnique(diatonicModes);
+    for(var i = 0; i < diatonicModes.length; i++){
+        let mode = diatonicModes[i];
+        let num  = parseInt(mode.join(""),2);
+        num2 = num - 2050;
+        num2 = num2 / 15;
+        let bgcolor = perc2color(num2);
+        let newdiv = $('<div data="' + mode + '" style="background-color:' + bgcolor + '"></div>');
+        div.append(newdiv);
+
+        newdiv.append('<span>' + mode.join("") + ' (' + num + ') ' + mode.group + '</span data=' + mode + '>')
+        .append($('#notes_template_container').html());
+    }
+
+    colorPercent = 100;
+    let hexatonicModes = getHexatonicModes();
+    hexatonicModes = multiDimensionalUnique(hexatonicModes);
+    for(var i = 0; i < hexatonicModes.length; i++){
+        let mode = hexatonicModes[i];
+        let num  = parseInt(mode.join(""),2);
+        num2 = num - 2050;
+        num2 = num2 / 15;
+        let bgcolor = perc2color(num2);
+        let newdiv = $('<div data="' + mode + '" style="background-color:' + bgcolor + '"></div>');
+        div.append(newdiv);
+
+        newdiv.append('<span>' + mode.join("") + ' (' + num + ') ' + mode.group + '</span data=' + mode + '>')
+        .append($('#notes_template_container').html());
+    }
+
+    colorPercent = 100;
+    let pentatonicModes = getPentatonicModes();
+    pentatonicModes = multiDimensionalUnique(pentatonicModes);
+    for(var i = 0; i < pentatonicModes.length; i++){
+        let mode = pentatonicModes[i];
+        let num  = parseInt(mode.join(""),2);
+        num2 = num - 2050;
+        num2 = num2 / 15;
+        let bgcolor = perc2color(num2);
+        let newdiv = $('<div data="' + mode + '" style="background-color:' + bgcolor + '"></div>');
+        div.append(newdiv);
+
+        newdiv.append('<span>' + mode.join("") + ' (' + num + ') ' + mode.group + '</span data=' + mode + '>')
+        .append($('#notes_template_container').html());
+    }
+
+    colorPercent = 100;
+    let tetratonicModes = getTetratonicModes();
+    tetratonicModes = multiDimensionalUnique(tetratonicModes);
+    for(var i = 0; i < tetratonicModes.length; i++){
+        let mode = tetratonicModes[i];
+        let num  = parseInt(mode.join(""),2);
+        num2 = num - 2050;
+        num2 = num2 / 15;
+        let bgcolor = perc2color(num2);
+        let newdiv = $('<div data="' + mode + '" style="background-color:' + bgcolor + '"></div>');
+        div.append(newdiv);
+
+        newdiv.append('<span>' + mode.join("") + ' (' + num + ') ' + mode.group + '</span data=' + mode + '>')
+        .append($('#notes_template_container').html());
+    }
+
+    colorPercent = 100;
+    let tritonicModes = getTritonicModes();
+    tritonicModes = multiDimensionalUnique(tritonicModes);
+    for(var i = 0; i < tritonicModes.length; i++){
+        let mode = tritonicModes[i];
+        let num  = parseInt(mode.join(""),2);
+        num2 = num - 2050;
+        num2 = num2 / 15;
+        let bgcolor = perc2color(num2);
+        let newdiv = $('<div data="' + mode + '" style="background-color:' + bgcolor + '"></div>');
+        div.append(newdiv);
+
+        newdiv.append('<span>' + mode.join("") + ' (' + num + ') ' + mode.group + '</span data=' + mode + '>')
+        .append($('#notes_template_container').html());
+    }
 }
 
 
-function setOctave(notes, octave){
-    return R.map(function(note){ return note + octave; }, notes);
+function getOctatonicModes(){
+    let modes = [];
+    for(var i = 0; i < octatonicScales.length; i++){
+        let scale = octatonicScales[i];
+        scale = R.concat(scale, scale);
+        let newmodes = [];
+       
+        for(var j = 0; j < scale.length/2; j++){
+            
+            if(scale[j] === 1){
+                let mode = [];
+                mode.group = 'oct-' + i;
+                for(var n = j; n < j + 12; n++){
+                    mode.push(scale[n]);
+                }
+                newmodes.push(mode);
+            }
+        }
+        newmodes.sort();
+        modes = R.concat(modes, newmodes);
+    }
+    //modes.sort();
+    console.log('octatonic modes',modes);
+    return modes;
 }
 
 
-function playArpeggio(notes){
-    console.log('notes',notes);
+function getDiatonicModes(){
+    let modes = [];
+    for(var i = 0; i < diatonicScales.length; i++){
+        let scale = diatonicScales[i];
+        scale = R.concat(scale, scale);
+        let newmodes = [];
+        
+        for(var j = 0; j < scale.length/2; j++){
+            
+            if(scale[j] === 1){
+                let mode = [];
+                mode.group = 'dia-' + i;
+                for(var n = j; n < j + 12; n++){
+                    mode.push(scale[n]);
+                }
+                newmodes.push(mode);
+            }
+        }
+        newmodes.sort();
+        modes = R.concat(modes, newmodes);
+    }
+  //  modes.sort();
+    return modes;
+}
 
-    let synth = new Tone.Synth();
-    synth.toMaster();
-    let pattern = new Tone.Pattern(function(time, note){
-        synth.triggerAttackRelease(note, 0.25);
-        console.log(note);
-    }, notes, $("#controlPattern").val());
-    pattern.start(0);
-    Tone.Transport.bpm.value = 200;
-    Tone.Transport.start();
+function getHexatonicModes(){
+    let modes = [];
+    for(var i = 0; i < hexatonicScales.length; i++){
+        let scale = hexatonicScales[i];
+        scale = R.concat(scale, scale);
+        let newmodes = [];
+        
+        for(var j = 0; j < scale.length/2; j++){
+            
+            if(scale[j] === 1){
+                let mode = [];
+                mode.group = 'hex-' + i;
+                for(var n = j; n < j + 12; n++){
+                    mode.push(scale[n]);
+                }
+                newmodes.push(mode);
+            }
+        }
+        newmodes.sort();
+        modes = R.concat(modes, newmodes);
+    }
+   // modes.sort();
+    return modes;
+}
+
+function getPentatonicModes(){
+    let modes = [];
+    for(var i = 0; i < pentatonicScales.length; i++){
+        let scale = pentatonicScales[i];
+        scale = R.concat(scale, scale);
+        let newmodes = [];
+        
+        for(var j = 0; j < scale.length/2; j++){
+            
+            if(scale[j] === 1){
+                let mode = [];
+                mode.group = 'pent-' + i;
+                for(var n = j; n < j + 12; n++){
+                    mode.push(scale[n]);
+                }
+                newmodes.push(mode);
+            }
+        }
+        newmodes.sort();
+        modes = R.concat(modes, newmodes);
+    }
+    //modes.sort();
+    return modes;
+}
+
+function getTetratonicModes(){
+    let modes = [];
+    for(var i = 0; i < tetratonicScales.length; i++){
+        let scale = tetratonicScales[i];
+        scale = R.concat(scale, scale);
+        let newmodes = [];
+        
+        for(var j = 0; j < scale.length/2; j++){
+            
+            if(scale[j] === 1){
+                let mode = [];
+                mode.group = 'tetr-' + i;
+                for(var n = j; n < j + 12; n++){
+                    mode.push(scale[n]);
+                }
+                newmodes.push(mode);
+            }
+        }
+        newmodes.sort();
+        modes = R.concat(modes, newmodes);
+    }
+   // modes.sort();
+    return modes;
+}
+
+function getTritonicModes(){
+    let modes = [];
+    for(var i = 0; i < tritonicScales.length; i++){
+        let scale = tritonicScales[i];
+        scale = R.concat(scale, scale);
+        let newmodes = [];
+        
+        for(var j = 0; j < scale.length/2; j++){
+            
+            if(scale[j] === 1){
+                let mode = [];
+                mode.group = 'tri-' + i;
+                for(var n = j; n < j + 12; n++){
+                    mode.push(scale[n]);
+                }
+                newmodes.push(mode);
+            }
+        }
+        newmodes.sort();
+        modes = R.concat(modes, newmodes);
+    }
+   // modes.sort();
+    return modes;
 }
 
 
-function doit(){
 
-    let root = 'C';
-    let mode = 'ionian';
-    let octave = 4;
-    let notes = setOctave(getGreekMode(root,mode), octave);
-    playArpeggio(notes);
+
+function tryOctatonicScales(){
     
+    for(var i = 0; i < 1000; i++){
+        
+        let attempt = shuffle(octatonic);
+        attempt = R.concat([1], attempt);
+        attemptDoubled = R.concat(attempt,attempt);
+
+        if(checkScale(attemptDoubled)){
+            let worked = true;
+            for(var j = 0; j < octatonicScales.length; j++){
+                let strScale = octatonicScales[j].join("");
+                strScale += strScale;
+                let strAttempt = attempt.join("");
+                if(strScale.indexOf(strAttempt) !== -1){
+                    let origStr = strScale.substring(0,strScale.length-1);
+                    if(origStr > strAttempt){
+                        octatonicScales[j] = attempt;
+                    }
+                    worked = false;
+                }
+            }
+            if(worked){
+                octatonicScales.push(attempt);
+            }
+        }
+    }
+    octatonicScales.sort();
+    console.log("working scales", octatonicScales);
+}
+
+function tryDiatonicScales(){
+    
+    for(var i = 0; i < 10000; i++){
+        
+        let attempt = shuffle(diatonic);
+        attempt = R.concat([1], attempt);
+        attemptDoubled = R.concat(attempt,attempt);
+
+        if(checkScale(attemptDoubled)){
+            let worked = true;
+            for(var j = 0; j < diatonicScales.length; j++){
+                let strScale = diatonicScales[j].join("");
+                strScale += strScale;
+                let strAttempt = attempt.join("");
+                if(strScale.indexOf(strAttempt) !== -1){
+                    let origStr = strScale.substring(0,strScale.length-1);
+                    if(origStr > strAttempt){
+                        diatonicScales[j] = attempt;
+                    }
+                    worked = false;
+                }
+            }
+            if(worked){
+                diatonicScales.push(attempt);
+            }
+        }
+    }
+    diatonicScales.sort();
+    console.log("working scales", diatonicScales);
+}
+
+function tryHexatonicScales(){
+    
+    for(var i = 0; i < 10000; i++){
+        
+        let attempt = shuffle(hexatonic);
+        attempt = R.concat([1], attempt);
+        attemptDoubled = R.concat(attempt,attempt);
+
+        if(checkScale(attemptDoubled)){
+            let worked = true;
+            for(var j = 0; j < hexatonicScales.length; j++){
+                let strScale = hexatonicScales[j].join("");
+                strScale += strScale;
+                let strAttempt = attempt.join("");
+                if(strScale.indexOf(strAttempt) !== -1){
+                    let origStr = strScale.substring(0,strScale.length-1);
+                    if(origStr > strAttempt){
+                        hexatonicScales[j] = attempt;
+                    }
+                    worked = false;
+                }
+            }
+            if(worked){
+                hexatonicScales.push(attempt);
+            }
+        }
+    }
+    hexatonicScales.sort();
+    console.log("working scales", hexatonicScales);
+}
+
+function tryPentatonicScales(){
+    
+    for(var i = 0; i < 10000; i++){
+        
+        let attempt = shuffle(pentatonic);
+        attempt = R.concat([1], attempt);
+        attemptDoubled = R.concat(attempt,attempt);
+
+        if(checkScale(attemptDoubled)){
+            let worked = true;
+            for(var j = 0; j < pentatonicScales.length; j++){
+                let strScale = pentatonicScales[j].join("");
+                strScale += strScale;
+                let strAttempt = attempt.join("");
+                if(strScale.indexOf(strAttempt) !== -1){
+                    let origStr = strScale.substring(0,strScale.length-1);
+                    if(origStr > strAttempt){
+                        pentatonicScales[j] = attempt;
+                    }
+                    worked = false;
+                }
+            }
+            if(worked){
+                pentatonicScales.push(attempt);
+            }
+        }
+    }
+    pentatonicScales.sort();
+    console.log("working scales", pentatonicScales);
 }
 
 
+function tryTetratonicScales(){
+    
+    for(var i = 0; i < 10000; i++){
+        
+        let attempt = shuffle(tetratonic);
+        attempt = R.concat([1], attempt);
+        attemptDoubled = R.concat(attempt,attempt);
+
+        if(checkScale(attemptDoubled)){
+            let worked = true;
+            for(var j = 0; j < tetratonicScales.length; j++){
+                let strScale = tetratonicScales[j].join("");
+                strScale += strScale;
+                let strAttempt = attempt.join("");
+                if(strScale.indexOf(strAttempt) !== -1){
+                    let origStr = strScale.substring(0,strScale.length-1);
+                    if(origStr > strAttempt){
+                        tetratonicScales[j] = attempt;
+                    }
+                    worked = false;
+                }
+            }
+            if(worked){
+                tetratonicScales.push(attempt);
+            }
+        }
+    }
+    tetratonicScales.sort();
+    console.log("working scales", tetratonicScales);
+}
+
+function tryTritonicScales(){
+    
+    for(var i = 0; i < 10000; i++){
+        
+        let attempt = shuffle(tritonic);
+        attempt = R.concat([1], attempt);
+        attemptDoubled = R.concat(attempt,attempt);
+
+        if(checkScale(attemptDoubled)){
+            let worked = true;
+            for(var j = 0; j < tritonicScales.length; j++){
+                let strScale = tritonicScales[j].join("");
+                strScale += strScale;
+                let strAttempt = attempt.join("");
+                if(strScale.indexOf(strAttempt) !== -1){
+                    let origStr = strScale.substring(0,strScale.length-1);
+                    if(origStr > strAttempt){
+                        tritonicScales[j] = attempt;
+                    }
+                    worked = false;
+                }
+            }
+            if(worked){
+                tritonicScales.push(attempt);
+            }
+        }
+    }
+    tritonicScales.sort();
+    console.log("working scales", tritonicScales);
+}
+
+function shuffle(array) {
+    let currentIndex = array.length, temporaryValue, randomIndex;
+  
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+  
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+  
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+  
+    return array;
+}
+
+function checkScale(scale){
+    for(var i = 0; i < scale.length; i++){
+        if(scale[i] === 1 && scale[i+1] === 1 && scale[i+2] === 1){
+            return false;
+        }
+    }
+    return true;
+}
+
+
+function fillModes(){
+    for(var i = 0; i < scales.length; i++){
+        let scale = scales[i];
+        let notesPerOctave = scale.notesPerOctave;
+        let notes = [];
+        for(var j = 0; j < notesPerOctave; j++){
+
+        }
+    }
+}        
+
+
+function randomlyRepeatNotes(notesArr){
+    notesArr = clone(notesArr);
+    let loopTimes = Math.floor(Math.random() * (notesArr.length));
+    for(let lp = 0; lp < loopTimes; lp++){
+        let randomNote = Math.floor(Math.random() * (notesArr.length - 1));
+        notesArr[randomNote + 1] = notesArr[randomNote];
+    }
+    return notesArr;
+}
+
+function randomlyReshuffle(notesArr){
+    notesArr = clone(notesArr);
+    let reshuf = Math.floor(Math.random() * 2);
+    
+    if(reshuf === 1){
+        notesArr = shuffle(notesArr);
+    }
+    return notesArr;
+}
+
+function randomlyShortenPhrase(notesArr){
+    notesArr = clone(notesArr);
+    let doStrip =  Math.floor(Math.random() * 3);
+    if(doStrip === 1){
+        let stripEnd = Math.floor(Math.random() * (notesArr.length - 1));
+        while(stripEnd > 0){
+            notesArr.pop();
+            stripEnd--;
+        }
+    }
+    return notesArr;
+}
+
+function randomlyPutHoles(notesArr){
+    notesArr = clone(notesArr);
+    let putHoles = Math.floor(Math.random() * 4);
+    if(putHoles === 1 || putHoles === 2 || putHoles === 3){
+        let numHoles = Math.floor(Math.random() * (notesArr.length - 3));
+        numHoles = numHoles + 2;
+        while(numHoles > 0){
+            let pHole = Math.floor(Math.random() * (notesArr.length - 1));
+            notesArr[pHole] = 0;
+            numHoles--;
+        }           
+    }
+    return notesArr;
+}
+
+function randomlyGoHalfTime(){      
+    let mydelayT = Math.floor(Math.random() * 2);
+    let delayt = .3;
+    if(mydelayT === 1){
+        delayt = .15;
+    }
+    return delayt;
+}
+
+function getRandomRootOctave(note){
+    let rootOctR = Math.floor(Math.random() * 3);
+    if(rootOctR === 1){
+        return note + '2';
+    }else{
+        return note + '1';
+    }
+}
+
+function randomlyDoubleNotes(notes){
+    let connotes = clone(notes);
+    if(Math.floor(Math.random() * 3) === 1){
+        connotes.reverse();
+    }else if(Math.floor(Math.random() * 3) === 2){
+        connotes = shuffle(connotes);
+    }
+
+    let bs = Math.floor(Math.random() * 3);
+    if(bs === 0){
+        notes = notes.concat(connotes);
+    }
+    return notes;
+}
+
+function clone(obj){
+    return JSON.parse(JSON.stringify(obj));
+}
 
     </script>
     </body>
+
+    
 </html>
+
+
+
+
+
