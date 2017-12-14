@@ -102,23 +102,29 @@ let lastVelocity = 100;
 
 const octatonic = [1,1,1,1,1,1,1,0,0,0,0];
 var octatonicScales = [];
+octatonicScales.group = 'oct';
 const diatonic = [1,1,1,1,1,1,0,0,0,0,0];
 var diatonicScales = [];
+diatonicScales.group = 'dia';
 const hexatonic = [1,1,1,1,1,0,0,0,0,0,0];
 var hexatonicScales = [];
+hexatonicScales.group = 'hex';
 const pentatonic = [1,1,1,1,0,0,0,0,0,0,0];
 var pentatonicScales = [];
+pentatonicScales.group = 'pen';
 const tetratonic = [1,1,1,0,0,0,0,0,0,0,0];
 var tetratonicScales = [];
+tetratonicScales.group = 'tet';
 const tritonic = [1,1,0,0,0,0,0,0,0,0,0];
 var tritonicScales = [];
+tritonicScales.group = 'tri';
 
-tryOctatonicScales();
-tryDiatonicScales();
-tryHexatonicScales();
-tryPentatonicScales();
-tryTetratonicScales();
-tryTritonicScales();
+octatonicScales = tryScales(octatonicScales, octatonic);
+diatonicScales = tryScales(diatonicScales, diatonic);
+hexatonicScales = tryScales(hexatonicScales, hexatonic);
+pentatonicScales = tryScales(pentatonicScales, pentatonic);
+tetratonicScales = tryScales(tetratonicScales, tetratonic);
+tritonicScales = tryScales(tritonicScales, tritonic);
 
 
 makeUI();
@@ -254,14 +260,12 @@ function perc2color(perc) {
 	return '#' + ('000000' + h.toString(16)).slice(-6);
 }
 
-function makeUI(){
-    let div = $("#scales_div");
 
+function makeModeUI(modes, div){
     let colorPercent = 100;
-    let octatonicModes = getOctatonicModes();
-    octatonicModes = multiDimensionalUnique(octatonicModes);
-    for(var i = 0; i < octatonicModes.length; i++){
-        let mode = octatonicModes[i];
+    modes = multiDimensionalUnique(modes);
+    for(var i = 0; i < modes.length; i++){
+        let mode = modes[i];
         let num  = parseInt(mode.join(""),2);
         num2 = num - 2050;
         num2 = num2 / 15;
@@ -273,93 +277,25 @@ function makeUI(){
         newdiv.append('<span class="spn_key">' + mode.join("") + ' (' + num + ') ' + mode.group + '</span data=' + mode + '>')
         .append($('#notes_template_container').html());
     }
+}
 
-    colorPercent = 100;
-    let diatonicModes = getDiatonicModes();
-    diatonicModes = multiDimensionalUnique(diatonicModes);
-    for(var i = 0; i < diatonicModes.length; i++){
-        let mode = diatonicModes[i];
-        let num  = parseInt(mode.join(""),2);
-        num2 = num - 2050;
-        num2 = num2 / 15;
-        let bgcolor = perc2color(num2);
-        let newdiv = $('<div data="' + mode + '" style="background-color:' + bgcolor + '"></div>');
-        div.append(newdiv);
+function makeUI(){
+    let div = $("#scales_div");
 
-        newdiv.append('<span class="spn_key">' + mode.join("") + ' (' + num + ') ' + mode.group + '</span data=' + mode + '>')
-        .append($('#notes_template_container').html());
-    }
+    makeModeUI(getModes(octatonicScales), div);
+    makeModeUI(getModes(diatonicScales), div);
+    makeModeUI(getModes(hexatonicScales), div);
+    makeModeUI(getModes(pentatonicScales), div);
+    makeModeUI(getModes(tetratonicScales), div);
+    makeModeUI(getModes(tritonicScales), div);
 
-    colorPercent = 100;
-    let hexatonicModes = getHexatonicModes();
-    hexatonicModes = multiDimensionalUnique(hexatonicModes);
-    for(var i = 0; i < hexatonicModes.length; i++){
-        let mode = hexatonicModes[i];
-        let num  = parseInt(mode.join(""),2);
-        num2 = num - 2050;
-        num2 = num2 / 15;
-        let bgcolor = perc2color(num2);
-        let newdiv = $('<div data="' + mode + '" style="background-color:' + bgcolor + '"></div>');
-        div.append(newdiv);
-
-        newdiv.append('<span class="spn_key">' + mode.join("") + ' (' + num + ') ' + mode.group + '</span data=' + mode + '>')
-        .append($('#notes_template_container').html());
-    }
-
-    colorPercent = 100;
-    let pentatonicModes = getPentatonicModes();
-    pentatonicModes = multiDimensionalUnique(pentatonicModes);
-    for(var i = 0; i < pentatonicModes.length; i++){
-        let mode = pentatonicModes[i];
-        let num  = parseInt(mode.join(""),2);
-        num2 = num - 2050;
-        num2 = num2 / 15;
-        let bgcolor = perc2color(num2);
-        let newdiv = $('<div data="' + mode + '" style="background-color:' + bgcolor + '"></div>');
-        div.append(newdiv);
-
-        newdiv.append('<span class="spn_key">' + mode.join("") + ' (' + num + ') ' + mode.group + '</span data=' + mode + '>')
-        .append($('#notes_template_container').html());
-    }
-
-    colorPercent = 100;
-    let tetratonicModes = getTetratonicModes();
-    tetratonicModes = multiDimensionalUnique(tetratonicModes);
-    for(var i = 0; i < tetratonicModes.length; i++){
-        let mode = tetratonicModes[i];
-        let num  = parseInt(mode.join(""),2);
-        num2 = num - 2050;
-        num2 = num2 / 15;
-        let bgcolor = perc2color(num2);
-        let newdiv = $('<div data="' + mode + '" style="background-color:' + bgcolor + '"></div>');
-        div.append(newdiv);
-
-        newdiv.append('<span class="spn_key">' + mode.join("") + ' (' + num + ') ' + mode.group + '</span data=' + mode + '>')
-        .append($('#notes_template_container').html());
-    }
-
-    colorPercent = 100;
-    let tritonicModes = getTritonicModes();
-    tritonicModes = multiDimensionalUnique(tritonicModes);
-    for(var i = 0; i < tritonicModes.length; i++){
-        let mode = tritonicModes[i];
-        let num  = parseInt(mode.join(""),2);
-        num2 = num - 2050;
-        num2 = num2 / 15;
-        let bgcolor = perc2color(num2);
-        let newdiv = $('<div data="' + mode + '" style="background-color:' + bgcolor + '"></div>');
-        div.append(newdiv);
-
-        newdiv.append('<span class="spn_key">' + mode.join("") + ' (' + num + ') ' + mode.group + '</span data=' + mode + '>')
-        .append($('#notes_template_container').html());
-    }
 }
 
 
-function getOctatonicModes(){
+function getModes(scales){
     let modes = [];
-    for(var i = 0; i < octatonicScales.length; i++){
-        let scale = octatonicScales[i];
+    for(var i = 0; i < scales.length; i++){
+        let scale = scales[i];
         scale = R.concat(scale, scale);
         let newmodes = [];
        
@@ -367,84 +303,7 @@ function getOctatonicModes(){
             
             if(scale[j] === 1){
                 let mode = [];
-                mode.group = 'oct-' + i;
-                for(var n = j; n < j + 12; n++){
-                    mode.push(scale[n]);
-                }
-                newmodes.push(mode);
-            }
-        }
-        newmodes.sort();
-        modes = R.concat(modes, newmodes);
-    }
-    //modes.sort();
-    console.log('octatonic modes',modes);
-    return modes;
-}
-
-
-function getDiatonicModes(){
-    let modes = [];
-    for(var i = 0; i < diatonicScales.length; i++){
-        let scale = diatonicScales[i];
-        scale = R.concat(scale, scale);
-        let newmodes = [];
-        
-        for(var j = 0; j < scale.length/2; j++){
-            
-            if(scale[j] === 1){
-                let mode = [];
-                mode.group = 'dia-' + i;
-                for(var n = j; n < j + 12; n++){
-                    mode.push(scale[n]);
-                }
-                newmodes.push(mode);
-            }
-        }
-        newmodes.sort();
-        modes = R.concat(modes, newmodes);
-    }
-  //  modes.sort();
-    return modes;
-}
-
-function getHexatonicModes(){
-    let modes = [];
-    for(var i = 0; i < hexatonicScales.length; i++){
-        let scale = hexatonicScales[i];
-        scale = R.concat(scale, scale);
-        let newmodes = [];
-        
-        for(var j = 0; j < scale.length/2; j++){
-            
-            if(scale[j] === 1){
-                let mode = [];
-                mode.group = 'hex-' + i;
-                for(var n = j; n < j + 12; n++){
-                    mode.push(scale[n]);
-                }
-                newmodes.push(mode);
-            }
-        }
-        newmodes.sort();
-        modes = R.concat(modes, newmodes);
-    }
-   // modes.sort();
-    return modes;
-}
-
-function getPentatonicModes(){
-    let modes = [];
-    for(var i = 0; i < pentatonicScales.length; i++){
-        let scale = pentatonicScales[i];
-        scale = R.concat(scale, scale);
-        let newmodes = [];
-        
-        for(var j = 0; j < scale.length/2; j++){
-            
-            if(scale[j] === 1){
-                let mode = [];
-                mode.group = 'pent-' + i;
+                mode.group = scales.group + '-' + i;
                 for(var n = j; n < j + 12; n++){
                     mode.push(scale[n]);
                 }
@@ -458,245 +317,39 @@ function getPentatonicModes(){
     return modes;
 }
 
-function getTetratonicModes(){
-    let modes = [];
-    for(var i = 0; i < tetratonicScales.length; i++){
-        let scale = tetratonicScales[i];
-        scale = R.concat(scale, scale);
-        let newmodes = [];
-        
-        for(var j = 0; j < scale.length/2; j++){
-            
-            if(scale[j] === 1){
-                let mode = [];
-                mode.group = 'tetr-' + i;
-                for(var n = j; n < j + 12; n++){
-                    mode.push(scale[n]);
-                }
-                newmodes.push(mode);
-            }
-        }
-        newmodes.sort();
-        modes = R.concat(modes, newmodes);
-    }
-   // modes.sort();
-    return modes;
-}
-
-function getTritonicModes(){
-    let modes = [];
-    for(var i = 0; i < tritonicScales.length; i++){
-        let scale = tritonicScales[i];
-        scale = R.concat(scale, scale);
-        let newmodes = [];
-        
-        for(var j = 0; j < scale.length/2; j++){
-            
-            if(scale[j] === 1){
-                let mode = [];
-                mode.group = 'tri-' + i;
-                for(var n = j; n < j + 12; n++){
-                    mode.push(scale[n]);
-                }
-                newmodes.push(mode);
-            }
-        }
-        newmodes.sort();
-        modes = R.concat(modes, newmodes);
-    }
-   // modes.sort();
-    return modes;
-}
 
 
-
-
-function tryOctatonicScales(){
+function tryScales(scalesArr, scalesTemplate){
     
     for(var i = 0; i < 1000; i++){
         
-        let attempt = shuffle(octatonic);
+        let attempt = shuffle(scalesTemplate);
         attempt = R.concat([1], attempt);
         attemptDoubled = R.concat(attempt,attempt);
 
         if(checkScale(attemptDoubled)){
             let worked = true;
-            for(var j = 0; j < octatonicScales.length; j++){
-                let strScale = octatonicScales[j].join("");
+            for(var j = 0; j < scalesArr.length; j++){
+                let strScale = scalesArr[j].join("");
                 strScale += strScale;
                 let strAttempt = attempt.join("");
                 if(strScale.indexOf(strAttempt) !== -1){
                     let origStr = strScale.substring(0,strScale.length-1);
                     if(origStr > strAttempt){
-                        octatonicScales[j] = attempt;
+                        scalesArr[j] = attempt;
                     }
                     worked = false;
                 }
             }
             if(worked){
-                octatonicScales.push(attempt);
+                scalesArr.push(attempt);
             }
         }
     }
-    octatonicScales.sort();
-    console.log("working scales", octatonicScales);
+    scalesArr.sort();
+    return scalesArr;
 }
 
-function tryDiatonicScales(){
-    
-    for(var i = 0; i < 10000; i++){
-        
-        let attempt = shuffle(diatonic);
-        attempt = R.concat([1], attempt);
-        attemptDoubled = R.concat(attempt,attempt);
-
-        if(checkScale(attemptDoubled)){
-            let worked = true;
-            for(var j = 0; j < diatonicScales.length; j++){
-                let strScale = diatonicScales[j].join("");
-                strScale += strScale;
-                let strAttempt = attempt.join("");
-                if(strScale.indexOf(strAttempt) !== -1){
-                    let origStr = strScale.substring(0,strScale.length-1);
-                    if(origStr > strAttempt){
-                        diatonicScales[j] = attempt;
-                    }
-                    worked = false;
-                }
-            }
-            if(worked){
-                diatonicScales.push(attempt);
-            }
-        }
-    }
-    diatonicScales.sort();
-    console.log("working scales", diatonicScales);
-}
-
-function tryHexatonicScales(){
-    
-    for(var i = 0; i < 10000; i++){
-        
-        let attempt = shuffle(hexatonic);
-        attempt = R.concat([1], attempt);
-        attemptDoubled = R.concat(attempt,attempt);
-
-        if(checkScale(attemptDoubled)){
-            let worked = true;
-            for(var j = 0; j < hexatonicScales.length; j++){
-                let strScale = hexatonicScales[j].join("");
-                strScale += strScale;
-                let strAttempt = attempt.join("");
-                if(strScale.indexOf(strAttempt) !== -1){
-                    let origStr = strScale.substring(0,strScale.length-1);
-                    if(origStr > strAttempt){
-                        hexatonicScales[j] = attempt;
-                    }
-                    worked = false;
-                }
-            }
-            if(worked){
-                hexatonicScales.push(attempt);
-            }
-        }
-    }
-    hexatonicScales.sort();
-    console.log("working scales", hexatonicScales);
-}
-
-function tryPentatonicScales(){
-    
-    for(var i = 0; i < 10000; i++){
-        
-        let attempt = shuffle(pentatonic);
-        attempt = R.concat([1], attempt);
-        attemptDoubled = R.concat(attempt,attempt);
-
-        if(checkScale(attemptDoubled)){
-            let worked = true;
-            for(var j = 0; j < pentatonicScales.length; j++){
-                let strScale = pentatonicScales[j].join("");
-                strScale += strScale;
-                let strAttempt = attempt.join("");
-                if(strScale.indexOf(strAttempt) !== -1){
-                    let origStr = strScale.substring(0,strScale.length-1);
-                    if(origStr > strAttempt){
-                        pentatonicScales[j] = attempt;
-                    }
-                    worked = false;
-                }
-            }
-            if(worked){
-                pentatonicScales.push(attempt);
-            }
-        }
-    }
-    pentatonicScales.sort();
-    console.log("working scales", pentatonicScales);
-}
-
-
-function tryTetratonicScales(){
-    
-    for(var i = 0; i < 10000; i++){
-        
-        let attempt = shuffle(tetratonic);
-        attempt = R.concat([1], attempt);
-        attemptDoubled = R.concat(attempt,attempt);
-
-        if(checkScale(attemptDoubled)){
-            let worked = true;
-            for(var j = 0; j < tetratonicScales.length; j++){
-                let strScale = tetratonicScales[j].join("");
-                strScale += strScale;
-                let strAttempt = attempt.join("");
-                if(strScale.indexOf(strAttempt) !== -1){
-                    let origStr = strScale.substring(0,strScale.length-1);
-                    if(origStr > strAttempt){
-                        tetratonicScales[j] = attempt;
-                    }
-                    worked = false;
-                }
-            }
-            if(worked){
-                tetratonicScales.push(attempt);
-            }
-        }
-    }
-    tetratonicScales.sort();
-    console.log("working scales", tetratonicScales);
-}
-
-function tryTritonicScales(){
-    
-    for(var i = 0; i < 10000; i++){
-        
-        let attempt = shuffle(tritonic);
-        attempt = R.concat([1], attempt);
-        attemptDoubled = R.concat(attempt,attempt);
-
-        if(checkScale(attemptDoubled)){
-            let worked = true;
-            for(var j = 0; j < tritonicScales.length; j++){
-                let strScale = tritonicScales[j].join("");
-                strScale += strScale;
-                let strAttempt = attempt.join("");
-                if(strScale.indexOf(strAttempt) !== -1){
-                    let origStr = strScale.substring(0,strScale.length-1);
-                    if(origStr > strAttempt){
-                        tritonicScales[j] = attempt;
-                    }
-                    worked = false;
-                }
-            }
-            if(worked){
-                tritonicScales.push(attempt);
-            }
-        }
-    }
-    tritonicScales.sort();
-    console.log("working scales", tritonicScales);
-}
 
 function shuffle(array) {
     let currentIndex = array.length, temporaryValue, randomIndex;
