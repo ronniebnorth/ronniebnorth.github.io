@@ -186,7 +186,7 @@ function playMode(rootNote, mode){
             let velocity = lastVelocity;
 
             if(Math.floor(Math.random() * 3) === 1){
-                velocity = Math.floor(Math.random() * 60 + 40);
+                velocity = Math.floor(Math.random() * 20 + 80);
                 lastVelocity = velocity;
             }
 
