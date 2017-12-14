@@ -1,5 +1,18 @@
 <html>
     <head>
+            <title>Chloe - Dorian - Phrygian - Lydian - Mixolydian - Aeolian - Locrian - Ionian - Pentatonic</title>
+            <link rel="icon" href="./img/petting_chloe.jpg">
+            <meta property="og:image" content="https://ronniebnorth.github.io/chloe/img/petting_chloe.jpg" />
+            <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+        
             <link rel="stylesheet" href="scalemaster.css?version=523"/>
         <script src="jquery-3.2.1.min.js"></script>
         <script src="ramda.js"></script>
@@ -34,10 +47,53 @@
         <a class="btn_key">G♭</a>
         <a class="btn_key">G</a>
         <a class="btn_key">A♭</a>
+
     </div>
+    <div id="container">
+        <div>
+            <form>
+                <div>
+                    <table align="center" class="controlPanel">
+                        <tr>
+                           
+                            <td>
+                                <div class="radio-group">
+                                    <input type="radio" id="option-one" value="root" name="play_style" checked>
+                                    <label for="option-one">Root</label>
+                                    
+                                    <input type="radio" id="option-two" value="chord" name="play_style">
+                                    <label for="option-two">Chord</label>
+            
+                                    <input type="radio" id="option-three" value="fills" name="play_style">
+                                    <label for="option-three">Root + Fills</label>
+            
+                                    <input type="radio" id="option-four" value="just_fills" name="play_style">
+                                    <label for="option-four">Fills</label>
+                                </div>        
+                            </td>
+                            <!--td>
+                                <label for="points">Volume</label>
+                                <input style="width:80px" type="range" name="points" id="points" value="50" min="0" max="100">
+                            </td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                            <td>
+                                <label for="points">Risk</label>
+                                <input style="width:80px" type="range" name="points" id="points" value="50" min="0" max="100">
+                            </td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                            <td>
+                                <label for="points">Verbosity</label>
+                                <input style="width:80px" type="range" name="points" id="points" value="50" min="0" max="100">
+                            </td-->
+                        </tr>
+                    </table>
 
-    <div id="scales_div"></div>   
-
+                    
+                </div>
+            </form>
+            </div> 
+        <div id="scales_div"></div>   
+    </div>
     <script>
 
 const chromatic = ['A','Bb','B','C','Db','D','Eb','E','F','Gb','G','Ab'];
