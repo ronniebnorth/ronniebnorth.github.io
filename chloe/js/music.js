@@ -54,6 +54,9 @@ const g_diminished_maj =   [1,0,1,1,0,1,1,0,1,1,0,1,1,0,1,1,0,1,1,0,1,1,0,1];
 const g_majortriad =                      [1,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,1,0,0,1,0,0,0,0];
 const g_minortriad =                [1,0,0,1,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0,1,0,0,0,0];
 
+//whole tone
+const g_whole_tone = [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0];
+
 window.onload = function () {
 
 };
@@ -260,8 +263,8 @@ function shuffle(array) {
 
 function getModes(inputPattern){
     let modes  = [
-        'DIM-MAJ','DIM-MIN','AUG-MAJ','AUG-MIN',
-        'G-PHRYGIAN','G-LYDIAN','G-AEOLIAN','G-LOCRIAN','G-IONIAN',
+        'DIM-MAJ','DIM-MIN','AUG-MAJ','AUG-MIN','WHOLE-TONE',
+        'A-PHRYGIAN','A-LYDIAN','A-AEOLIAN','A-LOCRIAN','A-IONIAN',
         'G-DORIAN','G-PHRYGIAN','G-LYDIAN','G-MIXOLYDIAN','G-AEOLIAN','G-LOCRIAN','G-IONIAN',
         'H-DORIAN','H-PHRYGIAN','H-LYDIAN','H-MIXOLYDIAN','H-AEOLIAN','H-LOCRIAN','H-IONIAN',
     'DORIAN','PHRYGIAN','LYDIAN','MIXOLYDIAN','AEOLIAN','LOCRIAN','IONIAN','MAJORPENT',
@@ -269,6 +272,10 @@ function getModes(inputPattern){
     
     for(let i = 0; i < inputPattern.length; i++){
         if(inputPattern[i] == 1){
+            if(g_whole_tone[i] !== 1 && modes.includes("WHOLE-TONE")){
+                modes.splice(modes.indexOf("WHOLE-TONE"), 1);
+            }
+
             if(g_augmented_maj[i] !== 1 && modes.includes("AUG-MAJ")){
                 modes.splice(modes.indexOf("AUG-MAJ"), 1);
             }
@@ -401,6 +408,9 @@ function getNotes(rootNote, mode){
     }
 
     let matchArr = [];
+    if(mode === "WHOLE-TONE"){
+        matchArr = g_whole_tone;
+    }
     if(mode === "AUG-MAJ"){
         matchArr = g_augmented_maj;
     }
