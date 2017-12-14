@@ -243,9 +243,7 @@ xmlns:fb="http://ogp.me/ns/fb#">
 
 <script>
 $(function() {
-    var arr = $('.polygon').attr('data').split(',');
-    console.log(arr);
-    console.log('len', arr.length);
+
     $('body').on('mousedown', '.btn_key', function() {
         let rootNote = $(this).text();
         rootNote = rootNote.replace('♭','b');
