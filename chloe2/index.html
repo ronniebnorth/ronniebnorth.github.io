@@ -51,7 +51,7 @@
     </div>
     <div id="container">
         <div>
-            <form>
+ 
                 <div>
                     <table align="center" class="controlPanel">
                         <tr>
@@ -96,7 +96,7 @@
 
                     
                 </div>
-            </form>
+ 
             </div> 
         <div id="scales_div"></div>   
     </div>
@@ -147,7 +147,7 @@ $('body').on('keyup', '#mode_filter', function() {
 
     let input = $("#mode_filter").val();
 
-    if(input !== ""){
+    //if(input !== ""){
 
         $(".spn_key").each(function(index){
             if($(this).text().indexOf(input) == -1){
@@ -156,7 +156,7 @@ $('body').on('keyup', '#mode_filter', function() {
                 $(this).closest("div").show();
             }
         });
-    }
+    //}
 
 });
 
