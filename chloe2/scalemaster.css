@@ -48,6 +48,10 @@ label + input[type=radio] + label {
   overflow: hidden;
 }
 
+#mode_filter {
+  border-radius: 4px;
+  overflow: hidden;
+}
 #container {
   margin:0 auto;max-width:800px;text-align:center;
   padding-right: 15px;
