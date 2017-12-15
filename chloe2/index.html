@@ -142,22 +142,22 @@ const chromatic_labels = ['A','B♭','B','C','D♭','D','E♭','E','F','G♭','G
 let lastVelocity = 100;
 
 const octatonic = [1,1,1,1,1,1,1,0,0,0,0];
-var octatonicScales = [];
+let octatonicScales = [];
 octatonicScales.group = 'oct';
 const diatonic = [1,1,1,1,1,1,0,0,0,0,0];
-var diatonicScales = [];
+let diatonicScales = [];
 diatonicScales.group = 'dia';
 const hexatonic = [1,1,1,1,1,0,0,0,0,0,0];
-var hexatonicScales = [];
+let hexatonicScales = [];
 hexatonicScales.group = 'hex';
 const pentatonic = [1,1,1,1,0,0,0,0,0,0,0];
-var pentatonicScales = [];
+let pentatonicScales = [];
 pentatonicScales.group = 'pen';
 const tetratonic = [1,1,1,0,0,0,0,0,0,0,0];
-var tetratonicScales = [];
+let tetratonicScales = [];
 tetratonicScales.group = 'tet';
 const tritonic = [1,1,0,0,0,0,0,0,0,0,0];
-var tritonicScales = [];
+let tritonicScales = [];
 tritonicScales.group = 'tri';
 
 octatonicScales = tryScales(octatonicScales, octatonic);
@@ -168,9 +168,9 @@ tetratonicScales = tryScales(tetratonicScales, tetratonic);
 tritonicScales = tryScales(tritonicScales, tritonic);
 
 let lastGroup = "";
-var canvas = document.getElementById("canvas");
-var ctx = canvas.getContext("2d");
-var radius = canvas.height / 2;
+let canvas = document.getElementById("canvas");
+let ctx = canvas.getContext("2d");
+let radius = canvas.height / 2;
 
 
 
@@ -208,15 +208,15 @@ $('body').on('click', '#closeModal', function() {
 $('body').on('keyup', '#mode_filter', function() {
 
     let input = $("#mode_filter").val();
-    console.log('input string', input);
+    
     if(input === ""){
-        console.log('yep');
+        
         $('.mdv').show();
         $('.spacer').show();
         return;
     }
     let inputArr = input.split(",");
-    console.log('input', inputArr);
+    
     $(".spn_key").each(function(index){
         let found = false;
         for(let i = 0; i < inputArr.length; i++){
@@ -243,7 +243,7 @@ $('body').on('click', '#rotateMode', function(){
     let labels = $("#canvas").attr('note_labels').split(",");
     let newlabels = [];
     let mem = labels[0];
-    for(var i = 1; i < labels.length; i++){
+    for(let i = 1; i < labels.length; i++){
         newlabels.push(labels[i]);
     }
     newlabels.push(mem);
@@ -273,8 +273,8 @@ function drawPolygon(notes,labels) {
 }
 
 function drawNotes(ctx, radius, notes, labels) {
-    var ang;
-    var num;
+    let ang;
+    let num;
     ctx.font = radius*0.15 + "px arial";
     ctx.textBaseline="middle";
     ctx.textAlign="center";
@@ -299,7 +299,7 @@ function drawNotes(ctx, radius, notes, labels) {
 }
 
 function drawFace(ctx, radius) {
-    var grad;
+    let grad;
 
     ctx.beginPath();
     ctx.arc(0, 0, radius, 0, 2*Math.PI);
@@ -397,10 +397,10 @@ function playMode(rootNote, notesArr){
 
 
 function multiDimensionalUnique(arr) {
-    var uniques = [];
-    var itemsFound = {};
-    for(var i = 0, l = arr.length; i < l; i++) {
-        var stringified = JSON.stringify(arr[i]);
+    let uniques = [];
+    let itemsFound = {};
+    for(let i = 0, l = arr.length; i < l; i++) {
+        let stringified = JSON.stringify(arr[i]);
         if(itemsFound[stringified]) { continue; }
         uniques.push(arr[i]);
         itemsFound[stringified] = true;
@@ -424,7 +424,7 @@ function getNotes(rootNote, mode){
 }
 
 function perc2color(perc) {
-	var r, g, b = 0;
+	let r, g, b = 0;
 	if(perc < 50) {
 		r = Math.round(5.1 * perc);
         g = 255;
@@ -435,7 +435,7 @@ function perc2color(perc) {
         r = 150;
         b = 255;
 	}
-	var h = r * 0x10000 + g * 0x100 + b * 0x1;
+	let h = r * 0x10000 + g * 0x100 + b * 0x1;
 	return '#' + ('000000' + h.toString(16)).slice(-6);
 }
 
@@ -444,7 +444,7 @@ function makeModeUI(modes, div){
     let colorPercent = 100;
     modes = multiDimensionalUnique(modes);
     div.append('<div class="spacer" style="height:8px"></div>');
-    for(var i = 0; i < modes.length; i++){
+    for(let i = 0; i < modes.length; i++){
         let mode = modes[i];
         let num  = parseInt(mode.join(""),2);
         num2 = num - 2050;
@@ -480,17 +480,17 @@ function getModes(scales){
     let modes = [];
     scales.sort();
 
-    for(var i = 0; i < scales.length; i++){
+    for(let i = 0; i < scales.length; i++){
         let scale = scales[i];
         scale = R.concat(scale, scale);
         let newmodes = [];
        
-        for(var j = 0; j < scale.length/2; j++){
+        for(let j = 0; j < scale.length/2; j++){
             
             if(scale[j] === 1){
                 let mode = [];
                 mode.group = scales.group + '-' + i;
-                for(var n = j; n < j + 12; n++){
+                for(let n = j; n < j + 12; n++){
                     mode.push(scale[n]);
                 }
                 newmodes.push(mode);
@@ -509,7 +509,7 @@ function getModes(scales){
 
 function tryScales(scalesArr, scalesTemplate){
     
-    for(var i = 0; i < 5000; i++){
+    for(let i = 0; i < 5000; i++){
         
         let attempt = shuffle(scalesTemplate);
         attempt = R.concat([1], attempt);
@@ -517,7 +517,7 @@ function tryScales(scalesArr, scalesTemplate){
 
         if(checkScale(attemptDoubled)){
             let worked = true;
-            for(var j = 0; j < scalesArr.length; j++){
+            for(let j = 0; j < scalesArr.length; j++){
                 let strScale = scalesArr[j].join("");
                 strScale += strScale;
                 let strAttempt = attempt.join("");
@@ -558,7 +558,7 @@ function shuffle(array) {
 }
 
 function checkScale(scale){
-    for(var i = 0; i < scale.length; i++){
+    for(let i = 0; i < scale.length; i++){
         if(scale[i] === 1 && scale[i+1] === 1 && scale[i+2] === 1){
             return false;
         }
@@ -568,11 +568,11 @@ function checkScale(scale){
 
 
 function fillModes(){
-    for(var i = 0; i < scales.length; i++){
+    for(let i = 0; i < scales.length; i++){
         let scale = scales[i];
         let notesPerOctave = scale.notesPerOctave;
         let notes = [];
-        for(var j = 0; j < notesPerOctave; j++){
+        for(let j = 0; j < notesPerOctave; j++){
 
         }
     }
