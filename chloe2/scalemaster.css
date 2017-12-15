@@ -55,7 +55,7 @@ label + input[type=radio] + label {
 .spn_key {
     display: inline-block; width: 190px;
     font-weight:normal;
-    font-size:9pt;
+    font-size:7pt;
     color:rgb(41, 45, 68);
     
 }
@@ -71,8 +71,8 @@ a:hover {
   display: inline-block; 
   width: 4.5%;
   box-sizing: border-box;
-  margin: 1px;
-  padding: 1px; 
+  margin: .5px;
+  padding: .5px; 
   /* width: 80%; */
   /* max-width: 200px; */
   background: #fff; /* fallback color for old browsers */
@@ -82,7 +82,7 @@ a:hover {
   font-weight: bold;
   text-align: center;
   text-decoration: none;
-  letter-spacing: 1px;
+  letter-spacing: .5px;
   transition: all 0.3s ease-out;
 }
 .semi-transparent-button:hover,
