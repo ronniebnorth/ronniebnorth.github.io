@@ -211,9 +211,13 @@ $('body').on('keyup', '#mode_filter', function() {
 
     $(".spn_key").each(function(index){
         if($(this).text().indexOf(input) == -1){
-            $(this).closest("div").hide();
+            $(this).closest("div")
+                .hide()
+                .next(".spacer").hide();
         }else{
-            $(this).closest("div").show();
+            $(this).closest("div")
+            .show()
+            .next(".spacer").show();
         }
     });
 
@@ -424,7 +428,7 @@ function perc2color(perc) {
 function makeModeUI(modes, div){
     let colorPercent = 100;
     modes = multiDimensionalUnique(modes);
-    div.append('<div style="height:8px"></div>');
+    div.append('<div class="spacer" style="height:8px"></div>');
     for(var i = 0; i < modes.length; i++){
         let mode = modes[i];
         let num  = parseInt(mode.join(""),2);
@@ -433,7 +437,7 @@ function makeModeUI(modes, div){
         let bgcolor = perc2color(num2);
         if(lastGroup !== mode.group){
             lastGroup = mode.group;
-            div.append('<div style="height:5px"></div>');
+            div.append('<div class="spacer" style="height:5px"></div>');
         }
         let newdiv = $('<div data="' + mode + '" style="background-color:' + bgcolor + '"></div>');
         div.append(newdiv);
