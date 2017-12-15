@@ -53,7 +53,7 @@ label + input[type=radio] + label {
   padding-right: 15px;
 }
 .spn_key {
-    display: inline-block; width: 190px;
+    display: inline-block; width: 170px;
     font-weight:normal;
     font-size:7pt;
     color:rgb(41, 45, 68);
