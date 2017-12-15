@@ -75,7 +75,7 @@ xmlns:fb="http://ogp.me/ns/fb#">
                         <label id="modeInfo" style="font-size:8pt"></label>&nbsp;&nbsp;&nbsp;&nbsp;
                         <label id="rotateMode" style="font-size:14pt">rotate</label>
                         <br>
-                        <canvas id="canvas" modeInfo="" notes="" note_labels="" width="280" height="280" style="background-color:#333"></canvas> 
+                        <canvas id="canvas" modeInfo="" notes="" note_labels="" width="220" height="220" style="background-color:#333"></canvas> 
                     </div>
                 </div> 
                 <div>
@@ -267,7 +267,7 @@ function drawNotes(ctx, radius, notes, labels) {
         ctx.rotate(-ang);
 
         ctx.beginPath();
-        ctx.arc(0, 0, radius*0.13, 0, 2*Math.PI);
+        ctx.arc(0, 0, radius*0.1, 0, 2*Math.PI);
         ctx.fillStyle = '#333';
         ctx.fill();
 
