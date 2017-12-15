@@ -47,13 +47,15 @@ function create() {
     graphics.beginFill(0xFF33ff);
     
     graphics.drawPolygon(poly.points);
-    graphics.drawCircle(50, 50, 100);
+    //graphics.drawCircle(50, 50, 100);
+    graphics.lineColor = 0xFFFFFF;
+    graphics.lineWidth = 10;
     graphics.endFill();
     
 }
 
 function update() {
-    graphics.angle++;
+    //graphics.angle++;
     graphics.clear();
 
     if (poly.contains(game.input.x-game.world.width/2, game.input.y-game.world.height/2))
@@ -67,7 +69,9 @@ function update() {
     }
 
     graphics.drawPolygon(poly.points);
-    graphics.drawCircle(50, 50, 100);
+    //graphics.drawCircle(50, 50, 100);
+    graphics.lineColor = 0xFFFFFF;
+    graphics.lineWidth = 10;
     graphics.endFill();
 
 }

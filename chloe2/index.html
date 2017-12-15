@@ -51,7 +51,7 @@ xmlns:fb="http://ogp.me/ns/fb#">
 </script>
     </head>
     <body>
-    
+  
     <div id="notes_template_container" style="display:none">
         <a class="btn_key">A</a>
         <a class="btn_key">B♭</a>
@@ -69,7 +69,14 @@ xmlns:fb="http://ogp.me/ns/fb#">
     </div>
     <div id="container">
         <div>
- 
+                <div id="myModal" class="modal">
+                    <div id="myModalContent" class="modal-content">
+                        <label id="closeModal">close</label>&nbps;&nbsp;
+                        <label id="rotateMode">rotate</label>
+                        <br>
+                        <canvas id="canvas" notes="" note_labels="" width="300" height="300" style="background-color:#333"></canvas> 
+                    </div>
+                </div> 
                 <div>
                     <table align="center" class="controlPanel">
                         <tr>
@@ -116,11 +123,20 @@ xmlns:fb="http://ogp.me/ns/fb#">
                 </div>
  
             </div> 
-        <div id="scales_div" stylex="padding:3px;border-radius: 5px;border: 4px solid #675f6b;"></div>   
+
+            
+        <div id="scales_div" stylex="padding:3px;border-radius: 5px;border: 4px solid #675f6b;"></div>  
+        
     </div>
     <script>
 
+
+
+
+
+
 const chromatic = ['A','Bb','B','C','Db','D','Eb','E','F','Gb','G','Ab'];
+const chromatic_labels = ['A','B♭','B','C','D♭','D','E♭','E','F','G♭','G','A♭'];
 
 let lastVelocity = 100;
 
@@ -151,8 +167,18 @@ tetratonicScales = tryScales(tetratonicScales, tetratonic);
 tritonicScales = tryScales(tritonicScales, tritonic);
 
 let lastGroup = "";
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+var radius = canvas.height / 2;
+
+
 
 makeUI();
+
+
+
+
+
 
 
 $('body').on('mousedown', '.btn_key', function() {
@@ -161,23 +187,114 @@ $('body').on('mousedown', '.btn_key', function() {
     let mode = $(this).closest("div").attr('data');
     let notes = getNotes(rootNote, mode.split(","));
     playMode(rootNote, notes);
+
 });
+
+$('body').on('click', '.spn_key', function() {
+    let spnTxt = $(this).text();
+    let binStr = spnTxt.substring(0,12);
+    $("#canvas").empty();
+    let newlabels = clone(chromatic_labels);
+    $("#canvas").attr('note_labels', newlabels.join(","));
+    loadMode(binStr.split(""), newlabels);
+});
+
+$('body').on('click', '#closeModal', function() {
+    $("#myModal").hide();
+});
+
 $('body').on('keyup', '#mode_filter', function() {
 
     let input = $("#mode_filter").val();
 
-    //if(input !== ""){
-
-        $(".spn_key").each(function(index){
-            if($(this).text().indexOf(input) == -1){
-                $(this).closest("div").hide();
-            }else{
-                $(this).closest("div").show();
-            }
-        });
-    //}
+    $(".spn_key").each(function(index){
+        if($(this).text().indexOf(input) == -1){
+            $(this).closest("div").hide();
+        }else{
+            $(this).closest("div").show();
+        }
+    });
 
 });
+
+$('body').on('click', '#rotateMode', function(){
+    let notes = $("#canvas").attr('notes').split("");
+    let labels = $("#canvas").attr('note_labels').split(",");
+    let newlabels = [];
+    let mem = labels[0];
+    for(var i = 1; i < labels.length; i++){
+        newlabels.push(labels[i]);
+    }
+    newlabels.push(mem);
+    $("#canvas").attr('note_labels', newlabels.join(","));
+    loadMode(notes, newlabels);
+});
+
+
+
+
+
+function loadMode(notes, labels){
+    $("#canvas").remove();
+    $("#myModalContent").append('<canvas note_labels="' + labels + '" notes="' + notes.join("") + '" id="canvas" width="300" height="300" style="background-color:#333"></canvas>');
+    canvas = document.getElementById("canvas");
+    ctx = canvas.getContext("2d");   
+    radius = canvas.height / 2;
+    ctx.translate(radius, radius);
+    radius = radius * 0.90
+    drawPolygon(notes,labels);
+    $("#myModal").show();
+}
+
+function drawPolygon(notes,labels) {
+    drawFace(ctx, radius);
+    drawNotes(ctx, radius, notes,labels);
+}
+
+function drawNotes(ctx, radius, notes, labels) {
+    var ang;
+    var num;
+    ctx.font = radius*0.15 + "px arial";
+    ctx.textBaseline="middle";
+    ctx.textAlign="center";
+    
+    for(num= 0; num < 12; num++){
+        ang = num * Math.PI / 6;
+        ctx.rotate(ang);
+        ctx.translate(0, -radius*0.85);
+        ctx.rotate(-ang);
+
+        ctx.beginPath();
+        ctx.arc(0, 0, radius*0.1, 0, 2*Math.PI);
+        ctx.fillStyle = '#333';
+        ctx.fill();
+
+        ctx.fillStyle = "white";
+        if(notes[num] === '1'){ ctx.fillText(labels[num], 0, 0); }
+        ctx.rotate(ang);
+        ctx.translate(0, radius*0.85);
+        ctx.rotate(-ang);
+    }
+}
+
+function drawFace(ctx, radius) {
+    var grad;
+
+    ctx.beginPath();
+    ctx.arc(0, 0, radius, 0, 2*Math.PI);
+    ctx.fillStyle = 'black';
+    ctx.fill();
+
+    grad = ctx.createRadialGradient(0,0,radius*0.95, 0,0,radius*1.05);
+    grad.addColorStop(0, '#333');
+    grad.addColorStop(0.5, 'white');
+    grad.addColorStop(1, '#333');
+    ctx.strokeStyle = grad;
+    ctx.lineWidth = radius*0.017;
+    ctx.stroke();
+
+}
+
 
 function playMode(rootNote, notesArr){    
 
