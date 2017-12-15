@@ -71,10 +71,11 @@ xmlns:fb="http://ogp.me/ns/fb#">
         <div>
                 <div id="myModal" class="modal">
                     <div id="myModalContent" class="modal-content">
-                        <label id="closeModal">close</label>
-                        <label id="rotateMode">rotate</label>
+                        <label id="closeModal" style="font-size:14pt">close</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <label id="modeInfo" style="font-size:8pt"></label>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <label id="rotateMode" style="font-size:14pt">rotate</label>
                         <br>
-                        <canvas id="canvas" notes="" note_labels="" width="300" height="300" style="background-color:#333"></canvas> 
+                        <canvas id="canvas" modeInfo="" notes="" note_labels="" width="280" height="280" style="background-color:#333"></canvas> 
                     </div>
                 </div> 
                 <div>
@@ -196,6 +197,7 @@ $('body').on('click', '.spn_key', function() {
     $("#canvas").empty();
     let newlabels = clone(chromatic_labels);
     $("#canvas").attr('note_labels', newlabels.join(","));
+    $("#modeInfo").text(spnTxt);
     loadMode(binStr.split(""), newlabels);
 });
 
@@ -236,7 +238,7 @@ $('body').on('click', '#rotateMode', function(){
 
 function loadMode(notes, labels){
     $("#canvas").remove();
-    $("#myModalContent").append('<canvas note_labels="' + labels + '" notes="' + notes.join("") + '" id="canvas" width="300" height="300" style="background-color:#333"></canvas>');
+    $("#myModalContent").append('<canvas modeInfo="" note_labels="' + labels + '" notes="' + notes.join("") + '" id="canvas" width="300" height="300" style="background-color:#333"></canvas>');
     canvas = document.getElementById("canvas");
     ctx = canvas.getContext("2d");   
     radius = canvas.height / 2;
