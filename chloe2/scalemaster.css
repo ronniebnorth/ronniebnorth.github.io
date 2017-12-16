@@ -13,6 +13,11 @@ body {
  
 }
 
+p{
+  text-align: left;
+  white-space: pre;
+}
+
 .modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
@@ -33,6 +38,15 @@ body {
   padding: 20px;
   border: 1px solid #888;
   width: 80%; /* Could be more or less, depending on screen size */
+}
+
+.modal-content-help {
+  background-color: #000000;
+  margin: 3% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  color:#bff2ff;
+  width: 600px; /* Could be more or less, depending on screen size */
 }
 
 .controlPanel td{
@@ -65,7 +79,7 @@ label + input[type=radio] + label {
 .radio-group {
   border: solid 3px #675f6b;
   display: inline-block;
-  margin: 10px;
+  margin: 2px;
   border-radius: 10px;
   overflow: hidden;
 }
@@ -102,7 +116,7 @@ a:hover {
   width: 4.5%;
   box-sizing: border-box;
   margin: .5px;
-  padding: .5px; 
+  padding: .7px; 
   /* width: 80%; */
   /* max-width: 200px; */
   background: #fff; /* fallback color for old browsers */

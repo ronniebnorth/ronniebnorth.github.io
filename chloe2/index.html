@@ -78,17 +78,51 @@ xmlns:fb="http://ogp.me/ns/fb#">
                         <canvas id="canvas" modeInfo="" notes="" note_labels="" width="220" height="220" style="background-color:#333"></canvas> 
                     </div>
                 </div> 
+                <div id="myModal2" class="modal">
+                    <div id="myModalContent2" class="modal-content-help">
+                        <label id="closeModal2" style="font-size:14pt">close</label>
+                        <br>
+<p>
+Chloe - This app is used for exploring / listening to scales and modes, and having fun.
+
+Includes all sets of scales from octatonic (8 notes per scale) to tritonic (3 notes per scale).
+Any scales containing 3 consecutive notes are not generated.
+
+The 7 modes most people are familiar with (Dorian, Phrygian, Lydian...) are all located
+in the 5th diatonic scale (dia-5), and sorted Lydian to Locrian (light to dark). 
+
+The 2 normally used modes of pentatonic, major and minor, belong to the 37th 
+pentatonic scale. (pen-37).
+
+Select the mode info string to show the scale viewer.
+
+Searching filters by the information string (110010110110 (3254) dia-0).
+Search multiple scales by separating the search terms with a comma.
+
+
+Example searches: 
+
+To get the Greek Modes and Pentatonic: 
+    dia-5,pen-37
+
+To get a specific step patter, like Ionian (major): 
+    101011010101
+
+
+
+</p>
+                    </div>
+                </div> 
                 <div>
                     <table align="center" class="controlPanel">
                         <tr>
                             <td>
-                                <div class="txt-group">
+                                <div class="radio-group">
                                     <label for="mode_filter">Search</label>
                                     <input type="text" id="mode_filter" placeholder="ie.. dia-5,pen-37" style="width:120px"/>
                                     
                                 </div>
-                            </td>
-                            <td>
+                         
                                 <div class="radio-group">
                                     <input type="radio" id="option-one" value="root" name="play_style">
                                     <label for="option-one">Root</label>
@@ -101,6 +135,9 @@ xmlns:fb="http://ogp.me/ns/fb#">
             
                                     <input type="radio" id="option-four" value="just_fills" name="play_style">
                                     <label for="option-four">Fills</label>
+                                </div>  
+                                <div class="radio-group">
+                                    <label id="helpLabel" for="option-help">&nbsp;?&nbsp;</label>
                                 </div>        
                             </td>
                             <!--td>
@@ -205,6 +242,15 @@ $('body').on('click', '#closeModal', function() {
     $("#myModal").hide();
 });
 
+$('body').on('click', '#closeModal2', function() {
+    $("#myModal2").hide();
+});
+
+
+$('body').on('click', '#helpLabel', function() {
+    $("#myModal2").show();
+});
+
 $('body').on('keyup', '#mode_filter', function() {
 
     let input = $("#mode_filter").val();
@@ -285,11 +331,19 @@ function drawNotes(ctx, radius, notes, labels) {
         ctx.translate(0, -radius*0.85);
         ctx.rotate(-ang);
 
+        if(num === 0){
+            ctx.beginPath();
+            ctx.arc(0, 0, radius*0.12, 0, 2*Math.PI);
+            ctx.fillStyle = '#9627ff';
+            ctx.fill();
+        }
+
+
         ctx.beginPath();
         ctx.arc(0, 0, radius*0.1, 0, 2*Math.PI);
         ctx.fillStyle = '#333';
         ctx.fill();
-
+        
         ctx.fillStyle = "white";
         if(notes[num] === '1'){ ctx.fillText(labels[num], 0, 0); }
         ctx.rotate(ang);
