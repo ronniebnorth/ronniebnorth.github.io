@@ -89,7 +89,7 @@ Includes all sets of scales from octatonic (8 notes) to tritonic (3 notes).
 Any scales containing 3 consecutive notes are not generated.
 
 The 7 modes most people are familiar with (Dorian, Phrygian, Lydian...) 
-are all located in the 5th diatonic scale (dia-5), and sorted Lydian to 
+are all located in the 5th heptatonic scale (hep-5), and sorted Lydian to 
 Locrian, light to dark, augmented to diminished.
 
 Lydian, Ionian, Mixolydian, Dorian, Aeolian, Phrygian, Locrian
@@ -104,13 +104,13 @@ Notice how the major corresponds to Ionian mode, and minor to Aeolian.
 
 Select the mode info string to show the scale viewer.
 
-Searching filters by the information string (110010110110 (3254) dia-0).
+Searching filters by the information string (110010110110 (3254) hep-0).
 Search multiple scales by separating the search terms with a comma.
 
 Example searches: 
 
 To get the Greek Modes and Pentatonic: 
-    <a href="?filter=dia-5,pen-37">dia-5,pen-37</a>
+    <a href="?filter=hep-5,pen-37">hep-5,pen-37</a>
 
 To get Phrygian Dom, Minor Pentatonic, and Major Pentatonic:
     <a href="?filter=3290,2708,2386">3290,2708,2386</a>
@@ -143,7 +143,7 @@ Once the new mode sinks in, your perspective may start to change.
                             <td>
                                 <div class="radio-group">
                                     <label for="mode_filter">Search</label>
-                                    <input type="text" id="mode_filter" placeholder="ie.. dia-5,pen-37" 
+                                    <input type="text" id="mode_filter" placeholder="ie.. hep-5,pen-37" 
                                     autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
                                     style="width:120px"/>
                                     
@@ -202,9 +202,9 @@ let lastVelocity = 100;
 const octatonic = [1,1,1,1,1,1,1,0,0,0,0];
 let octatonicScales = [];
 octatonicScales.group = 'oct';
-const diatonic = [1,1,1,1,1,1,0,0,0,0,0];
-let diatonicScales = [];
-diatonicScales.group = 'dia';
+const heptatonic = [1,1,1,1,1,1,0,0,0,0,0];
+let heptatonicScales = [];
+heptatonicScales.group = 'hep';
 const hexatonic = [1,1,1,1,1,0,0,0,0,0,0];
 let hexatonicScales = [];
 hexatonicScales.group = 'hex';
@@ -219,7 +219,7 @@ let tritonicScales = [];
 tritonicScales.group = 'tri';
 
 octatonicScales = tryScales(octatonicScales, octatonic);
-diatonicScales = tryScales(diatonicScales, diatonic);
+heptatonicScales = tryScales(heptatonicScales, heptatonic);
 hexatonicScales = tryScales(hexatonicScales, hexatonic);
 pentatonicScales = tryScales(pentatonicScales, pentatonic);
 tetratonicScales = tryScales(tetratonicScales, tetratonic);
@@ -556,7 +556,7 @@ function makeUI(){
     let div = $("#scales_div");
 
     makeModeUI(getModes(octatonicScales), div);
-    makeModeUI(getModes(diatonicScales), div);
+    makeModeUI(getModes(heptatonicScales), div);
     makeModeUI(getModes(hexatonicScales), div);
     makeModeUI(getModes(pentatonicScales), div);
     makeModeUI(getModes(tetratonicScales), div);
