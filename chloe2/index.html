@@ -138,7 +138,9 @@ Once the new mode sinks in, your perspective may start to change.
                             <td>
                                 <div class="radio-group">
                                     <label for="mode_filter">Search</label>
-                                    <input type="text" id="mode_filter" placeholder="ie.. dia-5,pen-37" style="width:120px"/>
+                                    <input type="text" id="mode_filter" placeholder="ie.. dia-5,pen-37" 
+                                    autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                                    style="width:120px"/>
                                     
                                 </div>
                          
@@ -186,8 +188,25 @@ Once the new mode sinks in, your perspective may start to change.
         
     </div>
     <script>
+var parseQueryString = function(url) {
+    var urlParams = {};
+    url.replace(
+        new RegExp("([^?=&]+)(=([^&]*))?", "g"),
+        function($0, $1, $2, $3) {
+            urlParams[$1] = $3;
+        }
+    );
 
-
+    return urlParams;
+}
+let urlToParse = location.search;  
+let result = parseQueryString(urlToParse );  
+let searchTerm = result.filter;
+try{
+    if(searchTerm.length > 1){
+        $("#mode_filter").val(searchTerm);
+    }
+}catch(e){}
 
 
 
@@ -234,10 +253,6 @@ makeUI();
 
 
 
-
-
-
-
 $('body').on('mousedown', '.btn_key', function() {
     let rootNote = $(this).text();
     rootNote = rootNote.replace('♭','b');
@@ -273,7 +288,15 @@ $('body').on('click', '#helpLabel', function() {
 $('body').on('keyup', '#mode_filter', function() {
 
     let input = $("#mode_filter").val();
-    
+
+
+    if (history.pushState) {
+        var newurl = window.location.protocol + "//" 
+            + window.location.host + window.location.pathname + '?filter=' + input;
+        window.history.pushState({path:newurl},'',newurl);
+    }
+
+
     if(input === ""){
         
         $('.mdv').show();
