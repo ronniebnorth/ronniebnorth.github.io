@@ -38,16 +38,20 @@ xmlns:fb="http://ogp.me/ns/fb#">
         <!-- utils -->
         <script src="./js/util/dom_request_xhr.js" type="text/javascript"></script>
         <script src="./js/util/dom_request_script.js" type="text/javascript"></script>
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/svg.js/2.6.3/svg.js"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-110149473-1"></script>
 
-<script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<!--script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script-->
 <script>
+    /*
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
   gtag('config', 'UA-110149473-1');
+  */
 </script>
     </head>
     <body>
@@ -75,7 +79,10 @@ xmlns:fb="http://ogp.me/ns/fb#">
                         <label id="modeInfo" style="font-size:8pt"></label>&nbsp;&nbsp;&nbsp;&nbsp;
                         <label id="rotateMode" style="font-size:14pt">rotate</label>
                         <br>
-                        <canvas id="canvas" modeInfo="" notes="" note_labels="" width="220" height="220" style="background-color:#333"></canvas> 
+
+                        <canvas id="canvas" modeInfo="" notes="" note_labels="" width="220" height="220" style="background-color:#333">
+                            
+                        </canvas> 
                     </div>
                 </div> 
                 <div id="myModal2" class="modal">
@@ -198,6 +205,7 @@ const chromatic = ['A','Bb','B','C','Db','D','Eb','E','F','Gb','G','Ab'];
 const chromatic_labels = ['A','B♭','B','C','D♭','D','E♭','E','F','G♭','G','A♭'];
 
 let lastVelocity = 100;
+let lastGroup = "";
 
 const octatonic = [1,1,1,1,1,1,1,0,0,0,0];
 let octatonicScales = [];
@@ -225,7 +233,7 @@ pentatonicScales = tryScales(pentatonicScales, pentatonic);
 tetratonicScales = tryScales(tetratonicScales, tetratonic);
 tritonicScales = tryScales(tritonicScales, tritonic);
 
-let lastGroup = "";
+
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
 let radius = canvas.height / 2;
@@ -238,7 +246,6 @@ $('body').on('mousedown', '.btn_key', function() {
     let mode = $(this).closest("div").attr('data');
     let notes = getNotes(rootNote, mode.split(","));
     playMode(rootNote, notes);
-
 });
 
 $('body').on('click', '.spn_key', function() {
@@ -272,7 +279,6 @@ $('body').on('keyup', '#mode_filter', function() {
         window.history.pushState({path:newurl},'',newurl);
     }
     if(input === ""){
-        
         $('.mdv').show();
         $('.spacer').show();
         return;
@@ -352,6 +358,7 @@ function loadMode(notes, labels){
 function drawPolygon(notes,labels) {
     drawFace(ctx, radius);
     drawNotes(ctx, radius, notes,labels);
+
 }
 
 function drawNotes(ctx, radius, notes, labels) {
@@ -374,18 +381,78 @@ function drawNotes(ctx, radius, notes, labels) {
             ctx.fill();
         }
 
-
         ctx.beginPath();
         ctx.arc(0, 0, radius*0.1, 0, 2*Math.PI);
         ctx.fillStyle = '#333';
         ctx.fill();
         
         ctx.fillStyle = "white";
-        if(notes[num] === '1'){ ctx.fillText(labels[num], 0, 0); }
+
+        if(notes[num] === '1'){ 
+            ctx.fillText(labels[num], 0, 0); 
+
+        }
+
         ctx.rotate(ang);
         ctx.translate(0, radius*0.85);
         ctx.rotate(-ang);
     }
+
+    console.log("notes",notes);
+    
+    ctx.beginPath();
+    ctx.moveTo(0, -100);
+
+    if(notes[1] === "1"){
+        ctx.lineTo(50, -85);
+    }
+    if(notes[2] === "1"){
+        ctx.lineTo(85, -50);
+    }   
+    if(notes[3] === "1"){
+        ctx.lineTo(100, 0);
+    }  
+    if(notes[4] === "1"){
+        ctx.lineTo(85, 50);
+    }  
+    if(notes[5] === "1"){
+        ctx.lineTo(50,85);
+    }  
+    if(notes[6] === "1"){
+        ctx.lineTo(0,100);
+    }  
+    if(notes[7] === "1"){
+        ctx.lineTo(-50, 85);
+    }  
+    if(notes[8] === "1"){
+        ctx.lineTo(-85, 50);
+    }  
+    if(notes[9] === "1"){
+        ctx.lineTo(-100, 0);
+    }  
+    if(notes[10] === "1"){
+        ctx.lineTo(-85, -50);
+    }  
+    if(notes[11] === "1"){
+        ctx.lineTo(-50,-85);
+    }  
+
+    ctx.lineTo(0, -100);
+    ctx.fillStyle = "#9627ff";
+    ctx.fill();
+    
+
+/*
+    //filter all the texts
+    var texts = d3.selectAll("text")[0].filter(function(r) {
+    return d3.select(r).text() == "rectangle"
+    })
+    //map all the x and y of filtered texts
+    var coordinates = texts.map(function(t){
+        return {x: d3.select(t).attr("x"), y : d3.select(t).attr("y")}
+    })
+    console.log(coordinates)
+    */
 }
 
 function drawFace(ctx, radius) {
@@ -561,7 +628,6 @@ function makeUI(){
     makeModeUI(getModes(pentatonicScales), div);
     makeModeUI(getModes(tetratonicScales), div);
     makeModeUI(getModes(tritonicScales), div);
-
     
 }
 
