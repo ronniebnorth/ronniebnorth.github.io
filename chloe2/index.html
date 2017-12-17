@@ -349,7 +349,7 @@ try{
 
 function loadMode(notes, labels, divColor){
     $("#canvas").remove();
-    $("#myModalContent").append('<canvas modeInfo="" note_labels="' + labels + '" notes="' + notes.join("") + '" id="canvas" width="300" height="300" style="background-color:#333"></canvas>');
+    $("#myModalContent").append('<canvas div_color="' + divColor + '" modeInfo="" note_labels="' + labels + '" notes="' + notes.join("") + '" id="canvas" width="300" height="300" style="background-color:#333"></canvas>');
     canvas = document.getElementById("canvas");
     ctx = canvas.getContext("2d");   
     radius = canvas.height / 2;
