@@ -188,28 +188,6 @@ Once the new mode sinks in, your perspective may start to change.
         
     </div>
     <script>
-var parseQueryString = function(url) {
-    var urlParams = {};
-    url.replace(
-        new RegExp("([^?=&]+)(=([^&]*))?", "g"),
-        function($0, $1, $2, $3) {
-            urlParams[$1] = $3;
-        }
-    );
-
-    return urlParams;
-}
-let urlToParse = location.search;  
-let result = parseQueryString(urlToParse );  
-let searchTerm = result.filter;
-try{
-    if(searchTerm.length > 1){
-        $("#mode_filter").val(searchTerm);
-    }
-}catch(e){}
-
-
-
 
 const chromatic = ['A','Bb','B','C','Db','D','Eb','E','F','Gb','G','Ab'];
 const chromatic_labels = ['A','B♭','B','C','D♭','D','E♭','E','F','G♭','G','A♭'];
@@ -249,10 +227,6 @@ let radius = canvas.height / 2;
 
 
 
-makeUI();
-
-
-
 $('body').on('mousedown', '.btn_key', function() {
     let rootNote = $(this).text();
     rootNote = rootNote.replace('♭','b');
@@ -286,17 +260,12 @@ $('body').on('click', '#helpLabel', function() {
 });
 
 $('body').on('keyup', '#mode_filter', function() {
-
     let input = $("#mode_filter").val();
-
-
     if (history.pushState) {
-        var newurl = window.location.protocol + "//" 
+        let newurl = window.location.protocol + "//" 
             + window.location.host + window.location.pathname + '?filter=' + input;
         window.history.pushState({path:newurl},'',newurl);
     }
-
-
     if(input === ""){
         
         $('.mdv').show();
@@ -340,7 +309,27 @@ $('body').on('click', '#rotateMode', function(){
 });
 
 
+makeUI();
 
+let parseQueryString = function(url) {
+    let urlParams = {};
+    url.replace(
+        new RegExp("([^?=&]+)(=([^&]*))?", "g"),
+        function($0, $1, $2, $3) {
+            urlParams[$1] = $3;
+        }
+    );
+    return urlParams;
+}
+let urlToParse = location.search;  
+let result = parseQueryString(urlToParse );  
+let searchTerm = result.filter;
+try{
+    if(searchTerm.length > 1){
+        $("#mode_filter").val(searchTerm);
+        $("#mode_filter").keyup();
+    }
+}catch(e){}
 
 
 function loadMode(notes, labels){
@@ -568,6 +557,7 @@ function makeUI(){
     makeModeUI(getModes(tetratonicScales), div);
     makeModeUI(getModes(tritonicScales), div);
 
+    
 }
 
 
