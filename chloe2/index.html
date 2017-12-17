@@ -20,7 +20,7 @@ xmlns:fb="http://ogp.me/ns/fb#">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
 
-        <link rel="stylesheet" href="scalemaster.css?version=673334433"/>
+        <link rel="stylesheet" href="scalemaster.css?version=6733346433"/>
         <script src="jquery-3.2.1.min.js"></script>
         <script src="ramda.js"></script>
         <script src="tone.js"></script>
@@ -98,7 +98,8 @@ The modes are sorted by their level of augmentation.. how many
 steps from root note to the 2nd, then to the 3rd, etc. 
 
 The 2 normally used modes of pentatonic, major and minor, belong to the 
-37th  pentatonic scale. (pen-37). The major is 2708, the minor is 2386.
+37th  pentatonic scale. (pen-37). The major is <a href="?filter=2708">2708</a>, 
+the minor is <a href="?filter=2386">2386</a>
 Notice how the major corresponds to Ionian mode, and minor to Aeolian.
 
 Select the mode info string to show the scale viewer.
@@ -109,19 +110,19 @@ Search multiple scales by separating the search terms with a comma.
 Example searches: 
 
 To get the Greek Modes and Pentatonic: 
-    <span style="user-select: text;">dia-5,pen-37</span>
+    <a href="?filter=dia-5,pen-37">dia-5,pen-37</a>
 
 To get Phrygian Dom, Minor Pentatonic, and Major Pentatonic:
-    <span style="user-select: text;">3290,2708,2386</span>
+    <a href="?filter=3290,2708,2386">3290,2708,2386</a>
 
 To get a specific step pattern, like Ionian (major): 
-    <span style="user-select: text;">101011010101</span>
+    <a href="?filter=101011010101">101011010101</a>
 
 To get all tetratonics:
-    <span style="user-select: text;">tet</span>
+    <a href="?filter=tet">tet</a>
 
 To get 37th pentatonic, all tetratonics, all tritonics, and Dorian mode
-    <span style="user-select: text;">pen-37,tet-4,tri,101101010110</span>
+    <a href="?filter=pen-37,tet-4,tri,101101010110">pen-37,tet-4,tri,101101010110</a>
 
 You can save a setup by bookmarking it. All the search terms are
 added to the URL. So, you can different styles, like Western, Asian, etc
