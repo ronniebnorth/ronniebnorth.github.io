@@ -255,7 +255,10 @@ $('body').on('click', '.spn_key', function() {
     let newlabels = clone(chromatic_labels);
     $("#canvas").attr('note_labels', newlabels.join(","));
     $("#modeInfo").text(spnTxt);
-    loadMode(binStr.split(""), newlabels);
+    let divColor = $(this).closest("div").css("background-color");
+    $("#canvas").attr('div_color',divColor);
+
+    loadMode(binStr.split(""), newlabels, divColor);
 });
 
 $('body').on('click', '#closeModal', function() {
@@ -309,6 +312,7 @@ $('body').on('keyup', '#mode_filter', function() {
 $('body').on('click', '#rotateMode', function(){
     let notes = $("#canvas").attr('notes').split("");
     let labels = $("#canvas").attr('note_labels').split(",");
+    let divColor = $("#canvas").attr('div_color');
     let newlabels = [];
     let mem = labels[0];
     for(let i = 1; i < labels.length; i++){
@@ -316,7 +320,7 @@ $('body').on('click', '#rotateMode', function(){
     }
     newlabels.push(mem);
     $("#canvas").attr('note_labels', newlabels.join(","));
-    loadMode(notes, newlabels);
+    loadMode(notes, newlabels, divColor);
 });
 
 
@@ -343,7 +347,7 @@ try{
 }catch(e){}
 
 
-function loadMode(notes, labels){
+function loadMode(notes, labels, divColor){
     $("#canvas").remove();
     $("#myModalContent").append('<canvas modeInfo="" note_labels="' + labels + '" notes="' + notes.join("") + '" id="canvas" width="300" height="300" style="background-color:#333"></canvas>');
     canvas = document.getElementById("canvas");
@@ -351,17 +355,17 @@ function loadMode(notes, labels){
     radius = canvas.height / 2;
     ctx.translate(radius, radius);
     radius = radius * 0.90
-    drawPolygon(notes,labels);
+    drawPolygon(notes,labels,divColor);
     $("#myModal").show();
 }
 
-function drawPolygon(notes,labels) {
+function drawPolygon(notes,labels,divColor) {
     drawFace(ctx, radius);
-    drawNotes(ctx, radius, notes,labels);
+    drawNotes(ctx, radius, notes,labels,divColor);
 
 }
 
-function drawNotes(ctx, radius, notes, labels) {
+function drawNotes(ctx, radius, notes, labels,divColor) {
     let ang;
     let num;
     ctx.font = radius*0.15 + "px arial";
@@ -377,7 +381,7 @@ function drawNotes(ctx, radius, notes, labels) {
         if(num === 0){
             ctx.beginPath();
             ctx.arc(0, 0, radius*0.12, 0, 2*Math.PI);
-            ctx.fillStyle = '#9627ff';
+            ctx.fillStyle = divColor;
             ctx.fill();
         }
 
@@ -438,7 +442,7 @@ function drawNotes(ctx, radius, notes, labels) {
     }  
 
     ctx.lineTo(0, -100);
-    ctx.fillStyle = "#9627ff";
+    ctx.fillStyle = divColor;
     ctx.fill();
     
 
