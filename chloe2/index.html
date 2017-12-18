@@ -96,7 +96,7 @@ Includes all sets of scales from octatonic (8 notes) to tritonic (3 notes).
 Any scales containing 3 consecutive notes are not generated.
 
 The 7 modes most people are familiar with (Dorian, Phrygian, Lydian...) 
-are all located in the 6th heptatonic scale (hep-5), and sorted Lydian to 
+are all located in the 6th heptatonic scale (hep-6), and sorted Lydian to 
 Locrian, light to dark, augmented to diminished.
 
 Lydian, Ionian, Mixolydian, Dorian, Aeolian, Phrygian, Locrian
@@ -105,19 +105,19 @@ The modes are sorted by their level of augmentation.. how many
 steps from root note to the 2nd, then to the 3rd, etc. 
 
 The 2 normally used modes of pentatonic, major and minor, belong to the 
-38th  pentatonic scale. (pen-37). The major is <a href="?filter=2708">2708</a>, 
+38th  pentatonic scale. (pen-38). The major is <a href="?filter=2708">2708</a>, 
 the minor is <a href="?filter=2386">2386</a>
 The major corresponds to Ionian mode, and minor to Aeolian.
 
 Select the mode info string to show the scale viewer.
 
-Searching filters by the information string (110010110110 (3254) hep-0).
+Searching filters by the information string (110010110110 (3254) hep-1).
 Search multiple scales by separating the search terms with a comma.
 
 Example searches: 
 
 To get the modern modes and Pentatonic: 
-    <a href="?filter=hep-5,pen-37">hep-5,pen-37</a>
+    <a href="?filter=hep-6,pen-38">hep-6,pen-38</a>
 
 To get Phrygian Dom, Minor Pentatonic, and Major Pentatonic:
     <a href="?filter=3290,2708,2386">3290,2708,2386</a>
@@ -129,7 +129,7 @@ To get all tetratonics:
     <a href="?filter=tet">tet</a>
 
 To get pentatonic, all tetratonics, all tritonics, and Dorian mode
-    <a href="?filter=pen-37,tet-4,tri,101101010110">pen-37,tet-4,tri,101101010110</a>
+    <a href="?filter=pen-38,tet-4,tri,101101010110">pen-38,tet-4,tri,101101010110</a>
 
 You can save a setup by bookmarking it. All the search terms are
 added to the URL. So, you can save styles, like Western, Asian, etc
@@ -150,7 +150,7 @@ a while.
                             <td>
                                 <div class="radio-group">
                                     <label for="mode_filter">Search</label>
-                                    <input type="text" id="mode_filter" placeholder="ie.. hep-5,pen-37" 
+                                    <input type="text" id="mode_filter" placeholder="ie.. hep-6,pen-38" 
                                     autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
                                     style="width:120px"/>
                                     
@@ -390,7 +390,7 @@ function drawNotes(ctx, radius, notes, labels,divColor) {
             ctx.fillStyle = '#333';
             ctx.fill();
         }
-        
+
         ctx.fillStyle = "white";
 
         if(notes[num] === '1'){ 
@@ -618,7 +618,7 @@ function makeModeUI(modes, div){
         }
         let newdiv = $('<div class="mdv" data="' + mode + '" style="background-color:' + bgcolor + '"></div>');
         div.append(newdiv);
-        
+        //parseInt(mode.join(""), 2).toString(12) + 
         newdiv.append('<span class="spn_key">' + mode.join("") + ' (' + num + ') ' + mode.group + '</span data=' + mode + '>')
         .append($('#notes_template_container').html());
     }
@@ -651,7 +651,7 @@ function getModes(scales){
             
             if(scale[j] === 1){
                 let mode = [];
-                mode.group = scales.group + '-' + i;
+                mode.group = scales.group + '-' + (i + 1);
                 for(let n = j; n < j + 12; n++){
                     mode.push(scale[n]);
                 }
