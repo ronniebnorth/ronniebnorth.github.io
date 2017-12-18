@@ -326,6 +326,11 @@ $('body').on('click', '#rotateMode', function(){
 
 makeUI();
 
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.replace(new RegExp(search, 'g'), replacement);
+};
+
 let parseQueryString = function(url) {
     let urlParams = {};
     url.replace(
@@ -339,12 +344,14 @@ let parseQueryString = function(url) {
 let urlToParse = location.search;  
 let result = parseQueryString(urlToParse );  
 let searchTerm = result.filter;
+searchTerm = searchTerm.replaceAll("%2C", ",");
 try{
     if(searchTerm.length > 1){
         $("#mode_filter").val(searchTerm);
         $("#mode_filter").keyup();
     }
 }catch(e){}
+
 
 
 function loadMode(notes, labels, divColor){
