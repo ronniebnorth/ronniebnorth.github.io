@@ -196,7 +196,7 @@ function createScaleView(notes,labels,divColor) {
 function drawNotes(ctx, radius, notes, labels,divColor) {
     let ang;
     let num;
-    ctx.font = radius*0.15 + "px arial";
+    
     ctx.textBaseline="middle";
     ctx.textAlign="center";
     
@@ -221,7 +221,10 @@ function drawNotes(ctx, radius, notes, labels,divColor) {
 
         ctx.fillStyle = "white";
         if(num === 0){
+            ctx.font = radius*0.20 + "px arial";
             ctx.fillStyle = divColor;
+         }else{
+            ctx.font = radius*0.15 + "px arial";
          }
         if(notes[num] === '1'){ 
             
