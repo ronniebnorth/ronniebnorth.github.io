@@ -36,7 +36,7 @@ p{
   background-color: #000000;
   margin: 3% auto; /* 15% from the top and centered */
   padding: 20px;
-  border: 1px solid #888;
+  border: 1px solid rgb(0, 0, 0);
   width: 500px; /* Could be more or less, depending on screen size */
 }
 
@@ -44,8 +44,9 @@ p{
   background-color: #000000;
   margin: 3% auto; /* 15% from the top and centered */
   padding: 20px;
-  border: 1px solid #888;
+  border: 1px solid rgb(0, 0, 0);
   color:#bff2ff;
+  border-radius: 6px;
   width: 500px; /* Could be more or less, depending on screen size */
 }
 

@@ -29,7 +29,7 @@ $(function() {
 
     $('body').on('click', '#closeModal', function() {$("#scaleViewModal").hide();});
 
-    $('body').on('click', '#closeModal2', function() {$("#helpModal").hide();});
+    $('body').on('click', '.closeModal2', function() {$("#helpModal").hide();});
 
     $('body').on('click', '#helpLabel', function() {$("#helpModal").show();});
 
@@ -175,7 +175,7 @@ function initFilters(){
 function loadMode(notes, labels, divColor){
     viewNotes = labels;
     $("#canvas").remove();
-    $("#scaleViewModalContent").append('<canvas div_color="' + divColor + '" modeInfo="" note_labels="' + labels + '" notes="' + notes.join("") + '" id="canvas" width="300" height="300" style="background-color:#333"></canvas>');
+    $("#scaleViewModalContent").append('<canvas div_color="' + divColor + '" modeInfo="" note_labels="' + labels + '" notes="' + notes.join("") + '" id="canvas" width="300" height="300" style="background-color:#000"></canvas>');
     canvas = document.getElementById("canvas");
     ctx = canvas.getContext("2d");   
     radius = canvas.height / 2;
@@ -207,21 +207,24 @@ function drawNotes(ctx, radius, notes, labels,divColor) {
         ctx.rotate(-ang);
 
         if(num === 0){
-            ctx.beginPath();
-            ctx.arc(0, 0, radius*0.12, 0, 2*Math.PI);
-            ctx.fillStyle = divColor;
-            ctx.fill();
+           // ctx.beginPath();
+          //  ctx.arc(0, 0, radius*0.12, 0, 2*Math.PI);
+           // ctx.fillStyle = divColor;
+           // ctx.fill();
         }
         if(notes[num] === '1'){
             ctx.beginPath();
             ctx.arc(0, 0, radius*0.1, 0, 2*Math.PI);
-            ctx.fillStyle = '#333';
+            ctx.fillStyle = '#000';
             ctx.fill();
         }
 
         ctx.fillStyle = "white";
-
+        if(num === 0){
+            ctx.fillStyle = divColor;
+         }
         if(notes[num] === '1'){ 
+            
             ctx.fillText(labels[num], 0, 0); 
 
         }
@@ -281,7 +284,7 @@ function drawFace(ctx, radius) {
     ctx.arc(0, 0, radius, 0, 2*Math.PI);
     ctx.fillStyle = 'black';
     ctx.fill();
-
+/*
     grad = ctx.createRadialGradient(0,0,radius*0.95, 0,0,radius*1.05);
     grad.addColorStop(0, '#333');
     grad.addColorStop(0.5, 'white');
@@ -289,7 +292,7 @@ function drawFace(ctx, radius) {
     ctx.strokeStyle = grad;
     ctx.lineWidth = radius*0.017;
     ctx.stroke();
-
+*/
 }
 
 
