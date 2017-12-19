@@ -1,19 +1,22 @@
 const chromatic = ['A','Bb','B','C','Db','D','Eb','E','F','Gb','G','Ab'];
 const chromatic_labels = ['A','B♭','B','C','D♭','D','E♭','E','F','G♭','G','A♭'];
-let lastVelocity = 100;
-let lastGroup = "";
+
 const octatonic = [1,1,1,1,1,1,1,0,0,0,0];
 const heptatonic = [1,1,1,1,1,1,0,0,0,0,0];
 const hexatonic = [1,1,1,1,1,0,0,0,0,0,0];
 const pentatonic = [1,1,1,1,0,0,0,0,0,0,0];
 const tetratonic = [1,1,1,0,0,0,0,0,0,0,0];
 const tritonic = [1,1,0,0,0,0,0,0,0,0,0];
+
 let octatonicScales = [];
 let heptatonicScales = [];
 let hexatonicScales = [];
 let pentatonicScales = [];
 let tetratonicScales = [];
 let tritonicScales = [];
+
+let lastVelocity = 100;
+let lastGroup = "";
 
 
 $(function() {
