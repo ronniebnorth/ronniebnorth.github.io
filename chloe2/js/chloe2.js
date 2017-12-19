@@ -183,7 +183,7 @@ function loadMode(notes, labels, divColor){
     radius = radius * 0.90
     createScaleView(notes,labels,divColor);
     canvas.addEventListener("mousemove", on_mousemove, false);
-    canvas.addEventListener("click", on_click, false);
+    canvas.addEventListener("mousedown", on_click, false);
     $("#scaleViewModal").show();
 }
 
