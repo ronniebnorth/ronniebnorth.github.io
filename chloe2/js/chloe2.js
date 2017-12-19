@@ -18,6 +18,9 @@ let tritonicScales = [];
 let lastVelocity = 100;
 let lastGroup = "";
 
+let clickedNote = "";
+let inNote = false;
+let viewNotes = "";
 
 $(function() {
     $('body').on('mousedown', '.btn_key', function() {playKey($(this));});
@@ -54,6 +57,7 @@ function run(){
     tritonicScales = tryScales(tritonicScales, tritonic);
 
     let canvas = document.getElementById("canvas");
+
     let ctx = canvas.getContext("2d");
     let radius = canvas.height / 2;
 
@@ -74,12 +78,13 @@ function playKey(key){
 function viewScale(spn){
     let spnTxt = spn.text();
     let binStr = spnTxt.substring(0,12);
-    $("#canvas").empty();
+    //$("#canvas").empty();
     let newlabels = clone(chromatic_labels);
-    $("#canvas").attr('note_labels', newlabels.join(","));
+    //$("#canvas").attr('note_labels', newlabels.join(","));
     $("#modeInfo").text(spnTxt);
     let divColor = spn.closest("div").css("background-color");
-    $("#canvas").attr('div_color',divColor);
+    //$("#canvas").attr('div_color',divColor);
+    viewNotes = binStr;
 
     loadMode(binStr.split(""), newlabels, divColor);    
 }
@@ -136,39 +141,39 @@ function rotateScaleViewRoot(){
 }
 
 
-
 function initFilters(){
+    try{
     String.prototype.replaceAll = function(search, replacement) {
-        var target = this;
-            return target.replace(new RegExp(search, 'g'), replacement);
-        };
+    var target = this;
+        return target.replace(new RegExp(search, 'g'), replacement);
+    };
 
-
-        let parseQueryString = function(url) {
-            let urlParams = {};
-            url.replace(
-                new RegExp("([^?=&]+)(=([^&]*))?", "g"),
-                function($0, $1, $2, $3) {
-                    urlParams[$1] = $3;
-                }
-            );
-            return urlParams;
-        }
-        let urlToParse = location.search;  
-        let result = parseQueryString(urlToParse );  
-        let searchTerm = result.filter;
-        searchTerm = searchTerm.replaceAll("%2C", ",");
-        try{
-            if(searchTerm.length > 1){
-                $("#mode_filter").val(searchTerm);
-                $("#mode_filter").keyup();
+    let parseQueryString = function(url) {
+        let urlParams = {};
+        url.replace(
+            new RegExp("([^?=&]+)(=([^&]*))?", "g"),
+            function($0, $1, $2, $3) {
+                urlParams[$1] = $3;
             }
-        }catch(e){}
-        return true;
+        );
+        return urlParams;
+    }
+    let urlToParse = location.search;  
+    let result = parseQueryString(urlToParse );  
+    let searchTerm = result.filter;
+    searchTerm = searchTerm.replaceAll("%2C", ",");
+
+        if(searchTerm.length > 1){
+            $("#mode_filter").val(searchTerm);
+            $("#mode_filter").keyup();
+        }
+    }catch(e){}
+    return true;
 }
 
 
 function loadMode(notes, labels, divColor){
+    viewNotes = labels;
     $("#canvas").remove();
     $("#scaleViewModalContent").append('<canvas div_color="' + divColor + '" modeInfo="" note_labels="' + labels + '" notes="' + notes.join("") + '" id="canvas" width="300" height="300" style="background-color:#333"></canvas>');
     canvas = document.getElementById("canvas");
@@ -177,6 +182,8 @@ function loadMode(notes, labels, divColor){
     ctx.translate(radius, radius);
     radius = radius * 0.90
     createScaleView(notes,labels,divColor);
+    canvas.addEventListener("mousemove", on_mousemove, false);
+    canvas.addEventListener("click", on_click, false);
     $("#scaleViewModal").show();
 }
 
@@ -286,7 +293,7 @@ function drawFace(ctx, radius) {
 }
 
 
-function playMode(rootNote, notesArr){    
+function playMode(rootNote, notesArr, oct="X"){    
 
     notesArr = shuffle(notesArr);
 
@@ -325,9 +332,13 @@ function playMode(rootNote, notesArr){
                 lastVelocity = velocity;
             }
 
-            rootNote = getRandomRootOctave(rootNote);
-            
-            rootNoteStr = MIDI.keyToNote[rootNote];
+            if(oct == "X"){
+                rootNote = getRandomRootOctave(rootNote);
+            }else{
+                rootNote = rootNote + oct;
+            }
+
+            let rootNoteStr = MIDI.keyToNote[rootNote];
 
             if($('input[name=play_style]:checked').val() !== 'just_fills'){
                 MIDI.noteOn(channel, rootNoteStr, velocity + 150,0);
@@ -364,6 +375,211 @@ function playMode(rootNote, notesArr){
     });
 }
 
+
+function isClose(a,b){
+    if(b < a-20 || b > a+20){
+        return false;
+    }
+    return true;
+
+}
+
+
+function on_mousemove (ev) {
+    /*
+    var x, y;
+
+    if (ev.layerX || ev.layerX == 0) { 
+      x = ev.layerX;
+      y = ev.layerY;
+    }
+    
+    x -= 150;
+    y -= 150;
+    y -= document.documentElement.scrollTop;
+    //console.log('scroll', document.documentElement.scrollTop);
+    //console.log(x,y);
+
+    if(isClose(0, x) && isClose(-115, y)){
+        document.body.style.cursor = "pointer";
+        inNote=true;
+        clickedNote = viewNotes[0].replace('♭','b');
+    }else if(isClose(60, x) && isClose(-100, y)){
+        document.body.style.cursor = "pointer";
+        inNote=true;
+        clickedNote = viewNotes[1].replace('♭','b');     
+    }else if(isClose(100, x) && isClose(-60, y)){
+        document.body.style.cursor = "pointer";
+        inNote=true;
+        clickedNote = viewNotes[2].replace('♭','b');           
+    }else if(isClose(115, x) && isClose(0, y)){
+        document.body.style.cursor = "pointer";
+        inNote=true;
+        clickedNote = viewNotes[3].replace('♭','b');           
+    }else if(isClose(100, x) && isClose(60, y)){
+        document.body.style.cursor = "pointer";
+        inNote=true;
+        clickedNote = viewNotes[4].replace('♭','b');         
+    }else if(isClose(60, x) && isClose(100, y)){
+        document.body.style.cursor = "pointer";
+        inNote=true;
+        clickedNote = viewNotes[5].replace('♭','b');           
+    }else if(isClose(0, x) && isClose(115, y)){
+        document.body.style.cursor = "pointer";
+        inNote=true;
+        clickedNote = viewNotes[6].replace('♭','b');         
+    }else if(isClose(-60, x) && isClose(100, y)){
+        document.body.style.cursor = "pointer";
+        inNote=true;
+        clickedNote = viewNotes[7].replace('♭','b');           
+    }else if(isClose(-100, x) && isClose(60, y)){
+        document.body.style.cursor = "pointer";
+        inNote=true;
+        clickedNote = viewNotes[8].replace('♭','b');           
+    }else if(isClose(-115, x) && isClose(0, y)){
+        document.body.style.cursor = "pointer";
+        inNote=true;
+        clickedNote = viewNotes[9].replace('♭','b');          
+    }else if(isClose(-100, x) && isClose(-60, y)){
+        document.body.style.cursor = "pointer";
+        inNote=true;
+        clickedNote = viewNotes[10].replace('♭','b');           
+    }else if(isClose(-60, x) && isClose(-100, y)){
+        document.body.style.cursor = "pointer";
+        inNote=true;
+        clickedNote = viewNotes[11].replace('♭','b');           
+    }else{
+        document.body.style.cursor = "";
+        inNote=false;      
+        clickedNote = "";
+    }
+
+*/
+
+  }
+  
+function on_click(ev) {
+    var x, y;
+    
+        if (ev.layerX || ev.layerX == 0) { 
+          x = ev.layerX;
+          y = ev.layerY;
+        }
+        
+        x -= 150;
+        y -= 150;
+        y -= document.documentElement.scrollTop;
+        //console.log('scroll', document.documentElement.scrollTop);
+        //console.log(x,y);
+        let oct = '2';
+
+        if(isClose(0, x) && isClose(-115, y)){
+            inNote=true;
+            clickedNote = viewNotes[0].replace('♭','b');
+
+        }else if(isClose(60, x) && isClose(-100, y)){
+            // if c - bump p
+
+            inNote=true;
+            clickedNote = viewNotes[1].replace('♭','b');  
+            if(clickedNote.charAt(0) === 'C'){
+                oct = '3';
+            }   
+        }else if(isClose(100, x) && isClose(-60, y)){
+            // if c - or d flat bump up
+            inNote=true;
+            clickedNote = viewNotes[2].replace('♭','b');   
+            if(clickedNote.charAt(0) === 'C' || clickedNote === 'Db'){
+                oct = '3';
+            }           
+        }else if(isClose(115, x) && isClose(0, y)){
+            // if c, d flat, or d
+            inNote=true;
+            clickedNote = viewNotes[3].replace('♭','b');   
+            if(clickedNote.charAt(0) === 'C' || clickedNote.charAt(0) === 'D'){
+                oct = '3';
+            }          
+        }else if(isClose(100, x) && isClose(60, y)){
+            // if c, d flat, d, or e flat
+            inNote=true;
+            clickedNote = viewNotes[4].replace('♭','b');      
+            if(clickedNote.charAt(0) === 'C' || clickedNote.charAt(0) === 'D' || clickedNote === 'Eb'){
+                oct = '3';
+            }       
+        }else if(isClose(60, x) && isClose(100, y)){
+            // if c, d flat, d, eflat, e
+            inNote=true;
+            clickedNote = viewNotes[5].replace('♭','b');   
+            if(clickedNote.charAt(0) === 'E' || clickedNote.charAt(0) === 'C' 
+            || clickedNote.charAt(0) === 'D'){
+                oct = '3';
+            }            
+        }else if(isClose(0, x) && isClose(115, y)){
+            //if c d flat d e flt e or f
+            inNote=true;
+            clickedNote = viewNotes[6].replace('♭','b');  
+            if(clickedNote.charAt(0) === 'F' || clickedNote.charAt(0) === 'E' || clickedNote.charAt(0) === 'C' 
+            || clickedNote.charAt(0) === 'D'){
+                oct = '3';
+            }                          
+        }else if(isClose(-60, x) && isClose(100, y)){
+           
+            inNote=true;
+            clickedNote = viewNotes[7].replace('♭','b');       
+            if(clickedNote === 'Gb' || clickedNote.charAt(0) === 'F' || clickedNote.charAt(0) === 'E' || clickedNote.charAt(0) === 'C' 
+            || clickedNote.charAt(0) === 'D'){
+                oct = '3';
+            }          
+        }else if(isClose(-100, x) && isClose(60, y)){
+            
+            inNote=true;
+            clickedNote = viewNotes[8].replace('♭','b');   
+            if(clickedNote.charAt(0) === 'G' || clickedNote.charAt(0) === 'F' || clickedNote.charAt(0) === 'E'
+             || clickedNote.charAt(0) === 'C' 
+            || clickedNote.charAt(0) === 'D'){
+                oct = '3';
+            }           
+        }else if(isClose(-115, x) && isClose(0, y)){
+           
+            inNote=true;
+            clickedNote = viewNotes[9].replace('♭','b');   
+            if(clickedNote === 'Ab' || clickedNote.charAt(0) === 'G' || clickedNote.charAt(0) === 'F' || 
+            clickedNote.charAt(0) === 'E' || clickedNote.charAt(0) === 'C' 
+            || clickedNote.charAt(0) === 'D'){
+                oct = '3';
+            }          
+        }else if(isClose(-100, x) && isClose(-60, y)){
+           
+            inNote=true;
+            clickedNote = viewNotes[10].replace('♭','b');    
+            if(clickedNote.charAt(0) === 'A' || clickedNote.charAt(0) === 'G' || clickedNote.charAt(0) === 'F' 
+            || clickedNote.charAt(0) === 'E' || clickedNote.charAt(0) === 'C' 
+            || clickedNote.charAt(0) === 'D'){
+                oct = '3';
+            }          
+        }else if(isClose(-60, x) && isClose(-100, y)){
+            
+            inNote=true;
+            clickedNote = viewNotes[11].replace('♭','b');   
+            if(clickedNote === 'Bb' || clickedNote.charAt(0) === 'G' || clickedNote.charAt(0) === 'F' || 
+            clickedNote.charAt(0) === 'E' || clickedNote.charAt(0) === 'C' 
+            || clickedNote.charAt(0) === 'D' || clickedNote.charAt(0) === 'A'){
+                oct = '3';
+            }           
+        }else{
+
+            inNote=false;      
+            clickedNote = "";
+        }
+
+    if (inNote)  {
+
+        playMode(clickedNote, [], oct);
+      
+    }
+}
+
+  
 
 function multiDimensionalUnique(arr) {
     let uniques = [];
