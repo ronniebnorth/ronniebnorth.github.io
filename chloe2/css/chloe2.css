@@ -84,6 +84,31 @@ label + input[type=radio] + label {
   border-radius: 10px;
   overflow: hidden;
 }
+#rotateMode {
+  border: solid 3px #675f6b;
+  display: inline-block;
+  margin: 2px;
+  border-radius: 10px;
+  overflow: hidden;
+  float:right;
+}
+#closeModal {
+  border: solid 3px #675f6b;
+  display: inline-block;
+  margin: 2px;
+  border-radius: 10px;
+  overflow: hidden;
+  float:left;
+}
+
+.closeModal2 {
+  border: solid 3px #675f6b;
+  display: inline-block;
+  margin: 2px;
+  border-radius: 10px;
+  overflow: hidden;
+
+}
 
 #mode_filter {
   border-radius: 4px;
