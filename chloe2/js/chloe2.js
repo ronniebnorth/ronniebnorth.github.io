@@ -225,6 +225,7 @@ function drawNotes(ctx, radius, notes, labels,divColor) {
             ctx.fillStyle = divColor;
          }else{
             ctx.font = radius*0.15 + "px arial";
+            ctx.fillStyle = '#9a929e';
          }
         if(notes[num] === '1'){ 
             
