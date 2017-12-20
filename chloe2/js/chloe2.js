@@ -1,15 +1,6 @@
 const chromatic = ['A','Bb','B','C','Db','D','Eb','E','F','Gb','G','Ab'];
 const chromatic_labels = ['A','B♭','B','C','D♭','D','E♭','E','F','G♭','G','A♭'];
 
-
-const octatonic =  '100001111111';
-const heptatonic = '100000111111';
-const hexatonic =  '100000011111';
-const pentatonic = '100000001111';
-const tetratonic = '100000000111';
-const tritonic =   '100000000011';
-
-
 let octatonicScales = [];
 let heptatonicScales = [];
 let hexatonicScales = [];
@@ -51,12 +42,12 @@ function run(){
     tetratonicScales.group = 'tet';
     tritonicScales.group = 'tri';
 
-    octatonicScales = getScales(octatonicScales, octatonic);
-    heptatonicScales = getScales(heptatonicScales, heptatonic);
-    hexatonicScales = getScales(hexatonicScales, hexatonic);
-    pentatonicScales = getScales(pentatonicScales, pentatonic);
-    tetratonicScales = getScales(tetratonicScales, tetratonic);
-    tritonicScales = getScales(tritonicScales, tritonic);
+    octatonicScales = getScales(octatonicScales, 8);
+    heptatonicScales = getScales(heptatonicScales, 7);
+    hexatonicScales = getScales(hexatonicScales, 6);
+    pentatonicScales = getScales(pentatonicScales, 5);
+    tetratonicScales = getScales(tetratonicScales, 4);
+    tritonicScales = getScales(tritonicScales, 3);
 
     let canvas = document.getElementById("canvas");
 
@@ -714,7 +705,11 @@ function arrayOfInts(strArr){
     return strArr;
 }
 
-function getScales(scalesArr, binStr){
+function getScales(scalesArr, numNotes){
+
+    let binStr = "".padStart(numNotes, "1");
+    binStr = binStr.padStart(12, "0");
+    
     for(let i = parseInt(binStr, 2); i < parseInt(revStr(binStr), 2); i++){
         let nStr = i.toString(2).padStart(12, "0");
         let dStr = R.concat(nStr,nStr);
