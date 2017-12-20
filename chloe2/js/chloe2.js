@@ -71,12 +71,9 @@ function playKey(key){
 function viewScale(spn){
     let spnTxt = spn.text();
     let binStr = spnTxt.substring(0,12);
-    //$("#canvas").empty();
     let newlabels = clone(chromatic_labels);
-    //$("#canvas").attr('note_labels', newlabels.join(","));
     $("#modeInfo").text(spnTxt);
     let divColor = spn.closest("div").css("background-color");
-    //$("#canvas").attr('div_color',divColor);
     viewNotes = binStr;
 
     loadMode(binStr.split(""), newlabels, divColor);    
@@ -137,7 +134,7 @@ function rotateScaleViewRoot(){
 function initFilters(){
     try{
     String.prototype.replaceAll = function(search, replacement) {
-    var target = this;
+        let target = this;
         return target.replace(new RegExp(search, 'g'), replacement);
     };
 
@@ -469,8 +466,7 @@ function on_click(ev) {
         x -= 150;
         y -= 150;
         y -= document.documentElement.scrollTop;
-        //console.log('scroll', document.documentElement.scrollTop);
-        //console.log(x,y);
+
         let oct = '2';
 
         if(isClose(0, x) && isClose(-115, y)){
@@ -478,36 +474,30 @@ function on_click(ev) {
             clickedNote = viewNotes[0].replace('♭','b');
 
         }else if(isClose(60, x) && isClose(-100, y)){
-            // if c - bump p
-
             inNote=true;
             clickedNote = viewNotes[1].replace('♭','b');  
             if(clickedNote.charAt(0) === 'C'){
                 oct = '3';
             }   
         }else if(isClose(100, x) && isClose(-60, y)){
-            // if c - or d flat bump up
             inNote=true;
             clickedNote = viewNotes[2].replace('♭','b');   
             if(clickedNote.charAt(0) === 'C' || clickedNote === 'Db'){
                 oct = '3';
             }           
         }else if(isClose(115, x) && isClose(0, y)){
-            // if c, d flat, or d
             inNote=true;
             clickedNote = viewNotes[3].replace('♭','b');   
             if(clickedNote.charAt(0) === 'C' || clickedNote.charAt(0) === 'D'){
                 oct = '3';
             }          
         }else if(isClose(100, x) && isClose(60, y)){
-            // if c, d flat, d, or e flat
             inNote=true;
             clickedNote = viewNotes[4].replace('♭','b');      
             if(clickedNote.charAt(0) === 'C' || clickedNote.charAt(0) === 'D' || clickedNote === 'Eb'){
                 oct = '3';
             }       
         }else if(isClose(60, x) && isClose(100, y)){
-            // if c, d flat, d, eflat, e
             inNote=true;
             clickedNote = viewNotes[5].replace('♭','b');   
             if(clickedNote.charAt(0) === 'E' || clickedNote.charAt(0) === 'C' 
@@ -515,7 +505,6 @@ function on_click(ev) {
                 oct = '3';
             }            
         }else if(isClose(0, x) && isClose(115, y)){
-            //if c d flat d e flt e or f
             inNote=true;
             clickedNote = viewNotes[6].replace('♭','b');  
             if(clickedNote.charAt(0) === 'F' || clickedNote.charAt(0) === 'E' || clickedNote.charAt(0) === 'C' 
@@ -664,8 +653,6 @@ function makeUI(){
 function getModes(scales){
     let modes = [];
 
-    scales.sort();
-
     for(let i = 0; i < scales.length; i++){
         let scale = scales[i];
         scale = R.concat(scale, scale);
@@ -686,7 +673,6 @@ function getModes(scales){
 
         modes = R.concat(modes, newmodes);
     }
-    //modes.sort();
 
     return modes;
 }
