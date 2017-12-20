@@ -42,7 +42,11 @@ $(function() {
 
     $('body').on('click', '#helpLabel', function() {$("#helpModal").show();});
 
-    $('body').on('keyup', '#mode_filter', function() {filterScales();});
+    $('body').on('keyup', '#mode_filter', function() {filterScales(false);});
+
+    $('body').on('click', '#lbl_mode_filter', function() {
+        let clear = true;
+        filterScales(clear);});
 
     $('body').on('click', '#rotateMode', function(){rotateScaleViewRoot();});
 
@@ -72,6 +76,8 @@ function run(){
     makeUI();
 
     initFilters();
+
+    $("#imgLoad").hide();
 }
 
 
@@ -95,7 +101,10 @@ function viewScale(spn){
 }
 
 
-function filterScales(){
+function filterScales(clear){
+    if(clear){
+        $("#mode_filter").val("");
+    }
     let input = $("#mode_filter").val();
     if (history.pushState) {
         let newurl = window.location.protocol + "//" 
@@ -105,7 +114,10 @@ function filterScales(){
     if(input === ""){
         $('.mdv').show();
         $('.spacer').show();
+        $('#lbl_mode_filter').text("Filter");
         return;
+    }else{
+        $('#lbl_mode_filter').text("Clear");
     }
     let inputArr = input.split(",");
     
