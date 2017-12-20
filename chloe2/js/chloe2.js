@@ -1,12 +1,14 @@
 const chromatic = ['A','Bb','B','C','Db','D','Eb','E','F','Gb','G','Ab'];
 const chromatic_labels = ['A','B♭','B','C','D♭','D','E♭','E','F','G♭','G','A♭'];
 
-const octatonic =  '100001111111';
-const heptatonic = '100000111111';
-const hexatonic =  '100000011111';
-const pentatonic = '100000001111';
-const tetratonic = '100000000111';
-const tritonic =   '100000000011';
+
+const octatonic =  '100011111101';
+const heptatonic = '100001111101';
+const hexatonic =  '100000111101';
+const pentatonic = '100000011101';
+const tetratonic = '100000001101';
+const tritonic =   '100000000101';
+
 
 let octatonicScales = [];
 let heptatonicScales = [];
