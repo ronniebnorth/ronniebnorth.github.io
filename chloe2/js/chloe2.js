@@ -713,30 +713,21 @@ function arrayOfInts(strArr){
 }
 
 function getScales(scalesArr, binStr){
-    let ones = count(binStr,'1');
-    let start =  parseInt(binStr, 2);
-    let end = parseInt(revStr(binStr), 2);
-
-    for(let i = start; i < end; i++){
+    for(let i = parseInt(binStr, 2); i < parseInt(revStr(binStr), 2); i++){
         let nStr = i.toString(2).padStart(12, "0");
         let dStr = R.concat(nStr,nStr);
-        let fnd = dStr.search('111');
 
-        if(fnd === -1 && count(nStr,'1') === ones){
-            if(scalesArr.length < 1){
+        if(dStr.search('111') === -1 && count(nStr,'1') === count(binStr,'1')){
+            let exists = false;
+            for(let j = 0; j < scalesArr.length; j++){
+                jScale = R.concat(scalesArr[j].join(""), scalesArr[j].join(""));
+                if(jScale.search(nStr) !== -1){
+                    exists = true;
+                    break;
+                }
+            }
+            if(!exists){
                 scalesArr.push(arrayOfInts(nStr.split("")));
-            }else{
-                let works = true;
-                for(let j = 0; j < scalesArr.length; j++){
-                    jScale = R.concat(scalesArr[j].join(""), scalesArr[j].join(""));
-                    if(jScale.search(nStr) !== -1){
-                        works = false;
-                        break;
-                    }
-                }
-                if(works){
-                    scalesArr.push(arrayOfInts(nStr.split("")));
-                }
             }
         }
     }
