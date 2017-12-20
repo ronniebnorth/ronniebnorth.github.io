@@ -15,6 +15,22 @@ let clickedNote = "";
 let inNote = false;
 let viewNotes = "";
 
+
+let instrumentName = "acoustic_guitar_nylon";
+
+MIDI.loadPlugin({
+    soundfontUrl: "./soundfont/",
+    instrument: instrumentName,
+    onprogress: function(state, progress) {
+        //console.log(state, progress);
+    },
+    onsuccess: function() {
+        MIDI.programChange(0, MIDI.GM.byName[instrumentName].number);
+        run();
+    }
+});
+
+
 $(function() {
     $('body').on('mousedown', '.btn_key', function() {playKey($(this));});
 
@@ -302,74 +318,64 @@ function playMode(rootNote, notesArr, oct="X"){
 
     notesArr = randomlyPutHoles(notesArr);
 
-    let instrumentName = "acoustic_guitar_nylon";
 
-    MIDI.loadPlugin({
-        soundfontUrl: "./soundfont/",
-        instrument: instrumentName,
-        onprogress: function(state, progress) {
-            //console.log(state, progress);
-        },
-        onsuccess: function() {
-            MIDI.programChange(0, MIDI.GM.byName[instrumentName].number);
-            let notes = notesArr;
-            let delayt = randomlyGoHalfTime();
-            if($('input[name=play_style]:checked').val() == 'chord'){
-                delayt = 0;
-            }
-            let delay = Array(notes.length).fill(delayt);
-            let tmpdelay= 0;
-            let ctxtime = MIDI.getContext().currentTime;
-            let channel = 0;
 
-            let velocity = lastVelocity;
 
-            if(Math.floor(Math.random() * 3) === 1){
-                velocity = Math.floor(Math.random() * 20 + 80);
-                lastVelocity = velocity;
-            }
+    
+    let notes = notesArr;
+    let delayt = randomlyGoHalfTime();
+    if($('input[name=play_style]:checked').val() == 'chord'){
+        delayt = 0;
+    }
+    let delay = Array(notes.length).fill(delayt);
+    let tmpdelay= 0;
+    let ctxtime = MIDI.getContext().currentTime;
+    let channel = 0;
 
-            if(oct == "X"){
-                rootNote = getRandomRootOctave(rootNote);
+    let velocity = lastVelocity;
+
+    if(Math.floor(Math.random() * 3) === 1){
+        velocity = Math.floor(Math.random() * 20 + 80);
+        lastVelocity = velocity;
+    }
+
+    if(oct == "X"){
+        rootNote = getRandomRootOctave(rootNote);
+    }else{
+        rootNote = rootNote + oct;
+    }
+
+    let rootNoteStr = MIDI.keyToNote[rootNote];
+
+    if($('input[name=play_style]:checked').val() !== 'just_fills'){
+        MIDI.noteOn(channel, rootNoteStr, velocity + 150,0);
+    }
+    
+
+    if(delayt === .15){
+        notes = randomlyDoubleNotes(notes);
+    }
+    
+    if($('input[name=play_style]:checked').val() != 'root'){
+        for(let i=0; i < notes.length; i++){
+            let chordIt = Math.floor(Math.random() * 3);
+            if(chordIt === 1){
+                //let chordIt2 = Math.floor(Math.random() * 3);
+                //if(chordIt2 === 1){
+                //    let harm2 = Math.floor(Math.random() * (notes.length - 1));
+                //    let harm3 = Math.floor(Math.random() * (notes.length - 1));
+                //    MIDI.chordOn(channel, [notes[i],notes[harm2],notes[harm3]], velocity, ctxtime+tmpdelay);
+                //}else{
+                    let harm = Math.floor(Math.random() * (notes.length - 1));
+                    MIDI.chordOn(channel, [notes[i],notes[harm]], velocity, ctxtime+tmpdelay);
+                //}
             }else{
-                rootNote = rootNote + oct;
-            }
-
-            let rootNoteStr = MIDI.keyToNote[rootNote];
-
-            if($('input[name=play_style]:checked').val() !== 'just_fills'){
-                MIDI.noteOn(channel, rootNoteStr, velocity + 150,0);
+                MIDI.noteOn(channel, notes[i], velocity, ctxtime+tmpdelay);
             }
             
-
-            if(delayt === .15){
-                notes = randomlyDoubleNotes(notes);
-            }
-            
-            if($('input[name=play_style]:checked').val() != 'root'){
-                for(let i=0; i < notes.length; i++){
-                    let chordIt = Math.floor(Math.random() * 3);
-                    if(chordIt === 1){
-                        //let chordIt2 = Math.floor(Math.random() * 3);
-                        //if(chordIt2 === 1){
-                        //    let harm2 = Math.floor(Math.random() * (notes.length - 1));
-                        //    let harm3 = Math.floor(Math.random() * (notes.length - 1));
-                        //    MIDI.chordOn(channel, [notes[i],notes[harm2],notes[harm3]], velocity, ctxtime+tmpdelay);
-                        //}else{
-                            let harm = Math.floor(Math.random() * (notes.length - 1));
-                            MIDI.chordOn(channel, [notes[i],notes[harm]], velocity, ctxtime+tmpdelay);
-                        //}
-                    }else{
-                        MIDI.noteOn(channel, notes[i], velocity, ctxtime+tmpdelay);
-                    }
-                    
-                    tmpdelay = tmpdelay + delay[i]
-                }
-            }
-
-
+            tmpdelay = tmpdelay + delay[i]
         }
-    });
+    }
 }
 
 
