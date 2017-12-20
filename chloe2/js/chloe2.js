@@ -1,12 +1,12 @@
 const chromatic = ['A','Bb','B','C','Db','D','Eb','E','F','Gb','G','Ab'];
 const chromatic_labels = ['A','B♭','B','C','D♭','D','E♭','E','F','G♭','G','A♭'];
 
-const octatonic = [1,1,1,1,1,1,1,0,0,0,0];
-const heptatonic = [1,1,1,1,1,1,0,0,0,0,0];
-const hexatonic = [1,1,1,1,1,0,0,0,0,0,0];
-const pentatonic = [1,1,1,1,0,0,0,0,0,0,0];
-const tetratonic = [1,1,1,0,0,0,0,0,0,0,0];
-const tritonic = [1,1,0,0,0,0,0,0,0,0,0];
+const octatonic =  '100001111111';
+const heptatonic = '100000111111';
+const hexatonic =  '100000011111';
+const pentatonic = '100000001111';
+const tetratonic = '100000000111';
+const tritonic =   '100000000011';
 
 let octatonicScales = [];
 let heptatonicScales = [];
@@ -49,12 +49,12 @@ function run(){
     tetratonicScales.group = 'tet';
     tritonicScales.group = 'tri';
 
-    octatonicScales = tryScales(octatonicScales, octatonic);
-    heptatonicScales = tryScales(heptatonicScales, heptatonic);
-    hexatonicScales = tryScales(hexatonicScales, hexatonic);
-    pentatonicScales = tryScales(pentatonicScales, pentatonic);
-    tetratonicScales = tryScales(tetratonicScales, tetratonic);
-    tritonicScales = tryScales(tritonicScales, tritonic);
+    octatonicScales = getScales(octatonicScales, octatonic);
+    heptatonicScales = getScales(heptatonicScales, heptatonic);
+    hexatonicScales = getScales(hexatonicScales, hexatonic);
+    pentatonicScales = getScales(pentatonicScales, pentatonic);
+    tetratonicScales = getScales(tetratonicScales, tetratonic);
+    tritonicScales = getScales(tritonicScales, tritonic);
 
     let canvas = document.getElementById("canvas");
 
@@ -670,6 +670,7 @@ function makeUI(){
 
 function getModes(scales){
     let modes = [];
+
     scales.sort();
 
     for(let i = 0; i < scales.length; i++){
@@ -697,35 +698,48 @@ function getModes(scales){
     return modes;
 }
 
+function revStr(s){
+    return s.split("").reverse().join("");
+}
 
+function count(string,char) {
+    var re = new RegExp(char,"gi");
+    return string.match(re).length;
+}
 
-function tryScales(scalesArr, scalesTemplate){
-    
-    for(let i = 0; i < 5000; i++){
-        
-        let attempt = shuffle(scalesTemplate);
-        attempt = R.concat([1], attempt);
-        attemptDoubled = R.concat(attempt,attempt);
+function arrayOfInts(strArr){
+    for(var i=0; i<strArr.length; i++) { strArr[i] = +strArr[i]; } 
+    return strArr;
+}
 
-        if(checkScale(attemptDoubled)){
-            let worked = true;
-            for(let j = 0; j < scalesArr.length; j++){
-                let strScale = scalesArr[j].join("");
-                strScale += strScale;
-                let strAttempt = attempt.join("");
-                if(strScale.indexOf(strAttempt) !== -1){
-                    if(scalesArr[j] > attempt){
-                        scalesArr[j] = attempt;
+function getScales(scalesArr, binStr){
+    let ones = count(binStr,'1');
+    let start =  parseInt(binStr, 2);
+    let end = parseInt(revStr(binStr), 2);
+
+    for(let i = start; i < end; i++){
+        let nStr = i.toString(2).padStart(12, "0");
+        let dStr = R.concat(nStr,nStr);
+        let fnd = dStr.search('111');
+
+        if(fnd === -1 && count(nStr,'1') === ones){
+            if(scalesArr.length < 1){
+                scalesArr.push(arrayOfInts(nStr.split("")));
+            }else{
+                let works = true;
+                for(let j = 0; j < scalesArr.length; j++){
+                    jScale = R.concat(scalesArr[j].join(""), scalesArr[j].join(""));
+                    if(jScale.search(nStr) !== -1){
+                        works = false;
+                        break;
                     }
-                    worked = false;
                 }
-            }
-            if(worked){
-                scalesArr.push(attempt);
+                if(works){
+                    scalesArr.push(arrayOfInts(nStr.split("")));
+                }
             }
         }
     }
-
     return scalesArr;
 }
 

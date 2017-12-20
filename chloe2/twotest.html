@@ -1,0 +1,187 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:fb="http://ogp.me/ns/fb#">
+    <head>
+        <title>Chloe3 - Dorian - Phrygian - Lydian - Mixolydian - Aeolian - Locrian - Ionian - Pentatonic</title>
+        <meta name="description" content="Chloe 2
+        Explore and learn about Scales and Modes">
+        <meta name="keywords" 
+        content="dorian, phrygian, lydian, mixolydian, aeolian, locrian, ionian, 
+        scales, modes, chloe, listen, app, player">
+        <link rel="icon" href="https://ronniebnorth.github.io/chloe2/img/ss2017-12-14_11-42-22.jpg">
+        <meta property="og:image" content="https://ronniebnorth.github.io/chloe2/img/ss2017-12-14_11-42-22.jpg" />
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+        <script src="jquery-3.2.1.min.js"></script>
+        <script src="ramda.js"></script>
+        <script src="tone.js"></script>
+        <script src="phaser.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/svg.js/2.6.3/svg.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script type="application/ld+json">
+{
+    {
+        "@context": "http://schema.org",
+        "@type": "WebSite",
+        "url": "https://ronniebnorth.github.io/chloe3",
+        "name": "Chloe - Scale and Mode Explorer",
+        "description": "Music App for Exploring Scales and Modes"
+    }
+}
+</script>
+</head>
+
+
+
+    notes per octave:<input type="text" id="txtNotePerOctave"/><br>
+    starting frequency:<input type="text" id="txtStartFreq"/>
+    <button id="btnGenPoly">generate</button>
+    <div id="draw-shapes"></div>
+    <body>
+    <script src="jquery-3.2.1.min.js"></script>
+    <script src="./js/two.js"></script>
+    <script>
+
+
+
+
+$(function() {
+    $('body').on('click', '#btnGenPoly', function(){
+        let notesPerOctave = parseInt($('#txtNotePerOctave').val());
+        let startingFrequency = decimals2($('#txtStartFreq').val());
+        genMusicPoly(notesPerOctave,startingFrequency)
+    });
+});
+
+function genMusicPoly(notesPerOctave,startingFrequency){
+    let elem = document.getElementById('draw-shapes');
+    let params = { width: 300, height: 300 };
+    let two = new Two(params).appendTo(elem);
+    let oct = two.makePolygon(150, 150, 75, notesPerOctave);
+    oct.fill = 'rgb(0, 200, 255)';
+    oct.opacity = 0.75;
+    oct.noStroke();
+    two.update();  
+    let scales = equalTempScale(notesPerOctave,startingFrequency);
+    console.log(scales);
+    playArpeggio(scales);
+}
+
+function equalTempScale(notesPerOctave,startingFrequency){
+    let count = 0;
+    let scale = [startingFrequency];
+    while(count < notesPerOctave){
+        startingFrequency = decimals2(Math.pow(2, 1/notesPerOctave) * startingFrequency);
+        scale.push(startingFrequency);
+        count++;
+    }  
+    return scale;
+}
+
+function decimals2(num){
+    return parseFloat(Math.round(num * 100) / 100).toFixed(2);
+}
+
+function playArpeggio(notes){
+    console.log('notes',notes);
+
+    let synth = new Tone.Synth();
+    synth.toMaster();
+    let pattern = new Tone.Pattern(function(time, note){
+        synth.triggerAttackRelease(note, 0.25);
+        console.log(note);
+    }, notes, $("#controlPattern").val());
+    //pattern.humanize = true;
+    //pattern.iterations = notes.length;
+    pattern.start(0);
+    Tone.Transport.bpm.value = 200;
+    Tone.Transport.start();
+}
+
+function shuffle(array) {
+    let currentIndex = array.length, temporaryValue, randomIndex;
+    while (0 !== currentIndex) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+    return array;
+}
+
+
+function randomlyRepeatNotes(notesArr){
+    notesArr = clone(notesArr);
+    let loopTimes = Math.floor(Math.random() * (notesArr.length));
+    for(let lp = 0; lp < loopTimes; lp++){
+        let randomNote = Math.floor(Math.random() * (notesArr.length - 1));
+        notesArr[randomNote + 1] = notesArr[randomNote];
+    }
+    return notesArr;
+}
+
+function randomlyReshuffle(notesArr){
+    notesArr = clone(notesArr);
+    let reshuf = Math.floor(Math.random() * 2);
+    
+    if(reshuf === 1){
+        notesArr = shuffle(notesArr);
+    }
+    return notesArr;
+}
+
+function randomlyShortenPhrase(notesArr){
+    notesArr = clone(notesArr);
+    let doStrip =  Math.floor(Math.random() * 3);
+    if(doStrip === 1){
+        let stripEnd = Math.floor(Math.random() * (notesArr.length - 1));
+        while(stripEnd > 0){
+            notesArr.pop();
+            stripEnd--;
+        }
+    }
+    return notesArr;
+}
+
+function randomlyPutHoles(notesArr){
+    notesArr = clone(notesArr);
+    let putHoles = Math.floor(Math.random() * 4);
+    if(putHoles === 1 || putHoles === 2 || putHoles === 3){
+        let numHoles = Math.floor(Math.random() * (notesArr.length - 3));
+        numHoles = numHoles + 2;
+        while(numHoles > 0){
+            let pHole = Math.floor(Math.random() * (notesArr.length - 1));
+            notesArr[pHole] = 0;
+            numHoles--;
+        }           
+    }
+    return notesArr;
+}
+
+
+function playScale(scale){    
+/*
+    notesArr = shuffle(notesArr);
+
+    notesArr = randomlyRepeatNotes(notesArr);
+
+    notesArr = randomlyReshuffle(notesArr);
+
+    notesArr = randomlyShortenPhrase(notesArr);
+
+    notesArr = randomlyPutHoles(notesArr);
+*/
+
+
+}
+
+    </script>
+    </body>
+</html>
