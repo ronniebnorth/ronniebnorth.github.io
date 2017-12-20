@@ -46,7 +46,6 @@ $(function() {
 
     $('body').on('click', '#rotateMode', function(){rotateScaleViewRoot();});
 
-    run();
 });
 
 
