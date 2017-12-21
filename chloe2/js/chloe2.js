@@ -712,8 +712,9 @@ function getScales(scalesArr, numNotes){
 
     let binStr = "".padStart(numNotes, "1");
     binStr = binStr.padStart(12, "0");
-    
-    for(let i = parseInt(binStr, 2); i < parseInt(revStr(binStr), 2); i++){
+    let starts = parseInt(binStr, 2);
+    let ends = parseInt(revStr(binStr), 2);
+    for(let i = starts; i < ends; i++){
         let nStr = i.toString(2).padStart(12, "0");
         let dStr = R.concat(nStr,nStr);
 
