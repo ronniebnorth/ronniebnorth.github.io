@@ -8,7 +8,7 @@ let pentatonicScales = [];
 let tetratonicScales = [];
 let tritonicScales = [];
 
-let lastVelocity = 100;
+let lastVelocity = 60;
 let lastGroup = "";
 
 let clickedNote = "";
@@ -382,7 +382,7 @@ function playMode(rootNote, notesArr, oct="X"){
     let velocity = lastVelocity;
 
     if(Math.floor(Math.random() * 3) === 1){
-        velocity = 100; //Math.floor(Math.random() * 20 + 60);
+        velocity = 60; //Math.floor(Math.random() * 20 + 60);
         lastVelocity = velocity;
     }
 
