@@ -382,7 +382,7 @@ function playMode(rootNote, notesArr, oct="X"){
     let velocity = lastVelocity;
 
     if(Math.floor(Math.random() * 3) === 1){
-        velocity = Math.floor(Math.random() * 20 + 80);
+        velocity = 100; //Math.floor(Math.random() * 20 + 60);
         lastVelocity = velocity;
     }
 
@@ -395,7 +395,7 @@ function playMode(rootNote, notesArr, oct="X"){
     let rootNoteStr = MIDI.keyToNote[rootNote];
 
     if($('input[name=play_style]:checked').val() !== 'just_fills'){
-        MIDI.noteOn(channel, rootNoteStr, velocity + 100,0);
+        MIDI.noteOn(channel, rootNoteStr, velocity,0);
     }
     
 
