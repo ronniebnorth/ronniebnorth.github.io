@@ -16,12 +16,13 @@ let inNote = false;
 let viewNotes = "";
 let stuckButton = false;
 
-let instrumentName = "acoustic_guitar_nylon";
+let instrumentName = "acoustic_grand_piano";
 let timeOut = false;
 
 MIDI.loadPlugin({
     soundfontUrl: "./soundfont/",
     instrument: instrumentName,
+    //targetFormat: 'mp3',
     onprogress: function(state, progress) {
         //console.log(state, progress);
     },
