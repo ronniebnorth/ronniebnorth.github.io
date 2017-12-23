@@ -14,7 +14,7 @@ let lastGroup = "";
 let clickedNote = "";
 let inNote = false;
 let viewNotes = "";
-
+let stuckButton = false;
 
 let instrumentName = "acoustic_guitar_nylon";
 
@@ -31,14 +31,29 @@ MIDI.loadPlugin({
 });
 
 
+function loopKey(){
+    if(stuckButton !== false){
+        playKey(stuckButton);
+        setTimeout( function() { loopKey(); }, 1200)
+    }
+    
+}
+
 $(function() {
     $('body').on('mousedown', '.btn_key', function() {
         let btn = $(this);
-        let msecs = 2400 / 2;
-        playKey(btn);
-        for(let i = 1; i < 4; i++){
-            setTimeout(function(){ playKey(btn); }, msecs * i);
+        if(stuckButton !== false){
+            stuckButton = false;
+            return;
         }
+        stuckButton = btn;
+        let msecs = 2400 / 2;
+        playKey(stuckButton);
+
+        setTimeout( function() { loopKey(); }, 1200)
+        //for(let i = 1; i < 4; i++){
+            //setTimeout(function(){ playKey(btn); }, msecs * i);
+        //}
     });
 
     $('body').on('click', '.spn_key', function() {viewScale($(this));});
