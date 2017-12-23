@@ -32,7 +32,14 @@ MIDI.loadPlugin({
 
 
 $(function() {
-    $('body').on('mousedown', '.btn_key', function() {playKey($(this));});
+    $('body').on('mousedown', '.btn_key', function() {
+        let btn = $(this);
+        let msecs = 2400 / 2;
+        playKey(btn);
+        for(let i = 1; i < 7; i++){
+            setTimeout(function(){ playKey(btn); }, msecs * i);
+        }
+    });
 
     $('body').on('click', '.spn_key', function() {viewScale($(this));});
 
@@ -341,6 +348,7 @@ function playMode(rootNote, notesArr, oct="X"){
     let delay = Array(notes.length).fill(delayt);
     let tmpdelay= 0;
     let ctxtime = MIDI.getContext().currentTime;
+    
     let channel = 0;
 
     let velocity = lastVelocity;
@@ -369,20 +377,20 @@ function playMode(rootNote, notesArr, oct="X"){
     
     if($('input[name=play_style]:checked').val() != 'root'){
         for(let i=0; i < notes.length; i++){
-            let chordIt = Math.floor(Math.random() * 3);
-            if(chordIt === 1){
+            //let chordIt = Math.floor(Math.random() * 3);
+            //if(chordIt === 1){
                 //let chordIt2 = Math.floor(Math.random() * 3);
                 //if(chordIt2 === 1){
                 //    let harm2 = Math.floor(Math.random() * (notes.length - 1));
                 //    let harm3 = Math.floor(Math.random() * (notes.length - 1));
                 //    MIDI.chordOn(channel, [notes[i],notes[harm2],notes[harm3]], velocity, ctxtime+tmpdelay);
                 //}else{
-                    let harm = Math.floor(Math.random() * (notes.length - 1));
-                    MIDI.chordOn(channel, [notes[i],notes[harm]], velocity, ctxtime+tmpdelay);
+                    //let harm = Math.floor(Math.random() * (notes.length - 1));
+                    //MIDI.chordOn(channel, [notes[i],notes[harm]], velocity, ctxtime+tmpdelay);
                 //}
-            }else{
+            //}else{
                 MIDI.noteOn(channel, notes[i], velocity, ctxtime+tmpdelay);
-            }
+            //}
             
             tmpdelay = tmpdelay + delay[i]
         }
@@ -747,6 +755,7 @@ function shuffle(array) {
     }
     return array;
 }
+
 
 function checkScale(scale){
     for(let i = 0; i < scale.length; i++){
