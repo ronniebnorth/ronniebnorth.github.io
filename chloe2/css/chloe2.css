@@ -18,6 +18,48 @@ p{
   white-space: pre;
 }
 
+/* @group Blink */
+.blink {
+	-webkit-animation: blink 1.20s linear infinite;
+	-moz-animation: blink 1.20s linear infinite;
+	-ms-animation: blink 1.20s linear infinite;
+	-o-animation: blink 1.20s linear infinite;
+	 animation: blink 1.20s linear infinite;
+}
+@-webkit-keyframes blink {
+	0% { opacity: 1; }
+	50% { opacity: 1; }
+	50.01% { opacity: 0.5; }
+	80% { opacity: 0.5; }
+}
+@-moz-keyframes blink {
+	0% { opacity: 1; }
+	50% { opacity: 1; }
+	50.01% { opacity: 0.5; }
+	80% { opacity: 0.5; }
+}
+@-ms-keyframes blink {
+	0% { opacity: 1; }
+	50% { opacity: 1; }
+	50.01% { opacity: 0.5; }
+	80% { opacity: 0.5; }
+}
+@-o-keyframes blink {
+	0% { opacity: 1; }
+	50% { opacity: 1; }
+	50.01% { opacity: 0.5; }
+	80% { opacity: 0.5; }
+}
+@keyframes blink {
+	0% { opacity: 1; }
+	50% { opacity: 1; }
+	50.01% { opacity: 0.5; }
+	80% { opacity: 0.5; }
+}
+/* @end */
+
+
+
 .modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */

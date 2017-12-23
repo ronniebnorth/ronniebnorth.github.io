@@ -44,8 +44,8 @@ $(function() {
     $('body').on('mousedown', '.btn_key', function() {
         let btn = $(this);
         if(stuckButton !== false){
-            stuckButton.css("color","white");
-            
+            //stuckButton.css("color","white");
+            stuckButton.removeClass("blink");
             if(stuckButton.text() === btn.text() && stuckButton.closest('div').attr('data') === btn.closest('div').attr('data')){
                 stuckButton = false;
                 return;
@@ -54,7 +54,8 @@ $(function() {
             //return;
         }
         stuckButton = btn;
-        stuckButton.css("color","red");
+        //stuckButton.css("color","red");
+        stuckButton.addClass("blink");
         let msecs = 2400;
         playKey(stuckButton);
 
