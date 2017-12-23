@@ -401,27 +401,27 @@ function playMode(rootNote, notesArr, oct="X"){
 
     if(delayt === .15){
         notes = randomlyDoubleNotes(notes);
-        notes = randomlyDoubleNotes(notes);
+        //notes = randomlyDoubleNotes(notes);
     }
     let delay = Array(notes.length).fill(delayt);
-    
+
     if($('input[name=play_style]:checked').val() != 'root'){
         console.log('notes',notes);
         for(let i=0; i < notes.length; i++){
-            //let chordIt = Math.floor(Math.random() * 3);
-            //if(chordIt === 1){
+            let chordIt = Math.floor(Math.random() * 3);
+            if(chordIt === 1){
                 //let chordIt2 = Math.floor(Math.random() * 3);
                 //if(chordIt2 === 1){
                 //    let harm2 = Math.floor(Math.random() * (notes.length - 1));
                 //    let harm3 = Math.floor(Math.random() * (notes.length - 1));
                 //    MIDI.chordOn(channel, [notes[i],notes[harm2],notes[harm3]], velocity, ctxtime+tmpdelay);
                 //}else{
-                    //let harm = Math.floor(Math.random() * (notes.length - 1));
-                    //MIDI.chordOn(channel, [notes[i],notes[harm]], velocity, ctxtime+tmpdelay);
+                    let harm = Math.floor(Math.random() * (notes.length - 1));
+                    MIDI.chordOn(channel, [notes[i],notes[harm]], velocity / 2, ctxtime+tmpdelay);
                 //}
-            //}else{
+            }else{
                 MIDI.noteOn(channel, notes[i], velocity, ctxtime+tmpdelay);
-            //}
+            }
             
             tmpdelay = tmpdelay + delay[i]
         }
@@ -847,7 +847,7 @@ function randomlyPutHoles(notesArr){
     notesArr = clone(notesArr);
     let putHoles = Math.floor(Math.random() * 4);
     if(putHoles === 1 || putHoles === 2 || putHoles === 3){
-        let numHoles = Math.floor(Math.random() * (notesArr.length - 2));
+        let numHoles = Math.floor(Math.random() * (notesArr.length - 3));
         numHoles = numHoles + 2;
         while(numHoles > 0){
             let pHole = Math.floor(Math.random() * (notesArr.length - 1));
