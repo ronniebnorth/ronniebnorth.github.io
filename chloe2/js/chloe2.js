@@ -28,6 +28,7 @@ MIDI.loadPlugin({
     },
     onsuccess: function() {
         MIDI.programChange(0, MIDI.GM.byName[instrumentName].number);
+        //MIDI.Player.BPM = 180;
         run();
     }
 });
@@ -375,6 +376,7 @@ function playMode(rootNote, notesArr, oct="X"){
     let tmpdelay= 0;
     let ctxtime = MIDI.getContext().currentTime;
     
+
     let channel = 0;
 
     let velocity = lastVelocity;
@@ -393,11 +395,12 @@ function playMode(rootNote, notesArr, oct="X"){
     let rootNoteStr = MIDI.keyToNote[rootNote];
 
     if($('input[name=play_style]:checked').val() !== 'just_fills'){
-        MIDI.noteOn(channel, rootNoteStr, velocity + 150,0);
+        MIDI.noteOn(channel, rootNoteStr, velocity + 100,0);
     }
     
 
     if(delayt === .15){
+        notes = randomlyDoubleNotes(notes);
         notes = randomlyDoubleNotes(notes);
     }
     
