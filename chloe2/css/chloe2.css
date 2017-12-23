@@ -20,11 +20,11 @@ p{
 
 /* @group Blink */
 .blink {
-	-webkit-animation: blink 1.20s linear infinite;
-	-moz-animation: blink 1.20s linear infinite;
-	-ms-animation: blink 1.20s linear infinite;
-	-o-animation: blink 1.20s linear infinite;
-	 animation: blink 1.20s linear infinite;
+	-webkit-animation: blink .60s linear infinite;
+	-moz-animation: blink .60s linear infinite;
+	-ms-animation: blink .60s linear infinite;
+	-o-animation: blink .60s linear infinite;
+	 animation: blink .60s linear infinite;
 }
 @-webkit-keyframes blink {
 	0% { opacity: 1; }

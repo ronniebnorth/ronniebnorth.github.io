@@ -54,7 +54,7 @@ $(function() {
             //return;
         }
         stuckButton = btn;
-        //stuckButton.css("color","red");
+        //stuckButton.css("color","white");
         stuckButton.addClass("blink");
         let msecs = 2400;
         playKey(stuckButton);
