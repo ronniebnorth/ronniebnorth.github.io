@@ -34,7 +34,7 @@ MIDI.loadPlugin({
 function loopKey(){
     if(stuckButton !== false){
         playKey(stuckButton);
-        setTimeout( function() { loopKey(); }, 1200)
+        setTimeout( function() { loopKey(); }, 2400)
     }
     
 }
@@ -47,10 +47,10 @@ $(function() {
             return;
         }
         stuckButton = btn;
-        let msecs = 2400 / 2;
+        let msecs = 2400;
         playKey(stuckButton);
 
-        setTimeout( function() { loopKey(); }, 1200)
+        setTimeout( function() { loopKey(); }, 2400)
         //for(let i = 1; i < 4; i++){
             //setTimeout(function(){ playKey(btn); }, msecs * i);
         //}
@@ -819,7 +819,7 @@ function randomlyShortenPhrase(notesArr){
     let doStrip =  Math.floor(Math.random() * 3);
     if(doStrip === 1){
         let stripEnd = Math.floor(Math.random() * (notesArr.length - 1));
-        while(stripEnd > 0){
+        while(stripEnd > 1){
             notesArr.pop();
             stripEnd--;
         }
@@ -831,7 +831,7 @@ function randomlyPutHoles(notesArr){
     notesArr = clone(notesArr);
     let putHoles = Math.floor(Math.random() * 4);
     if(putHoles === 1 || putHoles === 2 || putHoles === 3){
-        let numHoles = Math.floor(Math.random() * (notesArr.length - 3));
+        let numHoles = Math.floor(Math.random() * (notesArr.length - 2));
         numHoles = numHoles + 2;
         while(numHoles > 0){
             let pHole = Math.floor(Math.random() * (notesArr.length - 1));
