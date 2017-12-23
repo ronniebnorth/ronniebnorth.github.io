@@ -17,6 +17,7 @@ let viewNotes = "";
 let stuckButton = false;
 
 let instrumentName = "acoustic_guitar_nylon";
+let timeOut = false;
 
 MIDI.loadPlugin({
     soundfontUrl: "./soundfont/",
@@ -34,7 +35,7 @@ MIDI.loadPlugin({
 function loopKey(){
     if(stuckButton !== false){
         playKey(stuckButton);
-        setTimeout( function() { loopKey(); }, 2400)
+        timeOut = setTimeout( function() { loopKey(); }, 2400)
     }
     
 }
@@ -43,14 +44,17 @@ $(function() {
     $('body').on('mousedown', '.btn_key', function() {
         let btn = $(this);
         if(stuckButton !== false){
+            stuckButton.css("color","white");
             stuckButton = false;
             return;
         }
         stuckButton = btn;
+        stuckButton.css("color","blue");
         let msecs = 2400;
         playKey(stuckButton);
 
-        setTimeout( function() { loopKey(); }, 2400)
+        clearTimeout(timeOut);
+        timeOut = setTimeout( function() { loopKey(); }, 2400);
         //for(let i = 1; i < 4; i++){
             //setTimeout(function(){ playKey(btn); }, msecs * i);
         //}
