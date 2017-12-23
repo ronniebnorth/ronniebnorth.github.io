@@ -372,7 +372,7 @@ function playMode(rootNote, notesArr, oct="X"){
     if($('input[name=play_style]:checked').val() == 'chord'){
         delayt = 0;
     }
-    let delay = Array(notes.length).fill(delayt);
+    //let delay = Array(notes.length).fill(delayt);
     let tmpdelay= 0;
     let ctxtime = MIDI.getContext().currentTime;
     
@@ -403,8 +403,10 @@ function playMode(rootNote, notesArr, oct="X"){
         notes = randomlyDoubleNotes(notes);
         notes = randomlyDoubleNotes(notes);
     }
+    let delay = Array(notes.length).fill(delayt);
     
     if($('input[name=play_style]:checked').val() != 'root'){
+        console.log('notes',notes);
         for(let i=0; i < notes.length; i++){
             //let chordIt = Math.floor(Math.random() * 3);
             //if(chordIt === 1){
