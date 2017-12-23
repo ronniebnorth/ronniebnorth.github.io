@@ -36,7 +36,7 @@ $(function() {
         let btn = $(this);
         let msecs = 2400 / 2;
         playKey(btn);
-        for(let i = 1; i < 7; i++){
+        for(let i = 1; i < 8; i++){
             setTimeout(function(){ playKey(btn); }, msecs * i);
         }
     });
