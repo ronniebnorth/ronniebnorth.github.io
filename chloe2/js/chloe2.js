@@ -54,7 +54,7 @@ $(function() {
             //return;
         }
         stuckButton = btn;
-        stuckButton.css("color","blue");
+        stuckButton.css("color","red");
         let msecs = 2400;
         playKey(stuckButton);
 
