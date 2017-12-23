@@ -45,8 +45,13 @@ $(function() {
         let btn = $(this);
         if(stuckButton !== false){
             stuckButton.css("color","white");
+            
+            if(stuckButton.text() === btn.text() && stuckButton.closest('div').attr('data') === btn.closest('div').attr('data')){
+                stuckButton = false;
+                return;
+            }
             stuckButton = false;
-            return;
+            //return;
         }
         stuckButton = btn;
         stuckButton.css("color","blue");
