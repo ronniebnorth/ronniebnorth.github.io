@@ -17,6 +17,7 @@ let viewNotes = "";
 let stuckButton = false;
 
 let instrumentName = "acoustic_grand_piano";
+
 let timeOut = false;
 
 MIDI.loadPlugin({
@@ -28,7 +29,7 @@ MIDI.loadPlugin({
     },
     onsuccess: function() {
         MIDI.programChange(0, MIDI.GM.byName[instrumentName].number);
-        //MIDI.Player.BPM = 180;
+
         run();
     }
 });
