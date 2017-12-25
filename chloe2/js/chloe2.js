@@ -516,25 +516,38 @@ function playMode(rootNote, notesArr, oct="X"){
         console.log('notes',notes);
         console.log('delay',delay);
         for(let i=0; i < notes.length; i++){
-            /*
+            console.log('time', ctxtime+tmpdelay);
             let chordIt = Math.floor(Math.random() * 3);
             if(chordIt === 1){
                 let chordIt2 = Math.floor(Math.random() * 3);
                 if(chordIt2 === 1){
                     let harm2 = Math.floor(Math.random() * (notes.length - 1));
                     let harm3 = Math.floor(Math.random() * (notes.length - 1));
-                    MIDI.chordOn(channel, [notes[i],notes[harm2],notes[harm3]], velocity / 2, ctxtime+tmpdelay);
+                    let note1 = notes[i];
+                    let note2 = notes[harm2];
+                    let note3 = notes[harm3];
+                    console.log('chord', note1, note2,note3);
+
+                    MIDI.chordOn(channel, [note1,note2,note3], velocity / 2, ctxtime+tmpdelay);
+                    MIDI.chordOff(channel, [note1,note2,note3], 4);
                 }else{
+
                     let harm = Math.floor(Math.random() * (notes.length - 1));
-                    MIDI.chordOn(channel, [notes[i],notes[harm]], velocity / 2, ctxtime+tmpdelay);
+                    let note1 = notes[i];
+                    let note2 = notes[harm];
+                    MIDI.chordOn(channel, [note1,note2], velocity / 2, ctxtime+tmpdelay);
+                    MIDI.chordOff(channel, [note1,note2], 4);
+                    console.log('small chord', note1, note2);
                 }
-            }else{*/
+            }else{
                 MIDI.noteOn(channel, notes[i], velocity, ctxtime+tmpdelay);
-            //}
+                MIDI.noteOff(channel, notes[i], 4);
+            }
             
             if(delay[i] === -1 || delay[i] > 3) {
                 delay[i] = 0;
             }
+
             tmpdelay = tmpdelay + delay[i]
         }
     }
