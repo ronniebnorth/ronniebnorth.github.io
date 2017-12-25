@@ -529,7 +529,7 @@ function playMode(rootNote, notesArr, oct="X"){
                 MIDI.noteOn(channel, notes[i], velocity, ctxtime+tmpdelay);
             }
             
-            if(delay[i] === -1) {
+            if(delay[i] === -1 || delay[i] > 3) {
                 delay[i] = 0;
             }
             tmpdelay = tmpdelay + delay[i]
