@@ -424,15 +424,15 @@ function playMode(rootNote, notesArr, oct="X"){
         for(let i=0; i < notes.length; i++){
             let chordIt = Math.floor(Math.random() * 3);
             if(chordIt === 1){
-                //let chordIt2 = Math.floor(Math.random() * 3);
-                //if(chordIt2 === 1){
-                //    let harm2 = Math.floor(Math.random() * (notes.length - 1));
-                //    let harm3 = Math.floor(Math.random() * (notes.length - 1));
-                //    MIDI.chordOn(channel, [notes[i],notes[harm2],notes[harm3]], velocity, ctxtime+tmpdelay);
-                //}else{
+                let chordIt2 = Math.floor(Math.random() * 3);
+                if(chordIt2 === 1){
+                    let harm2 = Math.floor(Math.random() * (notes.length - 1));
+                    let harm3 = Math.floor(Math.random() * (notes.length - 1));
+                    MIDI.chordOn(channel, [notes[i],notes[harm2],notes[harm3]], velocity, ctxtime+tmpdelay);
+                }else{
                     let harm = Math.floor(Math.random() * (notes.length - 1));
                     MIDI.chordOn(channel, [notes[i],notes[harm]], velocity / 2, ctxtime+tmpdelay);
-                //}
+                }
             }else{
                 MIDI.noteOn(channel, notes[i], velocity, ctxtime+tmpdelay);
             }
