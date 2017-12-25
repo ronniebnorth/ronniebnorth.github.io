@@ -29,6 +29,7 @@ function loadMidi(instrumentName){
     MIDI.loadPlugin({
         soundfontUrl: "./soundfont/",
         instrument: instrumentName,
+        //instruments: [ "acoustic_grand_piano", "acoustic_guitar_nylon" ],
         //targetFormat: 'mp3',
         onprogress: function(state, progress) {
             //console.log(state, progress);
@@ -510,17 +511,18 @@ function playMode(rootNote, notesArr, oct="X"){
         //notes = randomlyDoubleNotes(notes);
     }
     let delay = Array(notes.length).fill(delayt);
-
+    
     if($('input[name=play_style]:checked').val() != 'root'){
         console.log('notes',notes);
+        console.log('delay',delay);
         for(let i=0; i < notes.length; i++){
             let chordIt = Math.floor(Math.random() * 3);
             if(chordIt === 1){
                 let chordIt2 = Math.floor(Math.random() * 3);
                 if(chordIt2 === 1){
                     let harm2 = Math.floor(Math.random() * (notes.length - 1));
-                    let harm3 = Math.floor(Math.random() * (notes.length - 1));
-                    MIDI.chordOn(channel, [notes[i],notes[harm2],notes[harm3]], velocity, ctxtime+tmpdelay);
+                    let harm3 = Math.floor(Math.random() * (notes.length - 2));
+                    MIDI.chordOn(channel, [notes[i],notes[harm2],notes[harm3]], velocity / 2, ctxtime+tmpdelay);
                 }else{
                     let harm = Math.floor(Math.random() * (notes.length - 1));
                     MIDI.chordOn(channel, [notes[i],notes[harm]], velocity / 2, ctxtime+tmpdelay);
