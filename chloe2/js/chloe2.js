@@ -17,22 +17,28 @@ let viewNotes = "";
 let stuckButton = false;
 
 let instrumentName = "acoustic_grand_piano";
+//let instrumentName = "acoustic_guitar_nylon";
 
 let timeOut = false;
 
-MIDI.loadPlugin({
-    soundfontUrl: "./soundfont/",
-    instrument: instrumentName,
-    //targetFormat: 'mp3',
-    onprogress: function(state, progress) {
-        //console.log(state, progress);
-    },
-    onsuccess: function() {
-        MIDI.programChange(0, MIDI.GM.byName[instrumentName].number);
+loadMidi(instrumentName);
 
-        run();
-    }
-});
+function loadMidi(instrumentName){
+    MIDI.loadPlugin({
+        soundfontUrl: "./soundfont/",
+        instrument: instrumentName,
+        //targetFormat: 'mp3',
+        onprogress: function(state, progress) {
+            //console.log(state, progress);
+        },
+        onsuccess: function() {
+            MIDI.programChange(0, MIDI.GM.byName[instrumentName].number);
+    
+            run();
+        }
+    });
+}
+
 
 
 function loopKey(){
@@ -68,6 +74,8 @@ $(function() {
             //setTimeout(function(){ playKey(btn); }, msecs * i);
         //}
     });
+
+    $('body').on('click', '.instrument_name', function() {loadMidi($(this).val());});
 
     $('body').on('click', '.spn_key', function() {viewScale($(this));});
 
