@@ -21,6 +21,8 @@ let instrumentName = "acoustic_grand_piano";
 
 let timeOut = false;
 
+let firstLoad = true;
+
 loadMidi(instrumentName);
 
 function loadMidi(instrumentName){
@@ -33,8 +35,11 @@ function loadMidi(instrumentName){
         },
         onsuccess: function() {
             MIDI.programChange(0, MIDI.GM.byName[instrumentName].number);
-    
-            run();
+            if(firstLoad){
+                run();
+            }
+            firstLoad = false;
+            
         }
     });
 }
