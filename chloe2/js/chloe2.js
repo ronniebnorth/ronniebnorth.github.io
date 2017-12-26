@@ -8,7 +8,7 @@ let pentatonicScales = [];
 let tetratonicScales = [];
 let tritonicScales = [];
 
-let lastVelocity = 100;
+let lastVelocity = 90;
 let lastGroup = "";
 
 let clickedNote = "";
@@ -16,8 +16,10 @@ let inNote = false;
 let viewNotes = "";
 let stuckButton = false;
 
-let instrumentName = "acoustic_grand_piano";
-//let instrumentName = "acoustic_guitar_nylon";
+//let instrumentName = "acoustic_grand_piano";
+//"honkytonk_piano";
+//"xylophone";
+let instrumentName = "acoustic_guitar_nylon";
 
 let timeOut = false;
 
@@ -489,7 +491,8 @@ function playMode(rootNote, notesArr, oct="X"){
     let velocity = lastVelocity;
 
     if(Math.floor(Math.random() * 3) === 1){
-        velocity = 100; //Math.floor(Math.random() * 20 + 60);
+        //velocity = 100; //
+        Math.floor((Math.random() * 20) + 80);
         lastVelocity = velocity;
     }
 
