@@ -17,6 +17,7 @@ let viewNotes = "";
 let stuckButton = false;
 
 let instrumentName = "acoustic_grand_piano";
+//"acoustic_grand_piano";
 //"honkytonk_piano";
 //"xylophone";
 //let instrumentName = "acoustic_guitar_nylon";
