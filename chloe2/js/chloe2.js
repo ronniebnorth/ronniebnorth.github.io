@@ -16,10 +16,10 @@ let inNote = false;
 let viewNotes = "";
 let stuckButton = false;
 
-//let instrumentName = "acoustic_grand_piano";
+let instrumentName = "acoustic_grand_piano";
 //"honkytonk_piano";
 //"xylophone";
-let instrumentName = "acoustic_guitar_nylon";
+//let instrumentName = "acoustic_guitar_nylon";
 
 let timeOut = false;
 
