@@ -185,7 +185,7 @@ const loadMidi = (instrumentName) => {
 
 
 const loopKey = () => {
-    console.log('loopKey function');
+    // console.log('loopKey function');
     if(stuckButton !== false){
         playKey(stuckButton);
         timeOut = setTimeout(function () { loopKey(); }, tempo);
@@ -194,7 +194,7 @@ const loopKey = () => {
 
 
 const keyPress = (btn) => {
-    console.log('keyPress function');
+    // console.log('keyPress function');
 
     if (stuckButton !== false) {
         stuckButton.classList.remove('blink');
@@ -243,7 +243,7 @@ const run = () => {
 
 
 const playKey = (key) => {
-    console.log('playKey function');
+    // console.log('playKey function');
     // bpm = document.getElementById('bpm').value;
     // bpm = bpm < 10 ? 10 : bpm;
     // bpm = bpm > 200 ? 200 : bpm;
@@ -493,7 +493,7 @@ const drawFace = (ctx, radius) => {
 
 
 const playMode = (rootNote, notesArr, oct='X') => {    
-    console.log('playMode function');
+    // console.log('playMode function');
 
     notesArr = shuffle(notesArr);
 
@@ -510,7 +510,7 @@ const playMode = (rootNote, notesArr, oct='X') => {
 
     
     let notes = notesArr;
-    console.log(notes);
+    // console.log(notes);
     let delayt = randomlyGoHalfTime();
     if($('input[name=play_style]:checked').val() == 'chord'){
         delayt = 0;
@@ -539,8 +539,8 @@ const playMode = (rootNote, notesArr, oct='X') => {
 
     if($('input[name=play_style]:checked').val() !== 'just_fills'){
         MIDI.noteOn(channel, rootNoteStr, velocity, 0);
-        console.log('rootNote', rootNote);
-        console.log('channel', channel);
+        // console.log('rootNote', rootNote);
+        // console.log('channel', channel);
     }
     
 
@@ -550,10 +550,10 @@ const playMode = (rootNote, notesArr, oct='X') => {
     let delay = Array(notes.length).fill(delayt);
     
     if($('input[name=play_style]:checked').val() != 'root'){
-        //console.log('notes',notes);
-        //console.log('delay',delay);
+        //// console.log('notes',notes);
+        //// console.log('delay',delay);
         for(let i=0; i < notes.length; i++){
-            //console.log('time', ctxtime+tmpdelay);
+            //// console.log('time', ctxtime+tmpdelay);
             const chordIt = Math.floor(Math.random() * 3);
             if(chordIt === 1){
                 const chordIt2 = Math.floor(Math.random() * 3);
@@ -563,7 +563,7 @@ const playMode = (rootNote, notesArr, oct='X') => {
                     const note1 = notes[i];
                     const note2 = notes[harm2];
                     const note3 = notes[harm3];
-                    //console.log('chord', note1, note2,note3);
+                    //// console.log('chord', note1, note2,note3);
 
                     MIDI.chordOn(channel, [note1,note2,note3], velocity / 2, ctxtime+tmpdelay);
                     MIDI.chordOff(channel, [note1,note2,note3], 4);
@@ -574,7 +574,7 @@ const playMode = (rootNote, notesArr, oct='X') => {
                     const note2 = notes[harm];
                     MIDI.chordOn(channel, [note1,note2], velocity / 2, ctxtime+tmpdelay);
                     MIDI.chordOff(channel, [note1,note2], 4);
-                    //console.log('small chord', note1, note2);
+                    //// console.log('small chord', note1, note2);
                 }
             }else{
                 MIDI.noteOn(channel, notes[i], velocity, ctxtime+tmpdelay);
@@ -601,7 +601,7 @@ const isClose = (a,b) => {
 
   
 const on_click = (ev) => {
-    console.log('on_click function');
+    // console.log('on_click function');
     var x, y;
     
         if (ev.layerX || ev.layerX == 0) { 
@@ -951,7 +951,7 @@ const randomlyPutHoles = (notesArr) => {
 
 const randomlyGoHalfTime = () => {      
     
-    console.log('tempo', tempo);
+    // console.log('tempo', tempo);
     let delayt = tempo * .000125; //.3;
     if ($('input[name=play_style2]:checked').val() == 'double') {
         delayt = tempo * .0000625; //.15;
