@@ -1,23 +1,196 @@
----
-layout: default
----
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ronnie North</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-<div id="home">
+  body {
+    background: #060a0e;
+    color: #c8e4f0;
+    font-family: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+  }
 
-  <h1>Posts</h1>
-  <ul class="posts">
-    <li><span></span> &raquo; <a href="blackJackd_v3.html">Blackjackd Simulator</a>
-    </li>
-    <li><span></span> &raquo; <a href="./chloe/">Play with Chloe</a>
-      </li>
-      <li><span></span> &raquo; <a href="./chloe2/">Play with Chloe2!</a>
-      </li>
-      <li><span></span> &raquo; <a href="https://ronniebnorth.github.io/chloe3/">Play with Chloe3!</a>
-      </li>
-      <li><span></span> &raquo; <a href="https://ronniebnorth.github.io/chloe3/scales-interactive.html">Scales Are Numbers</a>
-      </li>
-    {% for post in site.posts %}
-      <li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ post.url }}">{{ post.title }}</a></li>
-    {% endfor %}
-  </ul>
-</div>
+  .container {
+    width: 100%;
+    max-width: 560px;
+  }
+
+  .header {
+    margin-bottom: 48px;
+  }
+
+  .name {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: #d8eaf2;
+    margin-bottom: 6px;
+  }
+
+  .tagline {
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: #3e5868;
+    text-transform: uppercase;
+  }
+
+  .accent-line {
+    width: 40px;
+    height: 2px;
+    background: #e8922a;
+    margin: 16px 0;
+  }
+
+  .section-label {
+    font-size: 8px;
+    letter-spacing: 4px;
+    color: #3e5868;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .links {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 40px;
+  }
+
+  .link-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    background: #0a1219;
+    border: 1px solid #162030;
+    border-radius: 4px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color .15s, background .15s;
+  }
+
+  .link-card:hover {
+    border-color: #e8922a;
+    background: #0d1822;
+  }
+
+  .link-card:hover .link-arrow {
+    color: #e8922a;
+    transform: translateX(3px);
+  }
+
+  .link-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #e8922a;
+    flex-shrink: 0;
+    opacity: 0.6;
+  }
+
+  .link-card:hover .link-dot {
+    opacity: 1;
+  }
+
+  .link-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #d8eaf2;
+    letter-spacing: 1px;
+    flex: 1;
+  }
+
+  .link-desc {
+    font-size: 9px;
+    color: #3e5868;
+    letter-spacing: 1px;
+  }
+
+  .link-arrow {
+    font-size: 12px;
+    color: #3e5868;
+    transition: color .15s, transform .15s;
+    flex-shrink: 0;
+  }
+
+  .footer {
+    font-size: 8px;
+    letter-spacing: 3px;
+    color: #1e3040;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="name">RONNIE NORTH</div>
+      <div class="tagline">music · code · experiments</div>
+      <div class="accent-line"></div>
+    </div>
+
+    <div class="section-label">Projects</div>
+    <div class="links">
+      <a class="link-card" href="https://rnorth.com" target="_blank" rel="noreferrer">
+        <div class="link-dot"></div>
+        <div>
+          <div class="link-title">rnorth.com</div>
+          <div class="link-desc">main site</div>
+        </div>
+        <div class="link-arrow">↗</div>
+      </a>
+      <a class="link-card" href="https://ronniebnorth.github.io/chloe3/">
+        <div class="link-dot"></div>
+        <div>
+          <div class="link-title">Chloe 3</div>
+          <div class="link-desc">scale explorer · every 3–8 note scale · AI demo mode</div>
+        </div>
+        <div class="link-arrow">→</div>
+      </a>
+      <a class="link-card" href="https://ronniebnorth.github.io/chloe3/scales-interactive.html">
+        <div class="link-dot"></div>
+        <div>
+          <div class="link-title">Scales Are Numbers</div>
+          <div class="link-desc">interactive article on scale theory</div>
+        </div>
+        <div class="link-arrow">→</div>
+      </a>
+      <a class="link-card" href="./chloe2/">
+        <div class="link-dot"></div>
+        <div>
+          <div class="link-title">Chloe 2</div>
+          <div class="link-desc">earlier scale explorer</div>
+        </div>
+        <div class="link-arrow">→</div>
+      </a>
+      <a class="link-card" href="./chloe/">
+        <div class="link-dot"></div>
+        <div>
+          <div class="link-title">Chloe</div>
+          <div class="link-desc">the original</div>
+        </div>
+        <div class="link-arrow">→</div>
+      </a>
+      <a class="link-card" href="blackJackd_v3.html">
+        <div class="link-dot"></div>
+        <div>
+          <div class="link-title">Blackjackd</div>
+          <div class="link-desc">blackjack strategy simulator</div>
+        </div>
+        <div class="link-arrow">→</div>
+      </a>
+    </div>
+
+    <div class="footer">github.com/ronniebnorth</div>
+  </div>
+</body>
+</html>
