@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Binary Scale Encoding and Computable Musical Brightness — Ronnie North</title>
+  <meta name="description" content="How representing musical scales as 12-bit binary integers makes brightness and emotional character computable quantities. Developed independently circa 2016 in the Chloe Scale Explorer.">
+  <meta name="author" content="Ronnie North">
+  <meta name="keywords" content="binary scale encoding, music theory, scale brightness, modal brightness, 12-bit scale representation, pitch class sets, Chloe Scale Explorer, computable music theory, 2741 major scale, 4096 scales">
+  <meta property="og:title" content="Binary Scale Encoding and Computable Musical Brightness">
+  <meta property="og:description" content="How representing musical scales as 12-bit binary integers makes brightness and emotional character computable quantities.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://ronniebnorth.github.io/binary-scale-theory.html">
+  <meta property="article:author" content="Ronnie North">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Source+Sans+3:wght@400;600&family=Source+Code+Pro:wght@400;500&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #faf8f5;
+      --text: #2c2825;
+      --text-secondary: #5a534d;
+      --accent: #8b4513;
+      --accent-light: #c4956a;
+      --border: #d8d0c8;
+      --code-bg: #f0ece6;
+      --highlight: #fff8e7;
+      --serif: 'Source Serif 4', Georgia, serif;
+      --sans: 'Source Sans 3', -apple-system, sans-serif;
+      --mono: 'Source Code Pro', monospace;
+    }
+
+    body {
+      font-family: var(--serif);
+      font-size: 18px;
+      line-height: 1.72;
+      color: var(--text);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 60px 24px 100px;
+    }
+
+    header {
+      margin-bottom: 48px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .byline {
+      font-family: var(--sans);
+      font-size: 14px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-size: 36px;
+      line-height: 1.2;
+      font-weight: 700;
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+    }
+
+    .subtitle {
+      font-size: 20px;
+      line-height: 1.5;
+      color: var(--text-secondary);
+      font-style: italic;
+    }
+
+    h2 {
+      font-size: 24px;
+      font-weight: 600;
+      margin-top: 48px;
+      margin-bottom: 16px;
+      color: var(--accent);
+    }
+
+    p {
+      margin-bottom: 20px;
+    }
+
+    code {
+      font-family: var(--mono);
+      font-size: 15px;
+      background: var(--code-bg);
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+
+    .scale-example {
+      background: var(--code-bg);
+      border-left: 3px solid var(--accent);
+      padding: 20px 24px;
+      margin: 24px 0;
+      font-family: var(--mono);
+      font-size: 15px;
+      line-height: 1.8;
+      overflow-x: auto;
+    }
+
+    .scale-example .label {
+      font-family: var(--sans);
+      font-weight: 600;
+      color: var(--accent);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .key-insight {
+      background: var(--highlight);
+      border: 1px solid var(--accent-light);
+      padding: 24px;
+      margin: 32px 0;
+      border-radius: 4px;
+    }
+
+    .key-insight p:last-child {
+      margin-bottom: 0;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin: 24px 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--sans);
+      font-size: 15px;
+    }
+
+    th {
+      text-align: left;
+      font-weight: 600;
+      padding: 10px 14px;
+      border-bottom: 2px solid var(--text);
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 8px 14px;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    td.mono {
+      font-family: var(--mono);
+      font-size: 14px;
+    }
+
+    .arrow {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    footer {
+      margin-top: 64px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+      font-family: var(--sans);
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 600px) {
+      .container { padding: 36px 18px 60px; }
+      h1 { font-size: 28px; }
+      body { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <article class="container">
+    <header>
+      <div class="byline">Ronnie North · Originally developed circa 2016 · Written up March 2026</div>
+      <h1>Binary Scale Encoding and Computable Musical Brightness</h1>
+      <p class="subtitle">How representing scales as 12-bit integers turns emotional character into a quantity a machine can calculate.</p>
+    </header>
+
+    <h2>The Representation</h2>
+
+    <p>A musical scale in 12-tone equal temperament can be represented as a 12-bit binary integer. Each bit position corresponds to a semitone in the chromatic scale. If the pitch is in the scale, the bit is 1. If not, it is 0. The root is always bit 0 (the lowest bit), so all scales are odd numbers.</p>
+
+    <p>This maps every possible combination of pitches within an octave to a unique integer from 0 to 4095. There are exactly 4096 possible scales (the full power set of 12 pitch classes), and every one has a unique decimal number.</p>
+
+    <div class="scale-example">
+      <span class="label">Example: C Major (Ionian)</span>
+      Pitches:&nbsp;&nbsp; C&nbsp; .&nbsp; D&nbsp; .&nbsp; E&nbsp; F&nbsp; .&nbsp; G&nbsp; .&nbsp; A&nbsp; .&nbsp; B<br>
+      Binary:&nbsp;&nbsp;&nbsp; 1&nbsp; 0&nbsp; 1&nbsp; 0&nbsp; 1&nbsp; 1&nbsp; 0&nbsp; 1&nbsp; 0&nbsp; 1&nbsp; 0&nbsp; 1<br>
+      Reading right-to-left: 101010110101<br>
+      Decimal: <strong>2741</strong>
+    </div>
+
+    <p>The major scale is 2741. Always. In any key. The number identifies the interval structure, not the transposition. Every scale you can construct in 12-tone equal temperament has its own number, from the chromatic scale (4095) to a single note (1).</p>
+
+    <h2>Modes as Bit Rotation</h2>
+
+    <p>The modes of a scale are produced by rotating the binary representation. Each mode is a cyclic permutation of the same bit pattern. For the seven diatonic modes, this gives seven different integers, all derived from the same parent pattern:</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Mode</th><th>Binary</th><th>Decimal</th><th>Brightness Score</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Lydian</td><td class="mono">101010110101</td><td class="mono">2773</td><td class="mono">38</td></tr>
+          <tr><td>Ionian (Major)</td><td class="mono">101010110101</td><td class="mono">2741</td><td class="mono">37</td></tr>
+          <tr><td>Mixolydian</td><td class="mono">101011010101</td><td class="mono">2709</td><td class="mono">36</td></tr>
+          <tr><td>Dorian</td><td class="mono">101011010110</td><td class="mono">2902</td><td class="mono">35</td></tr>
+          <tr><td>Aeolian (Minor)</td><td class="mono">101101010110</td><td class="mono">2774</td><td class="mono">34</td></tr>
+          <tr><td>Phrygian</td><td class="mono">101101011010</td><td class="mono">2731</td><td class="mono">29</td></tr>
+          <tr><td>Locrian</td><td class="mono">101101101010</td><td class="mono">2730</td><td class="mono">28</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>This ordering — Lydian, Ionian, Mixolydian, Dorian, Aeolian, Phrygian, Locrian — is the universally recognized brightness ordering of the diatonic modes. Lydian is the brightest. Locrian is the darkest. Every musician and theorist agrees on this ordering. The question is whether a machine can derive it.</p>
+
+    <h2>The Brightness Metric</h2>
+
+    <p>Define the brightness score of a scale as the sum of the bit positions of its active bits (counting from 0 at the root). For a scale with pitch classes at positions p₀, p₁, ... pₙ, the brightness score is simply p₀ + p₁ + ... + pₙ.</p>
+
+    <div class="scale-example">
+      <span class="label">Example: Lydian</span>
+      Active bit positions: 0, 2, 4, 6, 7, 9, 11<br>
+      Brightness score: 0 + 2 + 4 + 6 + 7 + 9 + 11 = <strong>39</strong>
+    </div>
+
+    <div class="scale-example">
+      <span class="label">Example: Locrian</span>
+      Active bit positions: 0, 1, 3, 5, 6, 8, 10<br>
+      Brightness score: 0 + 1 + 3 + 5 + 6 + 8 + 10 = <strong>33</strong>
+    </div>
+
+    <div class="key-insight">
+      <p>When you sort the seven diatonic modes by their brightness score, you get the exact brightness ordering that musicians have recognized by ear for centuries: Lydian (brightest) through Locrian (darkest). The sum of bit positions — a trivial arithmetic operation — reproduces a judgment that previously required trained musical intuition.</p>
+    </div>
+
+    <p>This is not a coincidence. The brightness score measures the total intervallic reach of a scale — the aggregate distance each pitch ventures from the root. A bright scale has its pitches pushed higher (sharper) within the octave. A dark scale has its pitches pulled lower (flatter). The sum of positions captures this directly.</p>
+
+    <h2>Why This Matters</h2>
+
+    <p>Before this encoding, "brightness" was a qualitative judgment. You could say Lydian is brighter than Dorian, but a machine could not compute that relationship. It had no formal basis for comparing the emotional character of two arbitrary scales.</p>
+
+    <p>With the binary encoding and the brightness metric, a machine can:</p>
+
+    <p>Given any scale (expressed as an integer), compute its brightness score. Given a desired brightness level, find scales that match. Given two scales, determine which is brighter by arithmetic comparison. Navigate smoothly through scale space from bright to dark by following the brightness gradient. Do all of this across all 4096 possible scales, not just the handful that have traditional names.</p>
+
+    <p>This turns musical brightness from a subjective quality into a computable quantity. A machine can now select a scale by how bright or dark it is, because brightness is a number derivable from the scale's integer representation.</p>
+
+    <h2>The Courage Axis</h2>
+
+    <p>Brightness is one emotional dimension. The Chloe framework defines a second axis: courage. Where brightness measures the overall sharpness or flatness of a scale's intervals relative to the root, courage captures a different quality — the sense of stability, tension, or fear conveyed by the scale's intervallic structure.</p>
+
+    <p>In the pedagogical framing used in Chloe, this is presented through the metaphor of a frog in different environments. A frog in a bright, open meadow (Lydian) has a different emotional experience than a frog in a deep, dark cave (Locrian). The frog in the meadow is brave — the bright intervals feel expansive and confident. The frog in the cave is fearful — the dark, diminished intervals feel tense and constrained. But some scales are dark yet brave, or bright yet unsettled. The two axes are independent.</p>
+
+    <p>Together, brightness and courage define a two-dimensional emotional coordinate system for scales. Any scale can be plotted on this plane, giving it a position in emotional space that a machine can reason about.</p>
+
+    <h2>Applications</h2>
+
+    <p>The practical consequence of having a computable emotional coordinate system for scales is that any system which needs to select or generate tonal material based on a desired emotional quality can now do so through arithmetic rather than through lookup tables or trained models.</p>
+
+    <p>This has direct applications in algorithmic composition, adaptive game audio, music therapy, neurofeedback systems that use tonal stimuli, and any context where a machine needs to choose musically appropriate material in real time based on a target emotional state.</p>
+
+    <p>It also makes the full 4096-scale space navigable. Traditional music theory names and uses a few dozen scales. The binary encoding with emotional coordinates makes all 4096 accessible, comparable, and traversable — including the thousands that have no traditional name but do have computable emotional properties.</p>
+
+    <h2>The Chloe Scale Explorer</h2>
+
+    <p>These ideas were developed independently and implemented in the Chloe Scale Explorer, an interactive browser-based application first committed to a public GitHub repository circa 2016. Chloe allows users to browse, listen to, and compare all possible scales in 12-tone equal temperament, organized by their binary encoding and sorted by brightness.</p>
+
+    <p>The application has gone through three major versions. The current version, <a href="https://ronniebnorth.github.io/chloe3/">Chloe 3</a>, includes live audio synthesis, an AI-assisted exploration mode, environmental emotional framing for each mode, and the full 4096-scale enumeration with brightness sorting.</p>
+
+    <p>The earlier versions are also available: <a href="https://ronniebnorth.github.io/chloe/">Chloe 1</a> and <a href="https://ronniebnorth.github.io/chloe2/">Chloe 2</a>.</p>
+
+    <h2>Prior Art and Independent Development</h2>
+
+    <p>The representation of scales as 12-bit binary integers and the enumeration of the full 4096 power set have been described by multiple authors independently. The concept has roots in pitch-class set theory going back to Allen Forte's work in 1973. Ian Ring published an essay describing binary scale encoding on his website ianring.com, with the earliest verifiable web archive capture dating to 2017. The academic paper "A Classification of Musical Scales Using Binary Sequences" by Podlipniak and others explores related binary representations in a formal mathematical context.</p>
+
+    <p>The Chloe Scale Explorer was developed independently circa 2016, as evidenced by its public GitHub commit history. The specific contributions of Chloe include: the brightness-as-sum-of-bit-positions metric for automated sorting of modes by emotional character; the courage axis as a second independent emotional dimension; the environmental/metaphorical pedagogical framing (the brave frog); and the complete interactive audio implementation allowing users to hear any of the 4096 possible scales.</p>
+
+    <p>The core claim is not priority on the binary representation itself, but on the insight that the representation makes musical emotional character — specifically brightness — into a computable quantity, and the implementation of a complete system built on that insight.</p>
+
+    <footer>
+      <p><strong>Ronnie North</strong> is a developer and musician based in the UK. He builds <a href="https://halfmadarchery.com">miniature traditional bows</a>, develops biofeedback research tools, and has been exploring the intersection of computation and music theory since 2016.</p>
+      <p>Contact and additional work: <a href="https://ronniebnorth.github.io/">ronniebnorth.github.io</a></p>
+    </footer>
+  </article>
+</body>
+</html>
