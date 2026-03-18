@@ -282,6 +282,16 @@
 
     <p>Together, brightness and courage define a two-dimensional emotional coordinate system for scales. Any scale can be plotted on this plane, giving it a position in emotional space that a machine can reason about.</p>
 
+    <h2>Sparsity, Ambiguity, and Listener Participation</h2>
+
+    <p>A heptatonic scale specifies seven of twelve possible pitches. It tells the listener almost everything — there is little room for the ear to wonder what comes next. A tritonic scale specifies three. The remaining nine positions are gaps, and the listener's brain fills them in unconsciously based on expectation, context, and internal state.</p>
+
+    <p>This means sparse scales are not simply "simpler" versions of dense ones. They are more ambiguous, and that ambiguity is musically active. The same three notes — say, C, E, and G — played over a drone could sound like the bright, stable core of Ionian to one listener, or the open, reaching quality of Lydian to another. The difference is not in the scale. It is in which missing pitches the listener's brain supplies. A relaxed mind might fill in the comfortable intervals of a major scale. An alert or searching mind might hear the raised fourth of Lydian. The tritonic asks a question; the listener's brain state answers it.</p>
+
+    <p>From the perspective of the binary encoding, this maps directly onto a computable property. Any scale can be compared against the seven diatonic modes by counting shared pitches (a bitwise AND followed by a popcount). A sparse scale that shares its pitches equally with multiple modes is formally ambiguous — it belongs to the neighborhood of several modes at once. A tritonic might be equidistant from Lydian, Ionian, and Mixolydian. This is not a failure of classification. It is a description of the scale's inherent openness to interpretation.</p>
+
+    <p>For applications in neurofeedback and adaptive music, this property is significant. Sparse, ambiguous scales do not impose a single emotional reading on the listener. Instead, they create space for the listener's own state to determine what is heard. A system selecting scales in response to brainwave data can use sparsity as a tool — offering open, participatory tonal material when the goal is to let the listener's internal state express itself, and denser, less ambiguous material when the goal is to push the listener toward a specific emotional target.</p>
+
     <h2>Applications</h2>
 
     <p>The practical consequence of having a computable emotional coordinate system for scales is that any system which needs to select or generate tonal material based on a desired emotional quality can now do so through arithmetic rather than through lookup tables or trained models.</p>
